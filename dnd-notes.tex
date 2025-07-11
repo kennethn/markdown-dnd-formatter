@@ -1,0 +1,106 @@
+\documentclass[twocolumn]{article}
+
+% Font and encoding
+\usepackage{fontspec}
+\setmainfont{Charter}
+\newfontfamily\emojifont{Noto Color Emoji}
+\newfontfamily\symbolsfont{Symbola}
+\newfontfamily\blockquoteFont[
+  Path = /Users/kennethn/Library/Fonts/,
+  UprightFont = {IBMPlexSans-Regular.otf},
+  ItalicFont = {IBMPlexSans-Italic.otf},
+  BoldFont = {IBMPlexSans-Bold.otf},
+  BoldItalicFont = {IBMPlexSans-BoldItalic.otf}
+]{IBM Plex Sans}
+
+\pagestyle{plain}
+
+% No full justification
+\usepackage[document]{ragged2e}
+\RaggedRight
+
+% Page layout
+\usepackage[paper=a4paper,margin=0.5in]{geometry}
+\setlength{\columnsep}{24pt}
+
+% Hyperlinks (no colors)
+\usepackage[hidelinks]{hyperref}
+
+% Colors for headings
+\usepackage{xcolor}
+\definecolor{sectioncolor}{HTML}{4B0082}       % Indigo
+\definecolor{subsectioncolor}{HTML}{006400}    % Dark Green
+\definecolor{subsubsectioncolor}{HTML}{8B0000} % Dark Red
+
+% Section formatting (no numbering, with colors and extra spacing)
+\usepackage{titlesec}
+\titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}}{}{0pt}{}
+\titleformat{\subsection}[block]{\large\bfseries\color{subsectioncolor}}{}{0pt}{}
+\titleformat{\subsubsection}[block]
+  {\normalsize\bfseries\color{subsubsectioncolor}}
+  {}
+  {0pt}
+  {\normalsize\bfseries\color{subsubsectioncolor}}
+  [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
+\titlespacing*{\section}{0pt}{*2.5}{6pt}
+\titlespacing*{\subsection}{0pt}{*2}{5pt}
+\titlespacing*{\subsubsection}{0pt}{*1.5}{4pt}
+
+% Adjust spacing
+\usepackage{parskip}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\usepackage{etoolbox}
+\pretocmd{\itemize}{\vspace{6pt}}{}{}
+\apptocmd{\enditemize}{\vspace{6pt}}{}{}
+
+% Page numbering bottom-right
+\usepackage{fancyhdr}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancy}
+
+% Blockquote style (D&D-style box with Helvetica Neue)
+\usepackage[most]{tcolorbox}
+\definecolor{quoteboxbg}{gray}{0.95}
+\tcbset{myquote/.style={
+  breakable,
+  enhanced,
+  colback=blue!5,
+  boxrule=0pt,
+  arc=0pt,
+  left=6pt,
+  right=6pt,
+  top=4pt,
+  bottom=4pt,
+  boxsep=4pt,
+  before skip=12pt,
+  after skip=12pt,
+  borderline west={1.5pt}{0pt}{blue!70!black},
+  borderline east={1.5pt}{0pt}{blue!70!black},
+  sharp corners,
+  fontupper=\blockquoteFont\footnotesize,
+  before upper={%
+    \setlength{\parskip}{6pt}%
+    \setlength{\baselineskip}{13pt}%
+  }
+}}
+
+% Redefine blockquotes to use the tcolorbox
+\let\oldquote\quote
+\let\endoldquote\endquote
+\renewenvironment{quote}
+  {\par\begin{tcolorbox}[myquote]}
+  {\end{tcolorbox}\par}
+
+% Fix tightlist error
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\begin{document}
+
+$body$
+
+\end{document}
