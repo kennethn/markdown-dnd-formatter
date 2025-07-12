@@ -2,18 +2,18 @@
 
 % Font and encoding
 \usepackage{fontspec}
+\usepackage{microtype}
+\linespread{1.1}
 \setmainfont{Charter}
-\newfontfamily\emojifont{Noto Color Emoji}
 \newfontfamily\symbolsfont{Symbola}
-\newfontfamily\blockquoteFont[
-  Path = /Users/kennethn/Library/Fonts/,
-  UprightFont = {IBMPlexSans-Regular.otf},
-  ItalicFont = {IBMPlexSans-Italic.otf},
-  BoldFont = {IBMPlexSans-Bold.otf},
-  BoldItalicFont = {IBMPlexSans-BoldItalic.otf}
-]{IBM Plex Sans}
+\newfontfamily\blockquoteFont{IBM Plex Sans}
 
 \pagestyle{plain}
+\raggedbottom
+
+\clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
+\widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
+\displaywidowpenalty=10000
 
 % No full justification
 \usepackage[document]{ragged2e}
@@ -83,7 +83,7 @@
   fontupper=\blockquoteFont\small,
   before upper={%
     \setlength{\parskip}{6pt}%
-    \setlength{\baselineskip}{13pt}%
+    \setlength{\baselineskip}{14pt}%
   }
 }}
 
@@ -101,9 +101,11 @@
 % Highlighting fenced Divs for Encounter and Show Image boxes
 \newenvironment{highlightencounterbox}
   {\begin{tcolorbox}[
-    colback=red!20,
+    enhanced,
+    breakable,
+    colback=red!10,
+    colframe=red!70!black,
     boxrule=1pt,
-    frame style={solid},
     arc=2pt,
     left=6pt,
     right=6pt,
@@ -121,12 +123,17 @@
   ]{\symbolsfont ⚔}~\textbf{Encounter:} \par}
   {\end{tcolorbox}}
 
+
+
 \newenvironment{highlightshowimagebox}
   {\begin{tcolorbox}[
-    colback=yellow!30,
+    enhanced,
+    breakable,
+    colback=yellow!10,
+    colframe=orange!90!black,
+    frame style={draw=orange!90!black, line width=1pt},
     boxrule=1pt,
-    frame style={solid},
-    arc=2pt,
+    sharp corners,
     left=6pt,
     right=6pt,
     top=4pt,
@@ -135,11 +142,10 @@
     before skip=10pt,
     after skip=10pt,
     fontupper=\blockquoteFont\footnotesize,
-    before upper={
+    before upper={%
       \setlength{\parskip}{6pt}
       \setlength{\baselineskip}{13pt}
-    },
-    after upper={\par\vspace{12pt}}
+    }
   ]{\symbolsfont ◆}~\textbf{Show image:} \par}
   {\end{tcolorbox}}
 
