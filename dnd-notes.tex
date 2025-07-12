@@ -6,7 +6,8 @@
 \linespread{1.1}
 \setmainfont{Charter}
 \newfontfamily\symbolsfont{Symbola}
-\newfontfamily\blockquoteFont{IBM Plex Sans}
+\newfontfamily\blockquoteFont{Inter}
+\newfontfamily\headerfont{Inter}
 
 \pagestyle{plain}
 \raggedbottom
@@ -34,17 +35,17 @@
 
 % Section formatting (no numbering, with colors and extra spacing)
 \usepackage{titlesec}
-\titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}}{}{0pt}{}
-\titleformat{\subsection}[block]{\large\bfseries\color{subsectioncolor}}{}{0pt}{}
+\titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}\headerfont}{}{0pt}{}
+\titleformat{\subsection}[block]{\large\bfseries\color{subsectioncolor}\headerfont}{}{0pt}{}
 \titleformat{\subsubsection}[block]
-  {\normalsize\bfseries\color{subsubsectioncolor}}
+  {\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
-  {\normalsize\bfseries\color{subsubsectioncolor}}
+  {\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
   [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
-\titlespacing*{\section}{0pt}{20pt plus 4pt minus 2pt}{6pt}
-\titlespacing*{\subsection}{0pt}{*2}{5pt}
-\titlespacing*{\subsubsection}{0pt}{*1.5}{4pt}
+\titlespacing*{\section}{0pt}{20pt plus 4pt minus 2pt}{8pt}
+\titlespacing*{\subsection}{0pt}{*2}{8pt}
+\titlespacing*{\subsubsection}{0pt}{*1.5}{8pt}
 
 % Adjust spacing
 \usepackage{parskip}
@@ -120,10 +121,8 @@
       \setlength{\baselineskip}{13pt}
     },
     after upper={\par\vspace{12pt}}
-  ]{\symbolsfont ⚔}~\textbf{Encounter:} \par}
+  ]{\symbolsfont \textcolor{red!70!black}{⚔}~\textbf{Encounter:}} \par}
   {\end{tcolorbox}}
-
-
 
 \newenvironment{highlightshowimagebox}
   {\begin{tcolorbox}[
@@ -146,7 +145,7 @@
       \setlength{\parskip}{6pt}
       \setlength{\baselineskip}{13pt}
     }
-  ]{\symbolsfont ◆}~\textbf{Show image:} \par}
+  ]{\symbolsfont \textcolor{orange!90!black}{◆}~\textbf{Show image:}} \par}
   {\end{tcolorbox}}
 
 \begin{document}
