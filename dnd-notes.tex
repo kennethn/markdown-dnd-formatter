@@ -1,4 +1,4 @@
-\documentclass[11pt,twocolumn]{article}
+\documentclass[12pt,twocolumn]{article}
 
 % Font and encoding
 \usepackage{fontspec}
@@ -20,8 +20,17 @@
 \usepackage[document]{ragged2e}
 \RaggedRight
 
+% Turn off hyphenation
+\usepackage[none]{hyphenat}
+
+% Needed to prevent orphaned headings
+\usepackage{needspace}
+\newcommand{\stickysection}{\needspace{5\baselineskip}}
+\newcommand{\stickysubsection}{\needspace{4\baselineskip}}
+\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
+
 % Page layout
-\usepackage[paper=letterpaper,top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
+\usepackage[paper=letterpaper,top=0.35in,bottom=0.50in,left=0.35in,right=0.35in]{geometry}
 \setlength{\columnsep}{24pt}
 
 % Hyperlinks (no colors)
@@ -33,19 +42,27 @@
 \definecolor{subsectioncolor}{HTML}{006400}    % Dark Green
 \definecolor{subsubsectioncolor}{HTML}{8B0000} % Dark Red
 
-% Section formatting (no numbering, with colors and extra spacing)
+% Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
-\titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}\headerfont}{}{0pt}{}
-\titleformat{\subsection}[block]{\large\bfseries\color{subsectioncolor}\headerfont}{}{0pt}{}
+\titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}\headerfont}{}
+  {0pt}{\stickysection}
+\titleformat{\subsection}[block]{\large\bfseries\color{subsectioncolor}\headerfont}{}
+  {0pt}{\stickysubsection}
 \titleformat{\subsubsection}[block]
   {\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
-  {\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
+  {\stickysubsubsection\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
   [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
-\titlespacing*{\section}{0pt}{20pt plus 4pt minus 2pt}{8pt}
-\titlespacing*{\subsection}{0pt}{*2}{8pt}
-\titlespacing*{\subsubsection}{0pt}{*1.5}{8pt}
+\titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{2pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{3pt}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{3pt}
+
+% Patch to remove space before first section
+\usepackage{etoolbox}
+\makeatletter
+\pretocmd{\section}{\ifnum\value{section}=0 \vspace*{-20pt} \fi}{}{}
+\makeatother
 
 % Adjust spacing
 \usepackage{parskip}
@@ -58,9 +75,10 @@
 % Page numbering bottom-right
 \usepackage{fancyhdr}
 \fancyhf{}
-\fancyfoot[R]{\thepage}
+\fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \pagestyle{fancy}
+\setlength{\footskip}{15pt}
 
 % Blockquote style (D&D-style box with Sans Serif)
 \usepackage[most]{tcolorbox}
@@ -68,7 +86,7 @@
 \tcbset{myquote/.style={
   breakable,
   enhanced,
-  colback=blue!7!white, 
+  colback=blue!6!white, 
   boxrule=0pt,
   arc=0pt,
   left=6pt,
@@ -148,7 +166,25 @@
   ]{\symbolsfont \textcolor{orange!90!black}{◆}~\textbf{Show image:}} \par}
   {\end{tcolorbox}}
 
+% suppress opening top margin
+\usepackage{etoolbox}
+\newif\iffirstsection
+\firstsectiontrue
+\pretocmd{\section}{\iffirstsection\vspace*{-20pt}\firstsectionfalse\fi}{}{}
+
 \begin{document}
+
+\begingroup
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\vspace*{-\topskip}
+\makeatother
+\endgroup
+\vspace*{-\topskip}
+%\vspace*{-5pt}
+
 
 $body$
 

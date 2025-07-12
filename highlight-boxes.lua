@@ -6,9 +6,9 @@ function Div(el)
   if el.classes:includes("highlightencounterbox") then
     return pandoc.RawBlock("latex", [[
 \begin{tcolorbox}[
-  colback=red!10,
-  colframe=red!70!black,
-  boxrule=1pt,
+  colback=red!8,
+  colframe=red!60!black,
+  boxrule=2pt,
   frame style={solid},
   arc=2pt,
   left=6pt,
@@ -24,7 +24,7 @@ function Div(el)
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{red!70!black}{\symbolsfont ⚔}~\textbf{Encounter:}}
+{\color{red!60!black}{\symbolsfont ⚔}~\textbf{Encounter:}}
 ]] ..
     pandoc.write(pandoc.Pandoc(el.content), "latex") ..
     "\n\\end{tcolorbox}"
@@ -32,10 +32,10 @@ function Div(el)
   elseif el.classes:includes("highlightshowimagebox") then
     return pandoc.RawBlock("latex", [[
 \begin{tcolorbox}[
-  colback=yellow!10,
-  colframe=orange!90!black,
-  frame style={draw=orange!90!black, line width=1pt},
-  boxrule=1pt,
+  colback=yellow!8,
+  colframe=orange!80!black,
+  frame style={draw=orange!80!black, line width=1pt},
+  boxrule=2pt,
   frame style={solid},
   arc=2pt,
   left=6pt,
@@ -51,7 +51,7 @@ function Div(el)
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{orange!90!black}{\symbolsfont ◆}~\textbf{Show image:}}
+{\color{orange!80!black}{\symbolsfont ◆}~\textbf{Show image:}}
 ]] ..
     pandoc.write(pandoc.Pandoc(el.content), "latex") ..
     "\n\\end{tcolorbox}"
