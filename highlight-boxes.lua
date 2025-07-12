@@ -17,7 +17,7 @@ function Div(el)
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper=\blockquoteFont\footnotesize,
+  fontupper=\blockquoteFont\small,
   before upper={
     \setlength{\parskip}{6pt}
     \setlength{\baselineskip}{13pt}
@@ -42,7 +42,7 @@ function Div(el)
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper=\blockquoteFont\footnotesize,
+  fontupper=\blockquoteFont\small,
   before upper={
     \setlength{\parskip}{6pt}
     \setlength{\baselineskip}{13pt}

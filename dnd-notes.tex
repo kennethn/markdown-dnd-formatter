@@ -1,4 +1,4 @@
-\documentclass[twocolumn]{article}
+\documentclass[11pt,twocolumn]{article}
 
 % Font and encoding
 \usepackage{fontspec}
@@ -20,7 +20,7 @@
 \RaggedRight
 
 % Page layout
-\usepackage[paper=a4paper,margin=0.5in]{geometry}
+\usepackage[paper=letterpaper,top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry}
 \setlength{\columnsep}{24pt}
 
 % Hyperlinks (no colors)
@@ -42,7 +42,7 @@
   {0pt}
   {\normalsize\bfseries\color{subsubsectioncolor}}
   [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
-\titlespacing*{\section}{0pt}{*2.5}{6pt}
+\titlespacing*{\section}{0pt}{20pt plus 4pt minus 2pt}{6pt}
 \titlespacing*{\subsection}{0pt}{*2}{5pt}
 \titlespacing*{\subsubsection}{0pt}{*1.5}{4pt}
 
@@ -61,13 +61,13 @@
 \renewcommand{\headrulewidth}{0pt}
 \pagestyle{fancy}
 
-% Blockquote style (D&D-style box with Helvetica Neue)
+% Blockquote style (D&D-style box with Sans Serif)
 \usepackage[most]{tcolorbox}
 \definecolor{quoteboxbg}{gray}{0.95}
 \tcbset{myquote/.style={
   breakable,
   enhanced,
-  colback=blue!5,
+  colback=blue!7!white, 
   boxrule=0pt,
   arc=0pt,
   left=6pt,
@@ -80,7 +80,7 @@
   borderline west={1.5pt}{0pt}{blue!70!black},
   borderline east={1.5pt}{0pt}{blue!70!black},
   sharp corners,
-  fontupper=\blockquoteFont\footnotesize,
+  fontupper=\blockquoteFont\small,
   before upper={%
     \setlength{\parskip}{6pt}%
     \setlength{\baselineskip}{13pt}%
@@ -98,6 +98,50 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+% Highlighting fenced Divs for Encounter and Show Image boxes
+\newenvironment{highlightencounterbox}
+  {\begin{tcolorbox}[
+    colback=red!20,
+    boxrule=1pt,
+    frame style={solid},
+    arc=2pt,
+    left=6pt,
+    right=6pt,
+    top=4pt,
+    bottom=4pt,
+    boxsep=4pt,
+    before skip=10pt,
+    after skip=10pt,
+    fontupper=\blockquoteFont\footnotesize,
+    before upper={
+      \setlength{\parskip}{6pt}
+      \setlength{\baselineskip}{13pt}
+    },
+    after upper={\par\vspace{12pt}}
+  ]{\symbolsfont ⚔}~\textbf{Encounter:} \par}
+  {\end{tcolorbox}}
+
+\newenvironment{highlightshowimagebox}
+  {\begin{tcolorbox}[
+    colback=yellow!30,
+    boxrule=1pt,
+    frame style={solid},
+    arc=2pt,
+    left=6pt,
+    right=6pt,
+    top=4pt,
+    bottom=4pt,
+    boxsep=4pt,
+    before skip=10pt,
+    after skip=10pt,
+    fontupper=\blockquoteFont\footnotesize,
+    before upper={
+      \setlength{\parskip}{6pt}
+      \setlength{\baselineskip}{13pt}
+    },
+    after upper={\par\vspace{12pt}}
+  ]{\symbolsfont ◆}~\textbf{Show image:} \par}
+  {\end{tcolorbox}}
 
 \begin{document}
 
