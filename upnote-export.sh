@@ -36,7 +36,10 @@ pandoc "$CLEANED" \
   --template=dnd-notes.tex \
   --lua-filter=highlight-boxes.lua \
   --lua-filter=highlight-keywords.lua \
-  --number-sections=false
+  --lua-filter=force-tabular.lua \
+  -V tables=false \
+  --number-sections=false \
+  --verbose
 
 if [ $? -eq 0 ]; then
   echo "✅ PDF created: $OUTPUT"

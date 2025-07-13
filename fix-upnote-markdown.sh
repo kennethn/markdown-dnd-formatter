@@ -29,14 +29,60 @@ BEGIN { in_yaml=0 }
   }
 }' "$INPUT" | \
 perl -CSD -pe '
+  # Static vars for table conversion
+  BEGIN {
+    our @table_rows = ();
+    our $in_table = 0;
+  }
+
   # Only apply cleanup to body lines
   if (/^__BODY_LINE__/) {
-
     s/^__BODY_LINE__//;
+
+    # Check for table lines
+    if (/^\|.*\|$/) {
+      $in_table = 1;
+      push @table_rows, $_;
+      $_ = "";  # clear output for now
+      next;
+    }
+    elsif ($in_table && /^\s*$/) {
+      # End of table
+      $in_table = 0;
+      if (@table_rows >= 2) {
+        my $header = shift @table_rows;
+        my $divider = shift @table_rows;
+        my @headers = split /\s*\|\s*/, $header;
+        @headers = grep { $_ ne "" } @headers;
+
+        my $cols = scalar(@headers);
+        $_ = "\\begin{flushleft}\n{\\sffamily\\small\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
+        $_ .= "\\toprule\n";
+        $_ .= join(" & ", map { "\\textbf{" . $_ . "}" } @headers) . " \\\\\n";
+        $_ .= "\\midrule\n";
+
+        foreach my $line (@table_rows) {
+          my @cells = split /\s*\|\s*/, $line;
+          @cells = grep { $_ ne "" } @cells;
+          for my $cell (@cells) {
+            $cell =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
+            $cell =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
+          }
+          $_ .= join(" & ", @cells) . " \\\\\n";
+        }
+
+        $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{flushleft}\n";
+      }
+      @table_rows = ();
+    }
+    elsif ($in_table) {
+      push @table_rows, $_;
+      $_ = "";
+      next;
+    }
 
     # Remove emojis and variation selectors
     s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
-
     s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
 
     # Remove <br> tags
@@ -44,7 +90,6 @@ perl -CSD -pe '
 
     # Remove UpNote highlight tags
     s/==([^=]+)==/$1/g;
-
 
     # Merge headings split across lines like:
     # ### 
@@ -91,6 +136,7 @@ perl -CSD -pe '
     # Remove empty markdown headers like "#", "##", or "###" with optional spaces
     s/^\s*#{1,6}\s*$//;
 
+    $prev_line = $_;
   } else {
     s/^__BODY_LINE__//;
   }
