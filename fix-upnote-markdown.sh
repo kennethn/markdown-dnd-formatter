@@ -13,7 +13,46 @@ fi
 # Convert Windows line endings to Unix
 dos2unix "$INPUT" 2>/dev/null
 
-# Separate YAML frontmatter from body
+#########################################
+# Step 1: Wrap Monster Blocks
+#########################################
+awk '
+BEGIN {
+  inside_monsters_section = 0;
+  inside_block = 0;
+}
+{
+  # Detect the start of the monster section
+  if ($0 ~ /^# Monsters$/) {
+    inside_monsters_section = 1;
+    print;
+    next;
+  }
+
+  # Exit wrapping if we see another top-level section
+  if (inside_monsters_section && $0 ~ /^# /) {
+    if (inside_block) {
+      print ":::";
+      inside_block = 0;
+    }
+  }
+
+  # Start of a monster block
+  if (inside_monsters_section && $0 ~ /^# /) {
+    print "::: {.monsterblock}";
+    inside_block = 1;
+  }
+
+  print;
+}
+END {
+  if (inside_block) print ":::";
+}
+' "$INPUT" > "$INPUT.tmp.monsters"
+
+#########################################
+# Step 2: Separate YAML Frontmatter
+#########################################
 awk '
 BEGIN { in_yaml=0 }
 /^---$/ {
@@ -27,122 +66,100 @@ BEGIN { in_yaml=0 }
   } else {
     print "__BODY_LINE__" $0;
   }
-}' "$INPUT" | \
+}' "$INPUT.tmp.monsters" > "$INPUT.tmp.tagged"
+
+#########################################
+# Step 3: Perl Cleanup Transformations
+#########################################
 perl -CSD -pe '
-  # Static vars for table conversion
-  BEGIN {
-    our @table_rows = ();
-    our $in_table = 0;
+BEGIN {
+  our @table_rows = ();
+  our $in_table = 0;
+}
+
+if (/^__BODY_LINE__/) {
+  s/^__BODY_LINE__//;
+
+  if (/^\|.*\|$/) {
+    $in_table = 1;
+    push @table_rows, $_;
+    $_ = "";
+    next;
   }
-
-  # Only apply cleanup to body lines
-  if (/^__BODY_LINE__/) {
-    s/^__BODY_LINE__//;
-
-    # Check for table lines
-    if (/^\|.*\|$/) {
-      $in_table = 1;
-      push @table_rows, $_;
-      $_ = "";  # clear output for now
-      next;
-    }
-    elsif ($in_table && /^\s*$/) {
-      # End of table
-      $in_table = 0;
-      if (@table_rows >= 2) {
-        my $header = shift @table_rows;
-        my $divider = shift @table_rows;
-        my @headers = split /\s*\|\s*/, $header;
-        @headers = grep { $_ ne "" } @headers;
-
-        my $cols = scalar(@headers);
-        $_ = "\\begin{flushleft}\n{\\sffamily\\small\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
-        $_ .= "\\toprule\n";
-        $_ .= join(" & ", map { "\\textbf{" . $_ . "}" } @headers) . " \\\\\n";
-        $_ .= "\\midrule\n";
-
-        foreach my $line (@table_rows) {
-          my @cells = split /\s*\|\s*/, $line;
-          @cells = grep { $_ ne "" } @cells;
-          for my $cell (@cells) {
-            $cell =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
-            $cell =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
-          }
-          $_ .= join(" & ", @cells) . " \\\\\n";
+  elsif ($in_table && /^\s*$/) {
+    $in_table = 0;
+    if (@table_rows >= 2) {
+      my $header = shift @table_rows;
+      my $divider = shift @table_rows;
+      my @headers = split /\s*\|\s*/, $header;
+      @headers = grep { $_ ne "" } @headers;
+      my $cols = scalar(@headers);
+      $_ = "\\begin{center}\n{\\sffamily\\small\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
+      $_ .= "\\toprule\n";
+      $_ .= join(" & ", map { "\\textbf{" . $_ . "}" } @headers) . " \\\\\n";
+      $_ .= "\\midrule\n";
+      foreach my $line (@table_rows) {
+        my @cells = split /\s*\|\s*/, $line;
+        @cells = grep { $_ ne "" } @cells;
+        for my $cell (@cells) {
+          $cell =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
+          $cell =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
         }
-
-        $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{flushleft}\n";
+        $_ .= join(" & ", @cells) . " \\\\\n";
       }
-      @table_rows = ();
+      $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
     }
-    elsif ($in_table) {
-      push @table_rows, $_;
-      $_ = "";
-      next;
-    }
-
-    # Remove emojis and variation selectors
-    s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
-    s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
-
-    # Remove <br> tags
-    s/<br>//gi;
-
-    # Remove UpNote highlight tags
-    s/==([^=]+)==/$1/g;
-
-    # Merge headings split across lines like:
-    # ### 
-    # ==Heading==
-    if ($prev_line =~ /^###\s*$/ && /^==(.+?)==$/) {
-      $_ = "### $1\n";
-      $prev_line = "";
-      next;
-    }
-
-    # Fix inline headings like ### ==Heading==
-    s/^###\s+==(.+?)==/### $1/;
-
-    # Remove stray "###" lines
-    s/^###\s*$//;
-
-    # Remove stray ==...==
-    s/==(.+?)==/$1/g;
-
-    # Fix numbered lists like ".1 " → "1. "
-    s/^\.(\d+)\s/$1. /;
-
-    # Remove wiki-style [[links]]
-    s/\[\[([^\]]+)\]\]/$1/g;
-
-    # Normalize bold wrappers before processing
-    s/^\*\*(Encounter:.*?)\*\*$/$1/;
-    s/^\*\*(Show image:.*?)\*\*$/$1/;
-
-    # Match bolded or unbolded Encounter:
-    if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/) {
-      my $content = $1;
-      $_ = "::: highlightencounterbox\n$content\n:::\n";
-    }
-    # Match bolded or unbolded Show image:
-    elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Show image:\s*(.*)/) {
-      my $content = $1;
-      $_ = "::: highlightshowimagebox\n$content\n:::\n";
-    }
-
-    # Remove lines that only contain formatting junk
-    s/^(\s*[*_-]+\s*)$//;
-
-    # Remove empty markdown headers like "#", "##", or "###" with optional spaces
-    s/^\s*#{1,6}\s*$//;
-
-    $prev_line = $_;
-  } else {
-    s/^__BODY_LINE__//;
+    @table_rows = ();
   }
-' > "$OUTPUT.tmp"
+  elsif ($in_table) {
+    push @table_rows, $_;
+    $_ = "";
+    next;
+  }
 
-# Collapse multiple blank lines into one (except after frontmatter)
+  # General cleanup
+  s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
+  s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
+  s/<br>//gi;
+  s/==([^=]+)==/$1/g;
+
+  # Heading cleanup
+  if ($prev_line =~ /^###\s*$/ && /^==(.+?)==$/) {
+    $_ = "### $1\n";
+    $prev_line = "";
+    next;
+  }
+  s/^###\s+==(.+?)==/### $1/;
+  s/^###\s*$//;
+  s/==(.+?)==/$1/g;
+
+  # List fix
+  s/^\.(\d+)\s/$1. /;
+
+  # Encounter and image boxes
+  s/^\*\*(Encounter:.*?)\*\*$/$1/;
+  s/^\*\*(Show image:.*?)\*\*$/$1/;
+  if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/) {
+    my $content = $1;
+    $_ = "::: highlightencounterbox\n$content\n:::\n";
+  } elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Show image:\s*(.*)/) {
+    my $content = $1;
+    $_ = "::: highlightshowimagebox\n$content\n:::\n";
+  }
+
+  s/\[\[([^\]]+)\]\]/<span class="wikilink">$1<\/span>/g;
+  s/^(\s*[*_-]+\s*)$//;
+  s/^\s*#{1,6}\s*$//;
+
+  $prev_line = $_;
+} else {
+  s/^__BODY_LINE__//;
+}
+' "$INPUT.tmp.tagged" > "$OUTPUT.tmp"
+
+#########################################
+# Step 4: Collapse Multiple Blank Lines
+#########################################
 awk '
 BEGIN { blank=0 }
 /^$/ {
@@ -158,5 +175,5 @@ BEGIN { blank=0 }
 }
 ' "$OUTPUT.tmp" > "$OUTPUT"
 
-rm "$OUTPUT.tmp"
+rm "$INPUT.tmp.monsters" "$INPUT.tmp.tagged" "$OUTPUT.tmp"
 echo "✅ Cleanup complete: $OUTPUT"

@@ -38,8 +38,7 @@ pandoc "$CLEANED" \
   --lua-filter=highlight-keywords.lua \
   --lua-filter=force-tabular.lua \
   -V tables=false \
-  --number-sections=false \
-  --verbose
+  --number-sections=false
 
 if [ $? -eq 0 ]; then
   echo "✅ PDF created: $OUTPUT"

@@ -3,8 +3,22 @@
 % Font and encoding
 \usepackage{fontspec}
 \usepackage{microtype}
-\linespread{1.1}
-\setmainfont{Charter}
+\usepackage{soul}            % for underlines
+\usepackage[normalem]{ulem} % prevents soul/ulem conflicts
+
+\renewcommand{\ULdepth}{0.5ex}  % adjust this value to move the underline
+\renewcommand{\ULthickness}{0.03em}  % underline thickness
+
+\linespread{1.2}
+\newcommand{\smallcapstext}[1]{%
+  {\addfontfeatures{Letters=SmallCaps,LetterSpace=2.0}\textcolor{blue!70!black}{\textbf{#1}}}%
+}
+
+%\setmainfont{Charter}
+\setmainfont{Libertinus Serif}[
+  SmallCapsFeatures={Letters=SmallCaps},
+  Scale=1.1
+]
 \newfontfamily\symbolsfont{Symbola}
 \newfontfamily\blockquoteFont{Inter}
 \newfontfamily\headerfont{Inter}
@@ -17,6 +31,7 @@
 \displaywidowpenalty=10000
 
 % No full justification
+
 \usepackage[document]{ragged2e}
 \RaggedRight
 
@@ -42,6 +57,25 @@
 \definecolor{subsectioncolor}{HTML}{006400}    % Dark Green
 \definecolor{subsubsectioncolor}{HTML}{8B0000} % Dark Red
 
+\usepackage{etoolbox}
+\makeatletter
+% Remove vertical space before \section at top of page
+\patchcmd{\@startsection}
+  {\@afterindenttrue}
+  {\@afterindentfalse}
+  {}{}
+\patchcmd{\@startsection}
+  {\@afterheading}
+  {\vspace*{-\topskip}\@afterheading}
+  {}{}
+\makeatother
+
+
+
+\usepackage{parskip}
+\setlength{\parskip}{10pt plus 2pt minus 1pt} % flexible ~20pt spacing
+\setlength{\parindent}{0pt} % no indent for first lines
+
 % Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
 \titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}\headerfont}{}
@@ -54,9 +88,9 @@
   {0pt}
   {\stickysubsubsection\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
   [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
-\titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{2pt}
-\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{3pt}
-\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{3pt}
+\titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{10pt}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{10pt}
 
 % Patch to remove space before first section
 \usepackage{etoolbox}
@@ -64,13 +98,8 @@
 \pretocmd{\section}{\ifnum\value{section}=0 \vspace*{-20pt} \fi}{}{}
 \makeatother
 
-% Adjust spacing
-\usepackage{parskip}
-\setlength{\parskip}{4pt}
-\setlength{\parindent}{0pt}
-\usepackage{etoolbox}
-\pretocmd{\itemize}{\vspace{6pt}}{}{}
-\apptocmd{\enditemize}{\vspace{6pt}}{}{}
+%\pretocmd{\itemize}{\vspace{6pt}}{}{}
+%\apptocmd{\enditemize}{\vspace{6pt}}{}{}
 
 % Page numbering bottom-right
 \usepackage{fancyhdr}
@@ -79,6 +108,9 @@
 \renewcommand{\headrulewidth}{0pt}
 \pagestyle{fancy}
 \setlength{\footskip}{15pt}
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=20pt, topsep=6pt, parsep=0pt, partopsep=0pt}
+
 
 % Support for tables
 \usepackage{longtable}       % For multi-page tables
@@ -124,7 +156,12 @@
 
 % Fix tightlist error
 \providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+  \setlength{\itemsep}{6pt}
+  \setlength{\topsep}{6pt}
+  \setlength{\parsep}{0pt}
+  \setlength{\partopsep}{0pt}
+}
+
 
 % Highlighting fenced Divs for Encounter and Show Image boxes
 \newenvironment{highlightencounterbox}
@@ -180,14 +217,13 @@
 \newif\iffirstsection
 \firstsectiontrue
 \pretocmd{\section}{\iffirstsection\vspace*{-20pt}\firstsectionfalse\fi}{}{}
+\usepackage{changepage} % For adjustwidth environment
 
 \begin{document}
 
 \begingroup
 \makeatletter
 \setlength{\@fptop}{0pt}
-\setlength{\parskip}{0pt}
-\setlength{\parindent}{0pt}
 \vspace*{-\topskip}
 \makeatother
 \endgroup

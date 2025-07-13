@@ -50,9 +50,18 @@ xelatex --version
 
 You’ll need the following fonts installed in `~/Library/Fonts`:
 
-- **Charter** (OTF preferred for LaTeX compatibility)
+- **Crimson Pro** (OTF preferred for LaTeX compatibility)
 - **IBM Plex Sans** (for blockquotes and UI elements)
 - **Symbola** (for Unicode glyphs like ⚔ and ◆)
+
+```bash
+mkdir -p ~/Library/Fonts/CrimsonPro && \
+curl -s https://api.github.com/repos/Fonthausen/CrimsonPro/contents/fonts/otf | \
+grep -Eo 'https://raw.githubusercontent.com[^"]+\.otf' | \
+xargs -n 1 curl -s -O && \
+mv *.otf ~/Library/Fonts/CrimsonPro/ && \
+fc-cache -f ~/Library/Fonts/CrimsonPro/
+```
 
 Install them manually and verify with:
 

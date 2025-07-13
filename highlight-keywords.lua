@@ -1,5 +1,5 @@
 -- highlight-keywords.lua
--- Bold and color specific keywords in LaTeX output, excluding headers
+-- Bold, smallcaps, and color specific keywords and wikilinks in LaTeX output
 
 local keywords = {
   ["Therynzhaal"] = true,
@@ -10,7 +10,9 @@ local keywords = {
   ["Aeltheryn"] = true,
 }
 
--- Helper to join a sequence of inlines into plain text
+local in_header = false
+
+-- Helper to convert inlines to plain text
 local function inlines_to_text(inlines)
   local parts = {}
   for _, inline in ipairs(inlines) do
@@ -23,10 +25,52 @@ local function inlines_to_text(inlines)
   return table.concat(parts)
 end
 
--- Context flag to skip processing inside headers
-local in_header = false
+-- Wrap text in bold, smallcaps, and blue LaTeX
+local function latex_bold(text)
+  return pandoc.RawInline("latex", "\\textcolor{blue!70!black}{\\textbf{\\smallcapstext{" .. string.lower(text) .. "}}}")
+end
 
--- Header handlers — set the flag during header processing
+
+-- Apply to normal inline keywords
+function Inlines(inlines)
+  if in_header then return inlines end
+
+  local output = {}
+  local i = 1
+
+  while i <= #inlines do
+    local inline = inlines[i]
+
+    if inline.t == "Str" then
+      local replaced = false
+      for keyword, _ in pairs(keywords) do
+        local start_pos, end_pos = string.find(inline.text, keyword)
+        if start_pos then
+          if start_pos > 1 then
+            table.insert(output, pandoc.Str(string.sub(inline.text, 1, start_pos - 1)))
+          end
+          table.insert(output, latex_bold(keyword))
+          if end_pos < #inline.text then
+            table.insert(output, pandoc.Str(string.sub(inline.text, end_pos + 1)))
+          end
+          replaced = true
+          break
+        end
+      end
+      if not replaced then
+        table.insert(output, inline)
+      end
+    else
+      table.insert(output, inline)
+    end
+
+    i = i + 1
+  end
+
+  return output
+end
+
+-- Avoid formatting headers
 function Header(el)
   in_header = true
   el.content = Inlines(el.content)
@@ -34,43 +78,15 @@ function Header(el)
   return el
 end
 
--- Inline filter with skip logic
-function Inlines(inlines)
-  if in_header then
-    return inlines
+-- Apply to wikilink spans
+function Span(el)
+  if el.classes:includes("wikilink") then
+    local text = inlines_to_text(el.content)
+    return latex_bold(text)
   end
-
-  local i = 1
-  local output = {}
-
-  while i <= #inlines do
-    local matched = false
-
-    for length = 3, 1, -1 do
-      if i + length - 1 <= #inlines then
-        local slice = {}
-        for j = i, i + length - 1 do
-          table.insert(slice, inlines[j])
-        end
-
-        local text = inlines_to_text(slice)
-        local clean_text, punct = text:match("^(.-)([%p%s]*)$")
-
-        if keywords[clean_text] then
-          local latex = "\\textcolor{blue!70!black}{\\textbf{" .. clean_text .. "}}" .. (punct or "")
-          table.insert(output, pandoc.RawInline("latex", latex))
-          i = i + length
-          matched = true
-          break
-        end
-      end
-    end
-
-    if not matched then
-      table.insert(output, inlines[i])
-      i = i + 1
-    end
-  end
-
-  return output
+  return nil
 end
+
+return {
+  { Inlines = Inlines, Header = Header, Span = Span }
+}
