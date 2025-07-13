@@ -1,62 +1,42 @@
--- highlight-boxes.lua
--- Renders ::: highlightencounterbox, ::: highlightshowimagebox, and ::: monsterblock
-
-local monsters_section_found = false
-local first_monster_found = false
-
-function Header(el)
-  if el.level == 1 then
-    local text = pandoc.utils.stringify(el.content)
-
-    -- Detect when we enter the Monsters section
-    if text == "Monsters" then
-      monsters_section_found = true
-      return {
-        pandoc.RawBlock("latex", [[
+function Div(el)
+  -- MONSTERBLOCK
+  if el.classes:includes("monsterblock") then
+    local blocks = {
+      pandoc.RawBlock("latex", [[
 \begingroup
 \clubpenalty=150
 \widowpenalty=150
 \displaywidowpenalty=150
-]]),
-        el
-      }
-    end
-
-    -- After Monsters section, insert page breaks before each H1
-    if monsters_section_found then
-      if first_monster_found then
-        return {
-          pandoc.RawBlock("latex", "\\newpage"),
-          el
-        }
-      else
-        first_monster_found = true
-        return el
-      end
-    end
-  end
-end
-
-function Div(el)
-  if el.classes:includes("monsterblock") then
-    return {
-      pandoc.RawBlock("latex", [[
-\begingroup
-\blockquoteFont\small
-\linespread{1.05}\selectfont
-]]),
-      pandoc.Div(el.content),
-      pandoc.RawBlock("latex", "\\endgroup")
+\blockquoteFont
+\linespread{1}%
+\fontsize{10pt}{12pt}\selectfont
+\setlength{\parskip}{5pt}
+\setlength{\baselineskip}{12pt}
+\makeatletter
+\setlist[itemize]{itemsep=0pt, topsep=0pt, parsep=0pt, partopsep=0pt}
+\titlespacing*{\section}{0pt}{0pt}{2pt}
+\titlespacing*{\subsection}{0pt}{0pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{0pt}{2pt}
+\makeatother
+]])
     }
+
+    for _, b in ipairs(el.content) do
+      table.insert(blocks, b)
+    end
+
+    table.insert(blocks, pandoc.RawBlock("latex", "\\endgroup"))
+    return blocks
   end
 
+  -- ENCOUNTER BOX
   if el.classes:includes("highlightencounterbox") then
-    return pandoc.RawBlock("latex", [[
+    local blocks = {
+      pandoc.RawBlock("latex", [[
 \begin{tcolorbox}[
   colback=red!8,
   colframe=red!60!black,
   boxrule=2pt,
-  frame style={solid},
   arc=2pt,
   left=6pt,
   right=6pt,
@@ -71,18 +51,25 @@ function Div(el)
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{red!60!black}{\symbolsfont ⚔}~\textbf{Encounter:}}]] ..
-      pandoc.write(pandoc.Pandoc(el.content), "latex") ..
-      "\n\\end{tcolorbox}"
-    )
-  elseif el.classes:includes("highlightshowimagebox") then
-    return pandoc.RawBlock("latex", [[
+{\color{red!60!black}{\symbolsfont ⚔}~\textbf{Encounter: }}]])
+    }
+
+    for _, b in ipairs(el.content) do
+      table.insert(blocks, b)
+    end
+
+    table.insert(blocks, pandoc.RawBlock("latex", "\\end{tcolorbox}"))
+    return blocks
+  end
+
+  -- SHOW IMAGE BOX
+  if el.classes:includes("highlightshowimagebox") then
+    local blocks = {
+      pandoc.RawBlock("latex", [[
 \begin{tcolorbox}[
   colback=yellow!8,
   colframe=orange!80!black,
-  frame style={draw=orange!80!black, line width=1pt},
   boxrule=2pt,
-  frame style={solid},
   arc=2pt,
   left=6pt,
   right=6pt,
@@ -97,15 +84,14 @@ function Div(el)
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{orange!80!black}{\symbolsfont ◆}~\textbf{Show image:}}]] ..
-      pandoc.write(pandoc.Pandoc(el.content), "latex") ..
-      "\n\\end{tcolorbox}"
-    )
-  end
-end
+{\color{orange!80!black}{\symbolsfont ◆}~\textbf{Show image: }}]])
+    }
 
-function Doc(body)
-  -- Close the LaTeX group at the end of the document
-  table.insert(body.blocks, pandoc.RawBlock("latex", "\\endgroup"))
-  return pandoc.Pandoc(body.blocks, body.meta)
+    for _, b in ipairs(el.content) do
+      table.insert(blocks, b)
+    end
+
+    table.insert(blocks, pandoc.RawBlock("latex", "\\end{tcolorbox}"))
+    return blocks
+  end
 end

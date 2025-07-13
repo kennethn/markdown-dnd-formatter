@@ -38,6 +38,7 @@ pandoc "$CLEANED" \
   --lua-filter=highlight-keywords.lua \
   --lua-filter=force-tabular.lua \
   -V tables=false \
+  -o out.tex \
   --number-sections=false
 
 if [ $? -eq 0 ]; then
