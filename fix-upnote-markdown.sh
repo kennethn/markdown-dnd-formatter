@@ -93,17 +93,30 @@ if (/^__BODY_LINE__/) {
       my @headers = split /\s*\|\s*/, $header;
       @headers = grep { $_ ne "" } @headers;
       my $cols = scalar(@headers);
-      $_ = "\\begin{center}\n{\\sffamily\\small\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
+      $_ = "\\begin{center}\n{\\sffamily\\scriptsize\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
       $_ .= "\\toprule\n";
-      $_ .= join(" & ", map { "\\textbf{" . $_ . "}" } @headers) . " \\\\\n";
+      for my $i (0 .. $#headers) {
+        $headers[$i] =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
+        $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
+        $headers[$i] =~ s/(<br\s*\/?>)+/\\\\/gi;
+        if ($headers[$i] =~ /\\\\/) {
+          $headers[$i] = "\\shortstack[t]{" . $headers[$i] . "}";
+        } else {
+          $headers[$i] = "\\textbf{" . $headers[$i] . "}";
+        }
+      }
+      $_ .= join(" & ", @headers) . " \\\\\n";
+
       $_ .= "\\midrule\n";
       foreach my $line (@table_rows) {
         my @cells = split /\s*\|\s*/, $line;
         @cells = grep { $_ ne "" } @cells;
-        for my $cell (@cells) {
-          $cell =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
-          $cell =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
+        for my $i (0 .. $#cells) {
+          $cells[$i] =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
+          $cells[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
+          $cells[$i] =~ s/(<br\s*\/?>)+/\\\\ /gi;  # Convert <br> to LaTeX line break
         }
+
         $_ .= join(" & ", @cells) . " \\\\\n";
       }
       $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
@@ -126,6 +139,9 @@ if (/^__BODY_LINE__/) {
 
   s/==([^=]+)==/$1/g;
 
+  # Remove the "# Monsters" H1 if it appears alone
+  s/^# Monsters\s*\n//mg;
+
   # Heading cleanup
   if ($prev_line =~ /^###\s*$/ && /^==(.+?)==$/) {
     $_ = "### $1\n";
@@ -138,6 +154,13 @@ if (/^__BODY_LINE__/) {
 
   # List fix
   s/^\.(\d+)\s/$1. /;
+
+  # Wrap standalone negative numbers in backticks
+  s/(?<![`0-9])(-\d+)(?![\d`])/'`'.$1.'`'/ge;
+
+  # Fix number ranges like "5--6" or "5 - 6"
+  s/(\d)\s*--\s*(\d)/$1-$2/g;
+  s/(\d)\s*-\s*(\d)/$1--$2/g;
 
   # Encounter and image boxes
   s/^\*\*(Encounter:.*?)\*\*$/$1/;
@@ -156,7 +179,6 @@ if (/^__BODY_LINE__/) {
     $prev_line = "";
     next;
   }
-
 
   # Track when inside highlightshowimagebox
   if (/^:::\s*highlightshowimagebox\b/) {

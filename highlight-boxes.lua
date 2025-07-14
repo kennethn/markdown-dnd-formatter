@@ -1,10 +1,55 @@
 -- highlight-boxes.lua
 -- Handles custom fenced Divs and monster stat blocks for D&D notes
 
+function Meta(meta)
+  return {
+    pandoc.MetaMap(meta),
+    pandoc.MetaBool('tight_lists', true)
+  }
+end
+
+function flatten_bullet_list(blist)
+  local new_items = {}
+  for _, item in ipairs(blist.content) do
+    local flat = {}
+    for _, part in ipairs(item) do
+      if part.t == "Para" then
+        for _, subpart in ipairs(part.c) do
+          table.insert(flat, subpart)
+        end
+      else
+        table.insert(flat, part)
+      end
+    end
+    table.insert(new_items, flat)
+  end
+  return pandoc.BulletList(new_items)
+end
+
+function flatten_ordered_list(olist)
+  local new_items = {}
+  for _, item in ipairs(olist.content) do
+    local flat = {}
+    for _, part in ipairs(item) do
+      if part.t == "Para" then
+        for _, subpart in ipairs(part.c) do
+          table.insert(flat, subpart)
+        end
+      else
+        table.insert(flat, part)
+      end
+    end
+    table.insert(new_items, flat)
+  end
+  return pandoc.OrderedList(olist[1], new_items)
+end
+
+
 function Div(el)
   -- MONSTERBLOCK
   if el.classes:includes("monsterblock") then
     local blocks = {
+      pandoc.RawBlock("latex", "\\clearpage"),
       pandoc.RawBlock("latex", [[
 \begingroup
 \clubpenalty=150
@@ -12,21 +57,83 @@ function Div(el)
 \displaywidowpenalty=150
 \blockquoteFont
 \linespread{1}%
-\fontsize{10pt}{12pt}\selectfont
-\setlength{\parskip}{5pt}
-\setlength{\baselineskip}{12pt}
+\fontsize{9pt}{11pt}\selectfont
+\setlength{\parskip}{4pt}
+\setlength{\baselineskip}{11pt}
 \makeatletter
-\setlist[itemize]{itemsep=0pt, topsep=0pt, parsep=0pt, partopsep=0pt}
-\titlespacing*{\section}{0pt}{0pt}{2pt}
+\setlength{\@fptop}{0pt}           % 🔧 allow floats at top
+\setlength{\@fpsep}{8pt plus 1pt}  % 🔧 allow float separation
+\setlength{\topskip}{0pt}          % 🔧 remove implicit top spacing
+% Reduce itemize spacing locally
+\def\@listi{%
+  \setlength{\leftmargin}{1.5em}%
+  \setlength{\itemsep}{0pt}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\topsep}{2pt}%
+  \setlength{\partopsep}{0pt}%
+}
+
+
+% Local header formatting
+\titleformat*{\section}{\color{sectioncolor}\sffamily\fontsize{12pt}{14pt}\selectfont\bfseries}
+\titleformat*{\subsection}{\color{subsectioncolor}\sffamily\fontsize{10pt}{12pt}\selectfont\bfseries}
+\titleformat*{\subsubsection}{\color{subsubsectioncolor}\sffamily\fontsize{9pt}{11pt}\selectfont\bfseries}
+
+\titlespacing*{\section}{0pt}{0pt}{3pt}
 \titlespacing*{\subsection}{0pt}{0pt}{2pt}
 \titlespacing*{\subsubsection}{0pt}{0pt}{2pt}
+
+% 🔧 Fix vertical space before section headers at top of page
+\renewcommand{\section}{\@startsection{section}{1}{\z@}
+  {-0.5\baselineskip}
+  {0.25\baselineskip}
+  {\color{sectioncolor}\sffamily\fontsize{12pt}{14pt}\selectfont\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}
+  {-0.5\baselineskip}
+  {0.2\baselineskip}
+  {\color{subsectioncolor}\sffamily\fontsize{10pt}{12pt}\selectfont\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}
+  {-0.5\baselineskip}
+  {0.2\baselineskip}
+  {\color{subsubsectioncolor}\sffamily\fontsize{9pt}{11pt}\selectfont\bfseries}}
+\setcounter{secnumdepth}{0}
+  
 \makeatother
+
 ]])
     }
+   table.insert(blocks, pandoc.RawBlock("latex", "\\vspace*{-\\topskip}")) 
 
-    for _, b in ipairs(el.content) do
+   for _, b in ipairs(el.content) do
+    if b.t == "BulletList" or b.t == "OrderedList" then
+      table.insert(blocks, pandoc.RawBlock("latex", "\\begingroup\\setlength{\\parskip}{0pt}"))
+      if b.t == "BulletList" then
+        table.insert(blocks, flatten_bullet_list(b))
+      else
+        table.insert(blocks, flatten_ordered_list(b))
+      end
+      table.insert(blocks, pandoc.RawBlock("latex", "\\endgroup"))
+elseif b.t == "Table" then
+    table.insert(blocks, pandoc.RawBlock("latex", [[
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{4pt}
+\footnotesize\sffamily
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+]]))
+    table.insert(blocks, b)
+    table.insert(blocks, pandoc.RawBlock("latex", [[
+\end{tabularx}
+\end{center}
+]]))
+
+
+    else
       table.insert(blocks, b)
     end
+  end
+
+
 
     table.insert(blocks, pandoc.RawBlock("latex", "\\endgroup"))
     return blocks
@@ -39,7 +146,7 @@ function Div(el)
 \begin{tcolorbox}[
   colback=red!8,
   colframe=red!60!black,
-  boxrule=2pt,
+  boxrule=1pt,
   arc=2pt,
   left=6pt,
   right=6pt,
@@ -48,7 +155,7 @@ function Div(el)
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper=\blockquoteFont\small,
+  fontupper=\blockquoteFont\footnotesize,
   before upper={
     \setlength{\parskip}{6pt}
     \setlength{\baselineskip}{13pt}
@@ -72,7 +179,7 @@ function Div(el)
 \begin{tcolorbox}[
   colback=yellow!8,
   colframe=orange!80!black,
-  boxrule=2pt,
+  boxrule=1pt,
   arc=2pt,
   left=6pt,
   right=6pt,
@@ -81,7 +188,7 @@ function Div(el)
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper=\blockquoteFont\small,
+  fontupper=\blockquoteFont\footnotesize,
   before upper={
     \setlength{\parskip}{6pt}
     \setlength{\baselineskip}{13pt}

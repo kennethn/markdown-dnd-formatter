@@ -25,18 +25,17 @@ $endif$
 %\setmainfont{Charter}
 \setmainfont{Libertinus Serif}[
   SmallCapsFeatures={Letters=SmallCaps},
-  Scale=1.2
+  Scale=1.05
 ]
 \newfontfamily\symbolsfont{Symbola}
 \newfontfamily\blockquoteFont{Inter}
 \newfontfamily\headerfont{Inter}
 
+\renewcommand{\blockquoteFont}{\sffamily}
+
+
 \pagestyle{plain}
 \raggedbottom
-
-\clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
-\widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
-\displaywidowpenalty=10000
 
 % No full justification
 
@@ -139,7 +138,7 @@ $endif$
 \tcbset{myquote/.style={
   breakable,
   enhanced,
-  colback=blue!6!white, 
+  colback=blue!8!white, 
   boxrule=0pt,
   arc=0pt,
   left=6pt,
@@ -175,6 +174,10 @@ $endif$
 }
 
 
+\clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
+\widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
+\displaywidowpenalty=10000
+
 % Highlighting fenced Divs for Encounter and Show Image boxes
 \newenvironment{highlightencounterbox}
   {\begin{tcolorbox}[
@@ -186,17 +189,20 @@ $endif$
     arc=2pt,
     left=6pt,
     right=6pt,
-    top=4pt,
-    bottom=4pt,
+    top=2pt,
+    bottom=2pt,
     boxsep=4pt,
-    before skip=10pt,
-    after skip=10pt,
+    before skip=6pt,
+    after skip=6pt,
     fontupper=\blockquoteFont\footnotesize,
     before upper={
-      \setlength{\parskip}{6pt}
-      \setlength{\baselineskip}{13pt}
+      \blockquoteFont
+      \scriptsize
+      \selectfont
+      \setlength{\parskip}{5pt}
+      \setlength{\baselineskip}{8pt}
     },
-    after upper={\par\vspace{12pt}}
+    after upper={\par\vspace{10pt}}
   ]{\symbolsfont \textcolor{red!70!black}{⚔}~\textbf{Encounter:}} \par}
   {\end{tcolorbox}}
 
@@ -208,19 +214,20 @@ $endif$
     colframe=orange!90!black,
     frame style={draw=orange!90!black, line width=1pt},
     boxrule=1pt,
-    sharp corners,
+    arc=2pt,
     left=6pt,
     right=6pt,
-    top=4pt,
-    bottom=4pt,
+    top=2pt,
+    bottom=2pt,
     boxsep=4pt,
-    before skip=10pt,
-    after skip=10pt,
+    before skip=6pt,
+    after skip=6pt,
     fontupper=\blockquoteFont\footnotesize,
     before upper={%
-      \setlength{\parskip}{6pt}
-      \setlength{\baselineskip}{13pt}
+      \setlength{\parskip}{5pt}
+      \setlength{\baselineskip}{8pt}
     }
+    after upper={\par\vspace{10pt}}
   ]{\symbolsfont \textcolor{orange!90!black}{◆}~\textbf{Show image:}} \par}
   {\end{tcolorbox}}
 
