@@ -1,3 +1,6 @@
+-- highlight-boxes.lua
+-- Handles custom fenced Divs and monster stat blocks for D&D notes
+
 function Div(el)
   -- MONSTERBLOCK
   if el.classes:includes("monsterblock") then
@@ -51,7 +54,7 @@ function Div(el)
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{red!60!black}{\symbolsfont ⚔}~\textbf{Encounter: }}]])
+{\color{red!60!black}{\symbolsfont ⚔}~\textbf{Encounter }}]])
     }
 
     for _, b in ipairs(el.content) do
@@ -84,7 +87,7 @@ function Div(el)
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{orange!80!black}{\symbolsfont ◆}~\textbf{Show image: }}]])
+{\color{orange!80!black}{\symbolsfont ◆}~\textbf{Show image }}]])
     }
 
     for _, b in ipairs(el.content) do
@@ -94,4 +97,6 @@ function Div(el)
     table.insert(blocks, pandoc.RawBlock("latex", "\\end{tcolorbox}"))
     return blocks
   end
+
+  return nil
 end

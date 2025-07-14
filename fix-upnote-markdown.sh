@@ -22,14 +22,12 @@ BEGIN {
   inside_block = 0;
 }
 {
-  # Detect the start of the monster section
   if ($0 ~ /^# Monsters$/) {
     inside_monsters_section = 1;
     print;
     next;
   }
 
-  # Exit wrapping if we see another top-level section
   if (inside_monsters_section && $0 ~ /^# /) {
     if (inside_block) {
       print ":::";
@@ -37,7 +35,6 @@ BEGIN {
     }
   }
 
-  # Start of a monster block
   if (inside_monsters_section && $0 ~ /^# /) {
     print "::: {.monsterblock}";
     inside_block = 1;
@@ -75,6 +72,8 @@ perl -CSD -pe '
 BEGIN {
   our @table_rows = ();
   our $in_table = 0;
+  our $inside_showimagebox = 0;
+  our $prev_line = "";
 }
 
 if (/^__BODY_LINE__/) {
@@ -139,15 +138,37 @@ if (/^__BODY_LINE__/) {
   # Encounter and image boxes
   s/^\*\*(Encounter:.*?)\*\*$/$1/;
   s/^\*\*(Show image:.*?)\*\*$/$1/;
+
   if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/) {
     my $content = $1;
     $_ = "::: highlightencounterbox\n$content\n:::\n";
-  } elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Show image:\s*(.*)/) {
+    $prev_line = "";
+    next;
+  }
+  elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Show image:\s*(.*)/) {
     my $content = $1;
+    $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: highlightshowimagebox\n$content\n:::\n";
+    $prev_line = "";
+    next;
   }
 
-  s/\[\[([^\]]+)\]\]/<span class="wikilink">$1<\/span>/g;
+
+  # Track when inside highlightshowimagebox
+  if (/^:::\s*highlightshowimagebox\b/) {
+    $inside_showimagebox = 1;
+  }
+  elsif (/^:::\s*$/ && $inside_showimagebox) {
+    $inside_showimagebox = 0;
+  }
+
+  # Apply wikilink span only if not in showimagebox
+  if ($inside_showimagebox) {
+    s/\[\[([^\]]+)\]\]/$1/g;
+  } else {
+    s/\[\[([^\]]+)\]\]/<span class="wikilink">$1<\/span>/g;
+  }
+
   s/^(\s*[*_-]+\s*)$//;
   s/^\s*#{1,6}\s*$//;
 
