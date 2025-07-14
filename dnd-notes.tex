@@ -1,4 +1,12 @@
+$if(layout.onecolumn)$
+\documentclass[12pt,onecolumn]{article}
+$elseif(layout.landscape)$
+\documentclass[12pt,landscape]{article}
+$else$
 \documentclass[12pt,twocolumn]{article}
+$endif$
+
+
 
 % Font and encoding
 \usepackage{fontspec}

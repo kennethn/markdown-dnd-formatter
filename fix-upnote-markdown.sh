@@ -119,7 +119,11 @@ if (/^__BODY_LINE__/) {
   # General cleanup
   s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
   s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
-  s/<br>//gi;
+
+  unless ($in_table) {
+    s/<br>//gi;
+  }
+
   s/==([^=]+)==/$1/g;
 
   # Heading cleanup
