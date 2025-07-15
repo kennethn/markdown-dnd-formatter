@@ -7,7 +7,6 @@ $else$
 $endif$
 
 
-
 % Font and encoding
 \usepackage{fontspec}
 \usepackage{microtype}
@@ -19,7 +18,7 @@ $endif$
 
 \linespread{1.2}
 \newcommand{\smallcapstext}[1]{%
-  {\addfontfeatures{Letters=SmallCaps,LetterSpace=2.0}\textcolor{blue!70!black}{\textbf{#1}}}%
+  {\addfontfeatures{Letters=SmallCaps,LetterSpace=2.0}\textcolor{keywordcolor}{\textbf{#1}}}%
 }
 
 \usepackage{fontawesome5}
@@ -72,9 +71,22 @@ $endif$
 
 % Colors for headings
 \usepackage{xcolor}
-\definecolor{sectioncolor}{HTML}{4B0082}       % Indigo
-\definecolor{subsectioncolor}{HTML}{006400}    % Dark Green
+\definecolor{sectioncolor}{HTML}{8B0000}       % Dark Red
+\definecolor{subsectioncolor}{HTML}{8B0000}    % Dark Red
 \definecolor{subsubsectioncolor}{HTML}{8B0000} % Dark Red
+
+\definecolor{keywordcolor}{HTML}{8B0000}
+\let\oldtextbf\textbf
+\renewcommand{\textbf}[1]{\oldtextbf{\textcolor{keywordcolor}{#1}}}
+
+\renewenvironment{quote}
+  {\par
+   \begin{tcolorbox}[myquote,
+     before upper={
+       \let\textbf\oldtextbf
+     }
+   ]}
+  {\end{tcolorbox}\par}
 
 \usepackage{etoolbox}
 \makeatletter
@@ -114,7 +126,7 @@ $endif$
   [\vspace{1pt}\color{subsubsectioncolor}\hrule height 1pt]
 \titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
 \titlespacing*{\subsection}{0pt}{12pt plus 1pt minus 1pt}{10pt}
-\titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{10pt}
+\titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
 
 %\pretocmd{\itemize}{\vspace{6pt}}{}{}
 %\apptocmd{\enditemize}{\vspace{6pt}}{}{}
@@ -149,7 +161,7 @@ $endif$
 \tcbset{myquote/.style={
   breakable,
   enhanced,
-  colback=blue!8!white, 
+  colback=black!8!white, 
   boxrule=0pt,
   arc=0pt,
   left=6pt,
@@ -159,8 +171,8 @@ $endif$
   boxsep=4pt,
   before skip=12pt,
   after skip=12pt,
-  borderline west={1.5pt}{0pt}{blue!70!black},
-  borderline east={1.5pt}{0pt}{blue!70!black},
+  borderline west={1.5pt}{0pt}{red!70!black},
+  borderline east={1.5pt}{0pt}{red!70!black},
   sharp corners,
   fontupper=\blockquoteFont\small,
   before upper={%
@@ -169,21 +181,13 @@ $endif$
   }
 }}
 
-% Redefine blockquotes to use the tcolorbox
-\let\oldquote\quote
-\let\endoldquote\endquote
-\renewenvironment{quote}
-  {\par\begin{tcolorbox}[myquote]}
-  {\end{tcolorbox}\par}
-
 % Fix tightlist error
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{6pt}
-  \setlength{\topsep}{6pt}
+  \setlength{\topsep}{20pt}
   \setlength{\parsep}{0pt}
   \setlength{\partopsep}{0pt}
 }
-
 
 \clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
 \widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
@@ -196,7 +200,7 @@ $endif$
     breakable,
     colback=red!10,
     colframe=red!70!black,
-    boxrule=1pt,
+    boxrule=0pt,
     arc=2pt,
     left=6pt,
     right=6pt,
@@ -223,8 +227,8 @@ $endif$
     breakable,
     colback=yellow!10,
     colframe=orange!90!black,
+    boxrule=0pt;
     frame style={draw=orange!90!black, line width=1pt},
-    boxrule=1pt,
     arc=2pt,
     left=6pt,
     right=6pt,
@@ -274,6 +278,8 @@ $endif$
 \usepackage{changepage} % For adjustwidth environment
 
 \begin{document}
+
+
 
 \begingroup
 \makeatletter

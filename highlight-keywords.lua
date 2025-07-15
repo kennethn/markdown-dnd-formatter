@@ -25,9 +25,9 @@ local function inlines_to_text(inlines)
   return table.concat(parts)
 end
 
--- Wrap text in bold, smallcaps, and blue LaTeX
+-- Wrap text in bold, smallcaps, and red LaTeX
 local function latex_bold(text)
-  return pandoc.RawInline("latex", "\\textcolor{blue!70!black}{\\textbf{\\smallcapstext{" .. string.lower(text) .. "}}}")
+  return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{\\smallcapstext{" .. string.lower(text) .. "}}}")
 end
 
 -- Keyword formatting, unless suppressed

@@ -55,11 +55,13 @@ fi
 
 # Build Pandoc options
 PANDOC_OPTS=(
+  --standalone
   --pdf-engine=xelatex
   --template=dnd-notes.tex
   --lua-filter=highlight-boxes.lua
   --lua-filter=highlight-keywords.lua
   --lua-filter=force-tabular.lua
+  --lua-filter=fix-heading-list-spacing.lua
   -V tables=false
   --number-sections=false
 )

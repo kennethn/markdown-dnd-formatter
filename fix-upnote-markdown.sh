@@ -232,3 +232,23 @@ BEGIN { blank=0 }
 
 rm "$INPUT.tmp.monsters" "$INPUT.tmp.tagged" "$OUTPUT.tmp"
 echo "✅ Cleanup complete: $OUTPUT"
+
+# #########################################
+# # Step 5: Promote first H1 to YAML frontmatter - TODO
+# #########################################
+
+# # Extract first H1 from body and remove it
+# doc_title=$(grep -m 1 '^# ' "$OUTPUT" | sed 's/^# //')
+# if [ -n "$doc_title" ]; then
+#   awk -v title="$doc_title" '
+#     BEGIN { print "---\ntitle: \"" title "\"\n---" }
+#     {
+#       if (!found && /^# /) {
+#         found = 1
+#         next
+#       }
+#       print
+#     }
+#   ' "$OUTPUT" > "$OUTPUT.withtitle"
+#   mv "$OUTPUT.withtitle" "$OUTPUT"
+# fi
