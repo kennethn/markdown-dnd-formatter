@@ -161,7 +161,7 @@ elseif b.t == "Table" then
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{red!60!black}{\symbolsfont ⚔}~\textbf{Encounter }}]])
+{\color{red!60!black}{\faBomb}~\textbf{Encounter }}]])
     }
 
     for _, b in ipairs(el.content) do
@@ -194,7 +194,7 @@ elseif b.t == "Table" then
     \setlength{\baselineskip}{13pt}
   }
 ]
-{\color{orange!80!black}{\symbolsfont ◆}~\textbf{Show image }}]])
+{\color{orange!80!black}{\faEye}~\textbf{Image }}]])
     }
 
     for _, b in ipairs(el.content) do

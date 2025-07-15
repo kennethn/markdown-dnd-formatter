@@ -130,7 +130,15 @@ if (/^__BODY_LINE__/) {
   }
 
   # General cleanup
-  s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
+  # Strip stray control characters (Unicode 0x00–0x1F except newline/tab)
+  s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g;
+  #s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
+ s/([\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1F1E6}-\x{1F1FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}])/
+  "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"
+/ge;
+
+
+
   s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
 
   unless ($in_table) {
@@ -164,7 +172,7 @@ if (/^__BODY_LINE__/) {
 
   # Encounter and image boxes
   s/^\*\*(Encounter:.*?)\*\*$/$1/;
-  s/^\*\*(Show image:.*?)\*\*$/$1/;
+  s/^\*\*(Image:.*?)\*\*$/$1/;
 
   if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/) {
     my $content = $1;

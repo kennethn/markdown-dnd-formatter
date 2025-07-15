@@ -1,9 +1,9 @@
 $if(layout.onecolumn)$
-\documentclass[12pt,onecolumn]{article}
+\documentclass[11pt,onecolumn]{article}
 $elseif(layout.landscape)$
-\documentclass[12pt,landscape]{article}
+\documentclass[11pt,landscape]{article}
 $else$
-\documentclass[12pt,twocolumn]{article}
+\documentclass[11pt,twocolumn]{article}
 $endif$
 
 
@@ -22,14 +22,27 @@ $endif$
   {\addfontfeatures{Letters=SmallCaps,LetterSpace=2.0}\textcolor{blue!70!black}{\textbf{#1}}}%
 }
 
-%\setmainfont{Charter}
-\setmainfont{Libertinus Serif}[
-  SmallCapsFeatures={Letters=SmallCaps},
+\usepackage{fontawesome5}
+
+\setmainfont{XCharter}[
+  SmallCapsFeatures={Letters=SmallCaps}
+]
+
+
+\newfontfamily\blockquoteFont{Ysabeau Office}[
+  Ligatures=TeX,
+  Numbers=Lining,
+  Letters=SmallCaps
+]
+\newfontfamily\headerfont{XCharter}[
+  Ligatures=TeX,
+  Numbers=Lining,
+  Letters=SmallCaps,
   Scale=1.05
 ]
-\newfontfamily\symbolsfont{Symbola}
-\newfontfamily\blockquoteFont{Inter}
-\newfontfamily\headerfont{Inter}
+
+% Define emoji font for Unicode emoji ranges
+\newfontfamily\emojifont{Noto Color Emoji}
 
 \renewcommand{\blockquoteFont}{\sffamily}
 
@@ -85,15 +98,20 @@ $endif$
 
 % Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
-\titleformat{\section}[block]{\Large\bfseries\color{sectioncolor}\headerfont}{}
+\titleformat{\section}[block]{\Large\color{sectioncolor}\headerfont}{}
   {0pt}{\stickysection}
-\titleformat{\subsection}[block]{\large\bfseries\color{subsectioncolor}\headerfont}{}
-  {0pt}{\stickysubsection}
-\titleformat{\subsubsection}[block]
-  {\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
+\titleformat{\subsection}[block]
+  {\large\color{subsectioncolor}\headerfont}
   {}
   {0pt}
-  {\stickysubsubsection\normalsize\bfseries\color{subsubsectioncolor}\headerfont}
+  {\stickysubsection}
+  [\vspace{2pt}\color{subsectioncolor}\hrule height 1pt]
+
+\titleformat{\subsubsection}[block]
+  {\normalsize\color{subsubsectioncolor}\headerfont}
+  {}
+  {0pt}
+  {\stickysubsubsection\normalsize\color{subsubsectioncolor}\headerfont}
   [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
 \titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
 \titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{10pt}
