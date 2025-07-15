@@ -34,10 +34,9 @@ $endif$
   Numbers=Lining,
   Letters=SmallCaps
 ]
-\newfontfamily\headerfont{XCharter}[
+\newfontfamily\headerfont{Ysabeau Office Bold}[
   Ligatures=TeX,
   Numbers=Lining,
-  Letters=SmallCaps,
   Scale=1.05
 ]
 
@@ -93,35 +92,29 @@ $endif$
 
 
 \usepackage{parskip}
-\setlength{\parskip}{10pt plus 2pt minus 1pt} % flexible ~20pt spacing
+\setlength{\parskip}{8pt} % flexible ~20pt spacing
 \setlength{\parindent}{0pt} % no indent for first lines
 
 % Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
-\titleformat{\section}[block]{\Large\color{sectioncolor}\headerfont}{}
-  {0pt}{\stickysection}
+\titleformat{\section}[block]{\stickysection\Large\color{sectioncolor}\headerfont}{}
+  {0pt}{}
 \titleformat{\subsection}[block]
-  {\large\color{subsectioncolor}\headerfont}
+  {\stickysubsection\large\color{subsectioncolor}\headerfont}
   {}
   {0pt}
-  {\stickysubsection}
-  [\vspace{2pt}\color{subsectioncolor}\hrule height 1pt]
+  {}
+  [\vspace{1pt}\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
   {\normalsize\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
   {\stickysubsubsection\normalsize\color{subsubsectioncolor}\headerfont}
-  [\vspace{2pt}\color{subsubsectioncolor}\hrule height 1pt]
+  [\vspace{1pt}\color{subsubsectioncolor}\hrule height 1pt]
 \titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
-\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{10pt}
-\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{10pt}
-
-% Patch to remove space before first section
-\usepackage{etoolbox}
-\makeatletter
-\pretocmd{\section}{\ifnum\value{section}=0 \vspace*{-20pt} \fi}{}{}
-\makeatother
+\titlespacing*{\subsection}{0pt}{12pt plus 1pt minus 1pt}{10pt}
+\titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{10pt}
 
 %\pretocmd{\itemize}{\vspace{6pt}}{}{}
 %\apptocmd{\enditemize}{\vspace{6pt}}{}{}
@@ -134,7 +127,7 @@ $endif$
 \pagestyle{fancy}
 \setlength{\footskip}{15pt}
 \usepackage{enumitem}
-\setlist[itemize]{itemsep=20pt, topsep=6pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{itemsep=4pt, topsep=10pt, parsep=0pt, partopsep=0pt}
 
 
 % Support for tables
@@ -251,9 +244,33 @@ $endif$
 
 % suppress opening top margin
 \usepackage{etoolbox}
-\newif\iffirstsection
-\firstsectiontrue
-\pretocmd{\section}{\iffirstsection\vspace*{-20pt}\firstsectionfalse\fi}{}{}
+
+\makeatletter
+% Suppress \parskip within list environments
+\patchcmd{\@itemize}{\parskip\z@}{\parskip=0pt}{}{}
+\patchcmd{\@enumerate}{\parskip\z@}{\parskip=0pt}{}{}
+\patchcmd{\@description}{\parskip\z@}{\parskip=0pt}{}{}
+\makeatother
+
+
+\AtBeginEnvironment{itemize}{
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{4pt}
+  \setlength{\topsep}{10pt}
+  \setlength{\parsep}{0pt}
+  \setlength{\partopsep}{0pt}
+  \linespread{1}\selectfont
+}
+\AtBeginEnvironment{enumerate}{
+  \setlength{\parskip}{0pt}
+  \setlength{\itemsep}{4pt}
+  \setlength{\topsep}{10pt}
+  \setlength{\parsep}{0pt}
+  \setlength{\partopsep}{0pt}
+  \linespread{1}\selectfont
+}
+\AtBeginEnvironment{description}{\setlength{\parskip}{4pt}}
+
 \usepackage{changepage} % For adjustwidth environment
 
 \begin{document}
@@ -265,7 +282,6 @@ $endif$
 \makeatother
 \endgroup
 \vspace*{-\topskip}
-%\vspace*{-5pt}
 
 
 $body$

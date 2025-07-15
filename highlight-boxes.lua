@@ -69,7 +69,7 @@ function Div(el)
   \setlength{\leftmargin}{1.5em}%
   \setlength{\itemsep}{0pt}%
   \setlength{\parsep}{0pt}%
-  \setlength{\topsep}{2pt}%
+  \setlength{\topsep}{10pt}%
   \setlength{\partopsep}{0pt}%
 }
 
@@ -79,23 +79,11 @@ function Div(el)
 \titleformat*{\subsection}{\color{subsectioncolor}\sffamily\fontsize{10pt}{12pt}\selectfont\bfseries}
 \titleformat*{\subsubsection}{\color{subsubsectioncolor}\sffamily\fontsize{9pt}{11pt}\selectfont\bfseries}
 
-\titlespacing*{\section}{0pt}{0pt}{3pt}
-\titlespacing*{\subsection}{0pt}{0pt}{2pt}
-\titlespacing*{\subsubsection}{0pt}{0pt}{2pt}
+\titlespacing*{\section}{0pt}{10pt}{10pt}
+\titlespacing*{\subsection}{0pt}{8pt}{10pt}
+\titlespacing*{\subsubsection}{0pt}{6pt}{10pt}
 
-% 🔧 Fix vertical space before section headers at top of page
-\renewcommand{\section}{\@startsection{section}{1}{\z@}
-  {-0.5\baselineskip}
-  {0.25\baselineskip}
-  {\color{sectioncolor}\sffamily\fontsize{12pt}{14pt}\selectfont\bfseries}}
-\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}
-  {-0.5\baselineskip}
-  {0.2\baselineskip}
-  {\color{subsectioncolor}\sffamily\fontsize{10pt}{12pt}\selectfont\bfseries}}
-\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}
-  {-0.5\baselineskip}
-  {0.2\baselineskip}
-  {\color{subsubsectioncolor}\sffamily\fontsize{9pt}{11pt}\selectfont\bfseries}}
+
 \setcounter{secnumdepth}{0}
   
 \makeatother
@@ -148,14 +136,14 @@ elseif b.t == "Table" then
   colframe=red!60!black,
   boxrule=1pt,
   arc=2pt,
-  left=6pt,
-  right=6pt,
-  top=4pt,
-  bottom=4pt,
+  left=4pt,
+  right=4pt,
+  top=2pt,
+  bottom=2pt,
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper=\blockquoteFont\footnotesize,
+  fontupper=\blockquoteFont\small,
   before upper={
     \setlength{\parskip}{6pt}
     \setlength{\baselineskip}{13pt}
@@ -181,14 +169,14 @@ elseif b.t == "Table" then
   colframe=orange!80!black,
   boxrule=1pt,
   arc=2pt,
-  left=6pt,
-  right=6pt,
-  top=4pt,
-  bottom=4pt,
+  left=4pt,
+  right=4pt,
+  top=2pt,
+  bottom=2pt,
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper=\blockquoteFont\footnotesize,
+  fontupper=\blockquoteFont\small,
   before upper={
     \setlength{\parskip}{6pt}
     \setlength{\baselineskip}{13pt}

@@ -180,7 +180,7 @@ if (/^__BODY_LINE__/) {
     $prev_line = "";
     next;
   }
-  elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Show image:\s*(.*)/) {
+  elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Image:\s*(.*)/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: highlightshowimagebox\n$content\n:::\n";
