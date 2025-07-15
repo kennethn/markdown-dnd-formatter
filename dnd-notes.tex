@@ -181,14 +181,27 @@ $endif$
   }
 }}
 
-% Fix tightlist error
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}
-  \setlength{\topsep}{0pt}
+% % Fix tightlist error
+% \providecommand{\tightlist}{%
+%   \setlength{\itemsep}{0pt}
+%   \setlength{\topsep}{0pt}
+%   \setlength{\parsep}{0pt}
+%   \setlength{\parskip}{0pt}
+%   \setlength{\partopsep}{0pt}
+% }
+
+% Always override item spacing for itemize outside monsterblocks
+\setlist[itemize]{itemsep=6pt, topsep=10pt, parsep=0pt, partopsep=0pt}
+
+% Ensure Pandoc-generated \tightlist honors this too
+\providecommand{\tightlist}{
+  \setlength{\itemsep}{6pt}
+  \setlength{\topsep}{10pt}
   \setlength{\parsep}{0pt}
   \setlength{\parskip}{0pt}
   \setlength{\partopsep}{0pt}
 }
+
 
 \clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
 \widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)

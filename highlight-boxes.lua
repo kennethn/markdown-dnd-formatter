@@ -83,7 +83,17 @@ function Div(el)
 \makeatletter
 \setlist[itemize]{left=1.5em, itemsep=0pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
+
+% Local override for \tightlist so global version doesn't bleed in
+\def\tightlist{%
+  \setlength{\itemsep}{0pt}%
+  \setlength{\topsep}{6pt}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+  \setlength{\partopsep}{0pt}%
+}
 \makeatother
+
 ]]),
   }
 

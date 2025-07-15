@@ -93,7 +93,7 @@ if (/^__BODY_LINE__/) {
       my @headers = split /\s*\|\s*/, $header;
       @headers = grep { $_ ne "" } @headers;
       my $cols = scalar(@headers);
-      $_ = "\\begin{center}\n{\\sffamily\\scriptsize\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
+      $_ = "\\begin{flushleft}\n{\\sffamily\\scriptsize\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
       $_ .= "\\toprule\n";
       for my $i (0 .. $#headers) {
         $headers[$i] =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
@@ -119,7 +119,7 @@ if (/^__BODY_LINE__/) {
 
         $_ .= join(" & ", @cells) . " \\\\\n";
       }
-      $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
+      $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{flushleft}\n";
     }
     @table_rows = ();
   }
