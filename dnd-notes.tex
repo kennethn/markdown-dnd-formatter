@@ -133,6 +133,13 @@ $endif$
 
 % Page numbering bottom-right
 \usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\setlist[itemize,1]{label=\textcolor{keywordcolor}{\textbullet}}
+\setlist[itemize,2]{label=\textbullet}
+\setlist[itemize,3]{label=\textcolor{keywordcolor}{\textendash}}
+
+
 \fancyhf{}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}

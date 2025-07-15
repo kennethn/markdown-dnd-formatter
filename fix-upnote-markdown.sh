@@ -164,7 +164,7 @@ if (/^__BODY_LINE__/) {
   s/^\.(\d+)\s/$1. /;
 
   # Wrap standalone negative numbers in backticks
-  s/(?<![`0-9])(-\d+)(?![\d`])/'`'.$1.'`'/ge;
+  s{(?<![`0-9])(-\d+)(?![\d`])}{sprintf("`%s`",$1)}ge;
 
   # Fix number ranges like "5--6" or "5 - 6"
   s/(\d)\s*--\s*(\d)/$1-$2/g;

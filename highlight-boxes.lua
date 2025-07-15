@@ -114,7 +114,7 @@ end
 \begin{tcolorbox}[
   colback=red!8,
   colframe=red!60!black,
-  boxrule=0.5pt,
+  boxrule=0.25pt,
   coltext=red!60!black,
   arc=2pt,
   left=4pt,
@@ -151,7 +151,7 @@ end
   colback=yellow!8,
   coltext=orange!80!black,
   colframe=orange!80!black,
-  boxrule=0.5pt,
+  boxrule=0.25pt,
   arc=2pt,
   left=4pt,
   right=4pt,
