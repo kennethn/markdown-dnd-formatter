@@ -52,97 +52,50 @@ function Div(el)
   
   -- Encounter callout box
     -- MONSTERBLOCK
-  if el.classes:includes("monsterblock") then
-    local blocks = {
-      pandoc.RawBlock("latex", "\\clearpage"),
-      pandoc.RawBlock("latex", [[
+ if el.classes:includes("monsterblock") then
+  -- Inject spacing override before bullet lists
+  local function insert_itemsep_before_lists(blocks)
+    local new_blocks = {}
+    for _, blk in ipairs(blocks) do
+      if blk.t == "BulletList" then
+        table.insert(new_blocks, pandoc.RawBlock("latex", "\\setlength{\\itemsep}{0pt}"))
+      end
+      table.insert(new_blocks, blk)
+    end
+    return new_blocks
+  end
 
+  local monster_content = insert_itemsep_before_lists(el.content)
+
+  local blocks = {
+    pandoc.RawBlock("latex", "\\clearpage"),
+    pandoc.RawBlock("latex", [[
+\vspace*{-2\baselineskip}
 \begingroup
 \clubpenalty=150
 \widowpenalty=150
 \displaywidowpenalty=150
 \blockquoteFont
-\vspace*{-2\baselineskip}
 \linespread{1}%
 \fontsize{9pt}{11pt}\selectfont
 \setlength{\parskip}{4pt}
 \setlength{\baselineskip}{11pt}
 \makeatletter
-\setlength{\@fptop}{0pt}           % 🔧 allow floats at top
-\setlength{\@fpsep}{8pt plus 1pt}  % 🔧 allow float separation
-\setlength{\topskip}{0pt}          % 🔧 remove implicit top spacing
-% Reduce itemize spacing locally
-\setlist[itemize]{left=1.5em, itemsep=200pt, topsep=6pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{left=1.5em, itemsep=0pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
-
-
-% Local header formatting
-\titleformat*{\section}{\color{sectioncolor}\sffamily\fontsize{12pt}{14pt}\selectfont\bfseries}
-\titleformat*{\subsection}{\color{subsectioncolor}\sffamily\fontsize{10pt}{12pt}\selectfont\bfseries}
-\titleformat*{\subsubsection}{\color{subsubsectioncolor}\sffamily\fontsize{9pt}{11pt}\selectfont\bfseries}
-
-
-%\titlespacing*{\section}{0pt}{0pt}{10pt}
-%\titlespacing*{\subsection}{0pt}{8pt}{10pt}
-%\titlespacing*{\subsubsection}{0pt}{6pt}{10pt}
-
-
-\setcounter{secnumdepth}{0}
-  
 \makeatother
+]]),
+  }
 
+  -- Write the filtered content into LaTeX
+  local inner_doc = pandoc.Pandoc(monster_content)
+  local inner_tex = pandoc.write(inner_doc, "latex")
+  table.insert(blocks, pandoc.RawBlock("latex", inner_tex))
+  table.insert(blocks, pandoc.RawBlock("latex", "\\endgroup"))
 
+  return blocks
+end
 
-]])
-    }
-   table.insert(blocks, pandoc.RawBlock("latex", "\\vspace*{-\\topskip}")) 
-
-   for _, b in ipairs(el.content) do
-   if b.t == "BulletList" then
-  table.insert(blocks, pandoc.RawBlock("latex", [[
-\begin{itemize}[left=1.5em, itemsep=8pt, topsep=12pt, parsep=0pt, partopsep=0pt]
-]]))
-  for _, item in ipairs(b.content) do
-    local content = pandoc.write(pandoc.Pandoc(item), "latex")
-    table.insert(blocks, pandoc.RawBlock("latex", "\\item " .. content))
-  end
-  table.insert(blocks, pandoc.RawBlock("latex", "\\end{itemize}"))
-
-elseif b.t == "OrderedList" then
-  table.insert(blocks, pandoc.RawBlock("latex", [[
-\begin{enumerate}[left=1.5em, itemsep=200pt, topsep=12pt, parsep=0pt, partopsep=0pt]
-]]))
-  for _, item in ipairs(b.content) do
-    local content = pandoc.write(pandoc.Pandoc(item), "latex")
-    table.insert(blocks, pandoc.RawBlock("latex", "\\item " .. content))
-  end
-  table.insert(blocks, pandoc.RawBlock("latex", "\\end{enumerate}"))
-
-elseif b.t == "Table" then
-    table.insert(blocks, pandoc.RawBlock("latex", [[
-\begin{center}
-\renewcommand{\arraystretch}{1.2}
-\setlength{\tabcolsep}{4pt}
-\footnotesize\sffamily
-\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
-]]))
-    table.insert(blocks, b)
-    table.insert(blocks, pandoc.RawBlock("latex", [[
-\end{tabularx}
-\end{center}
-]]))
-
-
-    else
-      table.insert(blocks, b)
-    end
-  end
-
-
-
-    table.insert(blocks, pandoc.RawBlock("latex", "\\endgroup"))
-    return blocks
-  end
   
   if el.classes:includes('highlightencounterbox') then
     local blocks = {}

@@ -139,7 +139,7 @@ $endif$
 \pagestyle{fancy}
 \setlength{\footskip}{15pt}
 \usepackage{enumitem}
-\setlist[itemize]{itemsep=4pt, topsep=10pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{itemsep=10pt, topsep=10pt, parsep=0pt, partopsep=0pt}
 
 
 % Support for tables
@@ -183,9 +183,10 @@ $endif$
 
 % Fix tightlist error
 \providecommand{\tightlist}{%
-  \setlength{\itemsep}{6pt}
-  \setlength{\topsep}{20pt}
+  \setlength{\itemsep}{0pt}
+  \setlength{\topsep}{0pt}
   \setlength{\parsep}{0pt}
+  \setlength{\parskip}{0pt}
   \setlength{\partopsep}{0pt}
 }
 
@@ -257,23 +258,24 @@ $endif$
 \makeatother
 
 
-\AtBeginEnvironment{itemize}{
-  \setlength{\parskip}{0pt}
-  \setlength{\itemsep}{4pt}
-  \setlength{\topsep}{10pt}
-  \setlength{\parsep}{0pt}
-  \setlength{\partopsep}{0pt}
-  \linespread{1}\selectfont
-}
-\AtBeginEnvironment{enumerate}{
-  \setlength{\parskip}{0pt}
-  \setlength{\itemsep}{4pt}
-  \setlength{\topsep}{10pt}
-  \setlength{\parsep}{0pt}
-  \setlength{\partopsep}{0pt}
-  \linespread{1}\selectfont
-}
-\AtBeginEnvironment{description}{\setlength{\parskip}{4pt}}
+% From previous debugging, I don't believe we need this anymore but keeping to be safe
+% \AtBeginEnvironment{itemize}{
+%   \setlength{\parskip}{0pt}
+%   \setlength{\itemsep}{4pt}
+%   \setlength{\topsep}{10pt}
+%   \setlength{\parsep}{0pt}
+%   \setlength{\partopsep}{0pt}
+%   \linespread{1}\selectfont
+% }
+% \AtBeginEnvironment{enumerate}{
+%   \setlength{\parskip}{0pt}
+%   \setlength{\itemsep}{4pt}
+%   \setlength{\topsep}{10pt}
+%   \setlength{\parsep}{0pt}
+%   \setlength{\partopsep}{0pt}
+%   \linespread{1}\selectfont
+% }
+% \AtBeginEnvironment{description}{\setlength{\parskip}{4pt}}
 
 \usepackage{changepage} % For adjustwidth environment
 
