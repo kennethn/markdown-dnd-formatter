@@ -6,10 +6,11 @@ function Header(el)
     local content = pandoc.utils.stringify(el.content)
     return pandoc.RawBlock("latex", [[
 \begingroup
-\Huge\color{sectioncolor}\headerfont
+\LARGE\color{sectioncolor}\headerfont
 ]] .. content .. [[
-\\[1pt]
+\\[-18pt]
 \color{sectioncolor}\rule{\linewidth}{2pt}
+\\[-2pt]
 \endgroup
 ]])
   else
