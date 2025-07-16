@@ -7,6 +7,8 @@ function Header(el)
     return pandoc.RawBlock("latex", [[
 \begingroup
 \LARGE\color{sectioncolor}\headerfont
+\faCertificate
+\\[-2pt]
 ]] .. content .. [[
 \\[-18pt]
 \color{sectioncolor}\rule{\linewidth}{2pt}

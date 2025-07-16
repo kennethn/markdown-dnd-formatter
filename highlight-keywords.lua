@@ -1,5 +1,3 @@
--- highlight-keywords.lua
-
 local keywords = {
   ["Therynzhaal"] = true,
   ["Ryland"] = true,
@@ -7,15 +5,19 @@ local keywords = {
   ["Glynda"] = true,
   ["Sir Talavar"] = true,
   ["Aeltheryn"] = true,
+  ["Orcus"] = true,
+  ["Raven Queen"] = true,
+  ["Summer Queen"] = true,
+  ["Titania"] = true
 }
 
 local in_header = false
 local skip_formatting = false
 
 -- Helper to convert inlines to plain text
-local function inlines_to_text(inlines)
+local function inlines_to_text(slice)
   local parts = {}
-  for _, inline in ipairs(inlines) do
+  for _, inline in ipairs(slice) do
     if inline.t == "Str" then
       table.insert(parts, inline.text)
     elseif inline.t == "Space" then
@@ -25,38 +27,55 @@ local function inlines_to_text(inlines)
   return table.concat(parts)
 end
 
--- Wrap text in bold, smallcaps, and red LaTeX
+-- Wrap text in LaTeX formatting
 local function latex_bold(text)
   return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{\\smallcapstext{" .. string.lower(text) .. "}}}")
 end
 
--- Keyword formatting, unless suppressed
+-- Checks if a keyword matches, stripping trailing punctuation
+local function normalize_keyword(text)
+  return text:match("^(.-)[%.,;:!?]?$")
+end
+
+-- Try matching keyword starting at index i
+local function match_keyword(inlines, i)
+  for len = #inlines - i + 1, 1, -1 do
+    local slice = {}
+    for j = i, i + len - 1 do
+      table.insert(slice, inlines[j])
+    end
+    local raw_text = inlines_to_text(slice)
+    local normalized = normalize_keyword(raw_text)
+    if keywords[normalized] then
+      -- Preserve punctuation by splitting
+      local punctuation = raw_text:match("[%.,;:!?]$")
+      local formatted = latex_bold(normalized)
+      if punctuation then
+        return len, { formatted, pandoc.Str(punctuation) }
+      else
+        return len, { formatted }
+      end
+    end
+  end
+  return nil
+end
+
+-- Main processing logic
 function Inlines(inlines)
   if in_header or skip_formatting then return inlines end
 
   local output = {}
-  for _, inline in ipairs(inlines) do
-    if inline.t == "Str" then
-      local replaced = false
-      for keyword, _ in pairs(keywords) do
-        local start_pos, end_pos = string.find(inline.text, keyword)
-        if start_pos then
-          if start_pos > 1 then
-            table.insert(output, pandoc.Str(string.sub(inline.text, 1, start_pos - 1)))
-          end
-          table.insert(output, latex_bold(keyword))
-          if end_pos < #inline.text then
-            table.insert(output, pandoc.Str(string.sub(inline.text, end_pos + 1)))
-          end
-          replaced = true
-          break
-        end
+  local i = 1
+  while i <= #inlines do
+    local match_len, replacement = match_keyword(inlines, i)
+    if match_len then
+      for _, item in ipairs(replacement) do
+        table.insert(output, item)
       end
-      if not replaced then
-        table.insert(output, inline)
-      end
+      i = i + match_len
     else
-      table.insert(output, inline)
+      table.insert(output, inlines[i])
+      i = i + 1
     end
   end
   return output
@@ -69,17 +88,16 @@ function Header(el)
   return el
 end
 
--- Only apply wikilink formatting if not suppressed
 function Span(el)
   if skip_formatting then return nil end
   if el.classes:includes("wikilink") then
     local text = inlines_to_text(el.content)
-    return latex_bold(text)
+    local normalized = normalize_keyword(text)
+    return latex_bold(normalized)
   end
   return nil
 end
 
--- Suppress formatting inside highlightshowimagebox
 function Div(el)
   if el.classes:includes("highlightshowimagebox") then
     skip_formatting = true

@@ -9,6 +9,22 @@ function Meta(meta)
   }
 end
 
+function Div(el)
+  if el.classes:includes("subsubsubsection") then
+    local latex_content = pandoc.write(pandoc.Pandoc({pandoc.Para(el.content)}), "latex")
+      :gsub("^%s*", "")  -- trim leading whitespace
+      :gsub("%s*$", "")  -- trim trailing whitespace
+
+    return {
+      pandoc.RawBlock("latex", "\\vspace{6pt}"),
+      pandoc.RawBlock("latex", "\\noindent\\textbf{\\textcolor{subsubsubsectioncolor}{"),
+      pandoc.RawBlock("latex", latex_content),
+      pandoc.RawBlock("latex", "}}\n\\vspace{4pt}")
+    }
+  end
+end
+
+
 -- Flatten a bullet list into inline content
 function flatten_bullet_list(blist)
   local new_items = {}
@@ -130,7 +146,7 @@ end
     -- Inject bomb icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faDragon\hspace{0.5em}]])
+        local icon = pandoc.RawInline('latex', [[\faDragon\hspace{0.8em}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
@@ -139,7 +155,7 @@ end
       end
     end
     -- End tcolorbox
-    table.insert(blocks, pandoc.RawBlock('latex', [[\end{tcolorbox}]]))
+    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
     return blocks
 
   -- Image callout box
@@ -166,7 +182,8 @@ end
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faScroll\hspace{0.5em}]])
+        local icon = pandoc.RawInline('latex', [[\faScroll\hspace{0.8em}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
@@ -175,7 +192,7 @@ end
       end
     end
     -- End tcolorbox
-    table.insert(blocks, pandoc.RawBlock('latex', [[\end{tcolorbox}]]))
+    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
     return blocks
   end
   return nil
