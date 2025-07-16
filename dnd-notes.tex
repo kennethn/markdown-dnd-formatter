@@ -110,17 +110,17 @@ $endif$
 
 % Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
-\titleformat{\section}[block]{\stickysection\Large\color{sectioncolor}\headerfont}{}
+\titleformat{\section}[block]{\stickysection\LARGE\color{sectioncolor}\headerfont}{}
   {0pt}{}
 \titleformat{\subsection}[block]
-  {\stickysubsection\large\color{subsectioncolor}\headerfont}
+  {\stickysubsection\Large\color{subsectioncolor}\headerfont}
   {}
   {0pt}
   {}
   [\vspace{1pt}\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\normalsize\color{subsubsectioncolor}\headerfont}
+  {\large\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
   {\stickysubsubsection\normalsize\color{subsubsectioncolor}\headerfont}
@@ -128,6 +128,7 @@ $endif$
 \titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
 \titlespacing*{\subsection}{0pt}{12pt plus 1pt minus 1pt}{10pt}
 \titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
+\titlespacing*{\subsubsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
 
 %\pretocmd{\itemize}{\vspace{6pt}}{}{}
 %\apptocmd{\enditemize}{\vspace{6pt}}{}{}

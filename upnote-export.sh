@@ -59,6 +59,7 @@ PANDOC_OPTS=(
   --pdf-engine=xelatex
   --template=dnd-notes.tex
   --lua-filter=first-h1-big.lua
+  --lua-filter=subsubsubsection.lua
   --lua-filter=highlight-boxes.lua
   --lua-filter=highlight-keywords.lua
   --lua-filter=force-tabular.lua

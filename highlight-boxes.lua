@@ -9,22 +9,6 @@ function Meta(meta)
   }
 end
 
-function Div(el)
-  if el.classes:includes("subsubsubsection") then
-    local latex_content = pandoc.write(pandoc.Pandoc({pandoc.Para(el.content)}), "latex")
-      :gsub("^%s*", "")  -- trim leading whitespace
-      :gsub("%s*$", "")  -- trim trailing whitespace
-
-    return {
-      pandoc.RawBlock("latex", "\\vspace{6pt}"),
-      pandoc.RawBlock("latex", "\\noindent\\textbf{\\textcolor{subsubsubsectioncolor}{"),
-      pandoc.RawBlock("latex", latex_content),
-      pandoc.RawBlock("latex", "}}\n\\vspace{4pt}")
-    }
-  end
-end
-
-
 -- Flatten a bullet list into inline content
 function flatten_bullet_list(blist)
   local new_items = {}
