@@ -130,7 +130,7 @@ end
     -- Inject bomb icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faBomb\hspace{0.5em}]])
+        local icon = pandoc.RawInline('latex', [[\faDragon\hspace{0.5em}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
@@ -166,7 +166,7 @@ end
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faEye\hspace{0.5em}]])
+        local icon = pandoc.RawInline('latex', [[\faScroll\hspace{0.5em}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
