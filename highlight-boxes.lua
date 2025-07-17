@@ -24,7 +24,7 @@ function flatten_bullet_list(blist)
       end
     end
     table.insert(new_items, flat)
-  end
+  en
   return pandoc.BulletList(new_items)
 end
 
@@ -119,10 +119,10 @@ end
     -- Begin encounter box with red styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
-  colback={sectioncolor},
+  colback={red!5!white},
   colframe={sectioncolor},
-  boxrule=0pt,
-  coltext=white,
+  boxrule=0.25pt,
+  coltext={sectioncolor},
   arc=4pt,
   left=4pt,
   right=4pt,
@@ -131,7 +131,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\color{white}}
+  fontupper={\blockquoteFont\small\color{sectioncolor}}
 ]
 ]]))
     -- Inject bomb icon inline into the first paragraph
