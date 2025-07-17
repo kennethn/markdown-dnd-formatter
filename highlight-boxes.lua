@@ -68,7 +68,7 @@ function Div(el)
   local monster_content = insert_itemsep_before_lists(el.content)
 
   local blocks = {
-    pandoc.RawBlock("latex", "\\vfill\\eject"), 
+    pandoc.RawBlock("latex", "\\vfill\\break"), 
     pandoc.RawBlock("latex", "\\begingroup"),
     pandoc.RawBlock("latex", [[
 \makeatletter
@@ -83,14 +83,21 @@ function Div(el)
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 
 
-\renewcommand{\sectionsize}{\Large}
+\renewcommand{\sectionsize}{\LARGE}
 \renewcommand{\subsectionsize}{\normalsize}
 \renewcommand{\subsubsectionsize}{\normalsize}
 
-\titlespacing*{\section}{0pt}{6pt plus 2pt minus 1pt}{4pt}
-\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{4pt}
-\titlespacing*{\subsubsection}{0pt}{4pt plus 1pt minus 1pt}{4pt}
-\titlespacing*{\subsubsubsection}{0pt}{4pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\section}{0pt}{6pt plus 2pt minus 1pt}{2pt}
+\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{4pt plus 1pt minus 1pt}{2pt}
+\titlespacing*{\subsubsubsection}{0pt}{4pt plus 1pt minus 1pt}{2pt}
+
+\titleformat{\subsection}[block]
+  {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfont}
+  {}
+  {0pt}
+  {}
+  [\vspace{0pt}\color{subsectioncolor}\hrule height 1pt]
 % Local override for \tightlist so global version doesn't bleed in
 \def\tightlist{%
   \setlength{\itemsep}{0pt}%
@@ -167,7 +174,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\color{sectioncolor}}
+  fontupper={\fontsize{9pt}{6pt}\selectfont\color{sectioncolor}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
