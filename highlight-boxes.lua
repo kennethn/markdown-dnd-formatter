@@ -24,7 +24,7 @@ function flatten_bullet_list(blist)
       end
     end
     table.insert(new_items, flat)
-  en
+  end
   return pandoc.BulletList(new_items)
 end
 
@@ -126,7 +126,7 @@ end
     -- Begin encounter box with red styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
-  colback={red!5!white},
+  colback=red!5!white,
   colframe={sectioncolor},
   boxrule=0.25pt,
   coltext={sectioncolor},
@@ -138,7 +138,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\color{sectioncolor}}
+  fontupper={\blockquoteFont\small\selectfont\color{sectioncolor}}
 ]
 ]]))
     -- Inject bomb icon inline into the first paragraph
@@ -174,7 +174,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\fontsize{9pt}{6pt}\selectfont\color{sectioncolor}}
+  fontupper={\blockquoteFont\small\selectfont\color{sectioncolor}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
