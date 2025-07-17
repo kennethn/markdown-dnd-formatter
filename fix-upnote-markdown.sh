@@ -153,7 +153,7 @@ if (/^__BODY_LINE__/) {
   s/==([^=]+)==/$1/g;
 
   # Remove the "# Monsters" H1 if it appears alone
-  s/^# Monsters\s*\n//mg;
+  s/^# Monsters\s*\n/\\clearpage/mg;
 
   # Heading cleanup
   if ($prev_line =~ /^###\s*$/ && /^==(.+?)==$/) {
