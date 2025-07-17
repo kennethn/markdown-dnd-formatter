@@ -68,22 +68,29 @@ function Div(el)
   local monster_content = insert_itemsep_before_lists(el.content)
 
   local blocks = {
-    pandoc.RawBlock("latex", "\\clearpage"),
+    pandoc.RawBlock("latex", "\\vfill\\eject"), 
+    pandoc.RawBlock("latex", "\\begingroup"),
     pandoc.RawBlock("latex", [[
-\vspace*{-2\baselineskip}
-\begingroup
+\makeatletter
 \clubpenalty=150
 \widowpenalty=150
 \displaywidowpenalty=150
 \blockquoteFont
-\linespread{1}%
-\fontsize{9pt}{11pt}\selectfont
-\setlength{\parskip}{4pt}
-\setlength{\baselineskip}{11pt}
+\fontsize{9pt}{9pt}\selectfont
+\setlength{\parskip}{3pt}
 \makeatletter
 \setlist[itemize]{left=1.5em, itemsep=0pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 
+
+\renewcommand{\sectionsize}{\Large}
+\renewcommand{\subsectionsize}{\normalsize}
+\renewcommand{\subsubsectionsize}{\normalsize}
+
+\titlespacing*{\section}{0pt}{6pt plus 2pt minus 1pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{4pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\subsubsubsection}{0pt}{4pt plus 1pt minus 1pt}{4pt}
 % Local override for \tightlist so global version doesn't bleed in
 \def\tightlist{%
   \setlength{\itemsep}{0pt}%
@@ -112,11 +119,11 @@ end
     -- Begin encounter box with red styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
-  colback=red!8,
-  colframe=red!60!black,
-  boxrule=0.25pt,
-  coltext=red!60!black,
-  arc=2pt,
+  colback={sectioncolor},
+  colframe={sectioncolor},
+  boxrule=0pt,
+  coltext=white,
+  arc=4pt,
   left=4pt,
   right=4pt,
   top=2pt,
@@ -124,7 +131,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\color{red!60!black}}
+  fontupper={\blockquoteFont\small\color{white}}
 ]
 ]]))
     -- Inject bomb icon inline into the first paragraph
@@ -149,10 +156,10 @@ end
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
   colback=yellow!8,
-  coltext=orange!80!black,
-  colframe=orange!80!black,
+  coltext={sectioncolor},
+  colframe={sectioncolor},
   boxrule=0.25pt,
-  arc=2pt,
+  arc=4pt,
   left=4pt,
   right=4pt,
   top=2pt,
@@ -160,13 +167,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\color{orange!80!black}}
+  fontupper={\blockquoteFont\small\color{sectioncolor}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faScroll\hspace{0.8em}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\faEye\hspace{0.8em}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end

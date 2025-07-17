@@ -93,10 +93,14 @@ if (/^__BODY_LINE__/) {
       my @headers = split /\s*\|\s*/, $header;
       @headers = grep { $_ ne "" } @headers;
       my $cols = scalar(@headers);
-      $_ = "\\begin{flushleft}\n{\\sffamily\\scriptsize\n\\begin{tabular}{" . ("l" x $cols) . "}\n";
+      $_ = "\\begin{center}\n"
+        . "{\\sffamily\\fontsize{7pt}{7pt}\\selectfont\n"
+        . "\\rowcolors{2}{red!5!white}{white}\n"
+        . "\\begin{tabular}{" . ("l" x $cols) . "}\n";
+
       $_ .= "\\toprule\n";
       for my $i (0 .. $#headers) {
-        $headers[$i] =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
+        $headers[$i] =~ s/\*\*(.*?)\*\*/\\sffamily\\fontsize{7pt}{7pt}\\selectfont\\textbf{$1}/g;
         $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
         $headers[$i] =~ s/(<br\s*\/?>)+/\\\\/gi;
         if ($headers[$i] =~ /\\\\/) {
@@ -119,7 +123,7 @@ if (/^__BODY_LINE__/) {
 
         $_ .= join(" & ", @cells) . " \\\\\n";
       }
-      $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{flushleft}\n";
+      $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
     }
     @table_rows = ();
   }

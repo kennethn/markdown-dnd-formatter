@@ -43,7 +43,7 @@ $endif$
 \newfontfamily\emojifont{Noto Color Emoji}
 
 \renewcommand{\blockquoteFont}{\sffamily}
-
+\usepackage{fix-cm}
 
 \pagestyle{plain}
 \raggedbottom
@@ -65,6 +65,7 @@ $endif$
 % Page layout
 \usepackage[paper=letterpaper,top=0.35in,bottom=0.50in,left=0.35in,right=0.35in]{geometry}
 \setlength{\columnsep}{24pt}
+\usepackage{needspace}
 
 % Hyperlinks (no colors)
 \usepackage[hidelinks]{hyperref}
@@ -81,13 +82,25 @@ $endif$
 \renewcommand{\textbf}[1]{\oldtextbf{\textcolor{keywordcolor}{#1}}}
 
 \renewenvironment{quote}
-  {\par
-   \begin{tcolorbox}[myquote,
-     before upper={
-       \let\textbf\oldtextbf
-     }
-   ]}
-  {\end{tcolorbox}\par}
+  {%
+    \begingroup
+      % restore normal indent & spacing
+      \setlength{\parindent}{1em}%
+      \setlength{\parskip}{0pt}%
+      \begin{tcolorbox}[myquote,
+        before upper={%
+          \let\textbf\oldtextbf
+          % <-- set indent & skip *inside* the box
+          \setlength{\parindent}{1em}%
+          \setlength{\parskip}{0pt}%
+          \noindent              % <-- suppress *first* paragraph indent
+        }%
+      ]%
+  }
+  {%
+      \end{tcolorbox}%
+    \endgroup
+  }
 
 \usepackage{etoolbox}
 \makeatletter
@@ -110,28 +123,30 @@ $endif$
 
 % Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
-\titleformat{\section}[block]{\stickysection\LARGE\color{sectioncolor}\headerfont}{}
+
+\newcommand{\sectionsize}{\LARGE}
+\newcommand{\subsectionsize}{\Large}
+\newcommand{\subsubsectionsize}{\large}
+
+\titleformat{\section}[block]{\stickysection\sectionsize\color{sectioncolor}\headerfont}{}
   {0pt}{}
 \titleformat{\subsection}[block]
-  {\stickysubsection\Large\color{subsectioncolor}\headerfont}
+  {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfont}
   {}
   {0pt}
   {}
   [\vspace{1pt}\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\large\color{subsubsectioncolor}\headerfont}
+  {\subsubsectionsize\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
-  {\stickysubsubsection\normalsize\color{subsubsectioncolor}\headerfont}
+  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
   [\vspace{1pt}\color{subsubsectioncolor}\hrule height 1pt]
 \titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
 \titlespacing*{\subsection}{0pt}{12pt plus 1pt minus 1pt}{10pt}
 \titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
 \titlespacing*{\subsubsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
-
-%\pretocmd{\itemize}{\vspace{6pt}}{}{}
-%\apptocmd{\enditemize}{\vspace{6pt}}{}{}
 
 % Page numbering bottom-right
 \usepackage{fancyhdr}
@@ -164,13 +179,21 @@ $endif$
 \usepackage{amssymb} % for \square
 
 
+% Indent second+ paragraphs in blockquotes
+\usepackage{quoting}
+\quotingsetup{
+  leftmargin=2em,    % same as quote’s \leftmargin
+  rightmargin=2em,   % same as quote’s \rightmargin
+  vskip=0pt,         % no extra vertical space
+  indentfirst=false  % ⟵ first par flush left
+}
+
 % Blockquote style (D&D-style box with Sans Serif)
 \usepackage[most]{tcolorbox}
-\definecolor{quoteboxbg}{gray}{0.95}
 \tcbset{myquote/.style={
   breakable,
   enhanced,
-  colback=black!8!white, 
+  colback=red!8!white, 
   boxrule=0pt,
   arc=0pt,
   left=6pt,
@@ -189,15 +212,6 @@ $endif$
     \setlength{\baselineskip}{14pt}%
   }
 }}
-
-% % Fix tightlist error
-% \providecommand{\tightlist}{%
-%   \setlength{\itemsep}{0pt}
-%   \setlength{\topsep}{0pt}
-%   \setlength{\parsep}{0pt}
-%   \setlength{\parskip}{0pt}
-%   \setlength{\partopsep}{0pt}
-% }
 
 % Always override item spacing for itemize outside monsterblocks
 \setlist[itemize]{itemsep=6pt, topsep=10pt, parsep=0pt, partopsep=0pt}
@@ -279,25 +293,6 @@ $endif$
 \patchcmd{\@description}{\parskip\z@}{\parskip=0pt}{}{}
 \makeatother
 
-
-% From previous debugging, I don't believe we need this anymore but keeping to be safe
-% \AtBeginEnvironment{itemize}{
-%   \setlength{\parskip}{0pt}
-%   \setlength{\itemsep}{4pt}
-%   \setlength{\topsep}{10pt}
-%   \setlength{\parsep}{0pt}
-%   \setlength{\partopsep}{0pt}
-%   \linespread{1}\selectfont
-% }
-% \AtBeginEnvironment{enumerate}{
-%   \setlength{\parskip}{0pt}
-%   \setlength{\itemsep}{4pt}
-%   \setlength{\topsep}{10pt}
-%   \setlength{\parsep}{0pt}
-%   \setlength{\partopsep}{0pt}
-%   \linespread{1}\selectfont
-% }
-% \AtBeginEnvironment{description}{\setlength{\parskip}{4pt}}
 
 \usepackage{changepage} % For adjustwidth environment
 
