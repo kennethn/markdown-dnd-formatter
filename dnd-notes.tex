@@ -12,12 +12,14 @@
 \linespread{1.2}
 \newcommand{\smallcapstext}[1]{%
 % TODO: find out how to load separate font for smallcaps
-  {\textcolor{keywordcolor}{\textbf{#1}}} 
+  {\textcolor{keywordcolor}{\textbf\textsc{#1}}} 
 }
 
 \usepackage{fontawesome5}
 
-\setmainfont{Alegreya}
+\usepackage[T1]{fontenc}
+\usepackage{Alegreya}
+
 
 \newfontfamily\blockquoteFont{Ysabeau Office}[
   Ligatures=TeX,
