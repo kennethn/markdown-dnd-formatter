@@ -52,6 +52,11 @@
 % Turn off hyphenation
 \usepackage[none]{hyphenat}
 
+
+\usepackage{parskip}
+\setlength{\parskip}{8pt} % flexible ~20pt spacing
+\setlength{\parindent}{0pt} % no indent for first lines
+
 % Needed to prevent orphaned headings
 \usepackage{needspace}
 \newcommand{\stickysection}{\needspace{5\baselineskip}}
@@ -102,6 +107,15 @@
     \endgroup
   }
 
+% Make multi‑paragraph quotes use the same tcolorbox as 'quote'
+\renewenvironment{quotation}
+  {\begin{quote}}
+  {\end{quote}}
+\makeatletter
+\let\quotation\quote
+\let\endquotation\endquote
+\makeatother
+
 \usepackage{etoolbox}
 \makeatletter
 % Remove vertical space before \section at top of page
@@ -115,11 +129,6 @@
   {}{}
 \makeatother
 
-
-
-\usepackage{parskip}
-\setlength{\parskip}{8pt} % flexible ~20pt spacing
-\setlength{\parindent}{0pt} % no indent for first lines
 
 % Section formatting (no numbering, with colors and spacing)
 \usepackage{titlesec}
@@ -177,16 +186,6 @@
 
 % Support for checkboxes
 \usepackage{amssymb} % for \square
-
-
-% Indent second+ paragraphs in blockquotes
-\usepackage{quoting}
-\quotingsetup{
-  leftmargin=2em,    % same as quote’s \leftmargin
-  rightmargin=2em,   % same as quote’s \rightmargin
-  vskip=0pt,         % no extra vertical space
-  indentfirst=false  % ⟵ first par flush left
-}
 
 % Blockquote style (D&D-style box with Sans Serif)
 \usepackage[most]{tcolorbox}
