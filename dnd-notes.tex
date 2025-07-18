@@ -1,4 +1,4 @@
-\documentclass[12pt,twocolumn]{article}
+\documentclass[11pt,twocolumn]{article}
 
 % Font and encoding
 \usepackage{fontspec}
@@ -17,10 +17,7 @@
 
 \usepackage{fontawesome5}
 
-\setmainfont{Alegreya}[
-  SmallCapsFeatures={Letters=SmallCaps}
-]
-
+\setmainfont{Alegreya}
 
 \newfontfamily\blockquoteFont{Ysabeau Office}[
   Ligatures=TeX,
@@ -89,7 +86,7 @@
         before upper={%
           \let\textbf\oldtextbf
           % <-- set indent & skip *inside* the box
-          \setlength{\parindent}{1em}%
+          \setlength{\parindent}{1.5em}%
           \setlength{\parskip}{0pt}%
           \noindent              % <-- suppress *first* paragraph indent
         }%
@@ -206,8 +203,8 @@
   sharp corners,
   fontupper=\blockquoteFont\small,
   before upper={%
-    \setlength{\parskip}{6pt}%
-    \setlength{\baselineskip}{14pt}%
+    \setlength{\parskip}{4pt}%
+    \setlength{\baselineskip}{10pt}%
   }
 }}
 

@@ -6,13 +6,16 @@ function Header(el)
     local content = pandoc.utils.stringify(el.content)
     return pandoc.RawBlock("latex", [[
 \begingroup
+\begin{center}
+\fontsize{36pt}{36pt}\color{highlightcolor}\selectfont
+\faDiceD20
+\\
 \LARGE\color{sectioncolor}\headerfont
-\faCertificate
-\\[-2pt]
 ]] .. content .. [[
 \\[-18pt]
 \color{sectioncolor}\rule{\linewidth}{2pt}
 \\[-2pt]
+\end{center}
 \endgroup
 ]])
   else
