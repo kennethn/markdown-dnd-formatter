@@ -29,8 +29,8 @@ end
 
 -- Wrap text in LaTeX formatting
 local function latex_bold(text)
-  return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{" .. text .. "}}")
---   return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{\\smallcapstext{" .. string.lower(text) .. "}}}")
+ -- return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{" .. text .. "}}")
+     return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{\\textsc{" .. string.lower(text) .. "}}}")
 end
 
 -- Checks if a keyword matches, stripping trailing punctuation

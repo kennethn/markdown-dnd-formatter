@@ -127,7 +127,7 @@ end
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
   colback={encountercolor},
-  colframe={sectioncolor},
+  colframe=black,
   boxrule=0.5pt,
   coltext=black,
   arc=4pt,
