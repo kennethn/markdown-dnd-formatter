@@ -1,10 +1,4 @@
-$if(layout.onecolumn)$
-\documentclass[11pt,onecolumn]{article}
-$elseif(layout.landscape)$
-\documentclass[11pt,landscape]{article}
-$else$
-\documentclass[11pt,twocolumn]{article}
-$endif$
+\documentclass[12pt,twocolumn]{article}
 
 % Font and encoding
 \usepackage{fontspec}
@@ -17,12 +11,13 @@ $endif$
 
 \linespread{1.2}
 \newcommand{\smallcapstext}[1]{%
-  {\addfontfeatures{Letters=SmallCaps,LetterSpace=2.0}\textcolor{keywordcolor}{\textbf{#1}}}%
+% TODO: find out how to load separate font for smallcaps
+  {\textcolor{keywordcolor}{\textbf{#1}}} 
 }
 
 \usepackage{fontawesome5}
 
-\setmainfont{XCharter}[
+\setmainfont{Alegreya}[
   SmallCapsFeatures={Letters=SmallCaps}
 ]
 
