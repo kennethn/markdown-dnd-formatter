@@ -71,14 +71,18 @@ $endif$
 
 % Colors for headings
 \usepackage{xcolor}
-\definecolor{sectioncolor}{HTML}{8B0000}       % Dark Red
-\definecolor{subsectioncolor}{HTML}{8B0000}    % Dark Red
-\definecolor{subsubsectioncolor}{HTML}{8B0000} % Dark Red
-\definecolor{subsubsubsectioncolor}{HTML}{8B0000} % Dark Red
+\definecolor{sectioncolor}{HTML}{B85042}      
+\definecolor{subsectioncolor}{HTML}{B85042}    
+\definecolor{subsubsectioncolor}{HTML}{B85042} 
+\definecolor{subsubsubsectioncolor}{HTML}{B85042} 
 
-\definecolor{keywordcolor}{HTML}{8B0000}
+\definecolor{keywordcolor}{HTML}{B85042}
 \let\oldtextbf\textbf
 \renewcommand{\textbf}[1]{\oldtextbf{\textcolor{keywordcolor}{#1}}}
+
+\definecolor{highlightcolor}{HTML}{E7E8D1}
+\definecolor{encountercolor}{HTML}{dfaca5}
+\definecolor{imagecolor}{HTML}{A7BEAE}
 
 \renewenvironment{quote}
   {%
@@ -192,7 +196,7 @@ $endif$
 \tcbset{myquote/.style={
   breakable,
   enhanced,
-  colback=gray!20!white, 
+  colback={highlightcolor},
   boxrule=0pt,
   arc=0pt,
   left=6pt,
@@ -202,8 +206,8 @@ $endif$
   boxsep=4pt,
   before skip=12pt,
   after skip=12pt,
-  borderline west={1.5pt}{0pt}{red!70!black},
-  borderline east={1.5pt}{0pt}{red!70!black},
+  borderline west={1.5pt}{0pt}{keywordcolor},
+  borderline east={1.5pt}{0pt}{keywordcolor},
   sharp corners,
   fontupper=\blockquoteFont\small,
   before upper={%
@@ -234,8 +238,6 @@ $endif$
   {\begin{tcolorbox}[
     enhanced,
     breakable,
-    colback=red!10,
-    colframe=red!70!black,
     boxrule=0pt,
     arc=2pt,
     left=6pt,
@@ -254,7 +256,7 @@ $endif$
       \setlength{\baselineskip}{8pt}
     },
     after upper={\par\vspace{10pt}}
-  ]{\symbolsfont \textcolor{red!70!black}{⚔}~\textbf{Encounter:}} \par}
+  ]{\symbolsfont \textcolor{black}{⚔}~\textbf{Encounter:}} \par}
   {\end{tcolorbox}}
 
 \newenvironment{highlightshowimagebox}

@@ -95,7 +95,7 @@ if (/^__BODY_LINE__/) {
       my $cols = scalar(@headers);
       $_ = "\\begin{center}\n"
         . "{\\sffamily\\fontsize{7pt}{7pt}\\selectfont\n"
-        . "\\rowcolors{2}{red!5!white}{white}\n"
+        . "\\rowcolors{2}{highlightcolor}{white}\n"
         . "\\begin{tabular}{" . ("l" x $cols) . "}\n";
 
       $_ .= "\\toprule\n";

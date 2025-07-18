@@ -123,13 +123,13 @@ end
   
   if el.classes:includes('highlightencounterbox') then
     local blocks = {}
-    -- Begin encounter box with red styling
+    -- Begin encounter box with styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
-  colback=red!5!white,
+  colback={encountercolor},
   colframe={sectioncolor},
-  boxrule=0.25pt,
-  coltext={sectioncolor},
+  boxrule=0.5pt,
+  coltext=black,
   arc=4pt,
   left=4pt,
   right=4pt,
@@ -138,7 +138,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\selectfont\color{sectioncolor}}
+  fontupper={\blockquoteFont\small\selectfont\color{black}}
 ]
 ]]))
     -- Inject bomb icon inline into the first paragraph
@@ -159,13 +159,13 @@ end
   -- Image callout box
   elseif el.classes:includes('highlightshowimagebox') then
     local blocks = {}
-    -- Begin image box with orange styling
+    -- Begin image box with styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
-  colback=yellow!8,
-  coltext={sectioncolor},
-  colframe={sectioncolor},
-  boxrule=0.25pt,
+  colback={imagecolor},
+  coltext=black,
+  colframe={imagecolor},
+  boxrule=0.5pt,
   arc=4pt,
   left=4pt,
   right=4pt,
@@ -174,7 +174,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\selectfont\color{sectioncolor}}
+  fontupper={\blockquoteFont\small\selectfont\color{black}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
