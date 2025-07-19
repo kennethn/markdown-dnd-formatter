@@ -1,33 +1,71 @@
 \documentclass[11pt,twocolumn]{article}
 
 % Font and encoding
-\usepackage{fontspec}
 \usepackage{microtype}
 \usepackage{soul}            % for underlines
 \usepackage[normalem]{ulem} % prevents soul/ulem conflicts
+\usepackage{fontawesome5}
+\usepackage[T1]{fontenc}
+\usepackage{Alegreya}
+\usepackage{fontspec}
+\usepackage[document]{ragged2e}
+\RaggedRight
+% Turn off hyphenation
+\usepackage[none]{hyphenat}
+\usepackage{parskip}
+\setlength{\parskip}{8pt} % flexible ~20pt spacing
+\setlength{\parindent}{0pt} % no indent for first lines
+% Needed to prevent orphaned headings
+\usepackage{needspace}
+
+% Hyperlinks (no colors)
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+
+% Page layout
+\usepackage[paper=letterpaper,top=0.35in,bottom=0.50in,left=0.35in,right=0.35in]{geometry}
+\setlength{\columnsep}{24pt}
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+
+
+% Page numbering bottom-right
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+
+% Support for tables
+\usepackage{longtable}       % For multi-page tables
+\usepackage{booktabs}        % For better-looking tables (\toprule, \midrule, \bottomrule)
+\usepackage{array}           % For custom column formatting
+\usepackage{multirow}        % Optional: for rowspan-style cells
+\usepackage{colortbl}        % Optional: for cell shading
+\usepackage{tabularx}        % Optional: for auto-width tables       %
+
+\usepackage[most]{tcolorbox}
+
+\newcommand{\stickysection}{\needspace{5\baselineskip}}
+\newcommand{\stickysubsection}{\needspace{4\baselineskip}}
+\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
+
+% Section formatting (no numbering, with colors and spacing)
+\newcommand{\sectionsize}{\LARGE}
+\newcommand{\subsectionsize}{\Large}
+\newcommand{\subsubsectionsize}{\large}
 
 \renewcommand{\ULdepth}{0.5ex}  % adjust this value to move the underline
 \renewcommand{\ULthickness}{0.03em}  % underline thickness
 
 \linespread{1.2}
-\newcommand{\smallcapstext}[1]{%
-% TODO: find out how to load separate font for smallcaps
-  {\textcolor{keywordcolor}{\textbf\textsc{#1}}} 
-}
 
-\usepackage{fontawesome5}
-
-\usepackage[T1]{fontenc}
-\usepackage{Alegreya}
-\usepackage{fontspec}
     \newfontfamily\AlegreyaSC{Alegreya SC}
     \renewcommand{\textsc}[1]{{\AlegreyaSC#1}}
 
 
 \newfontfamily\blockquoteFont{Ysabeau Office}[
   Ligatures=TeX,
-  Numbers=Lining,
-  Letters=SmallCaps
+  Numbers=Lining
 ]
 \newfontfamily\headerfont{Ysabeau SC SemiBold}[
   Ligatures=TeX,
@@ -35,44 +73,13 @@
   Scale=1.05
 ]
 
-% Define emoji font for Unicode emoji ranges
-\newfontfamily\emojifont{Noto Color Emoji}
-
-\renewcommand{\blockquoteFont}{\sffamily}
-\usepackage{fix-cm}
-
 \pagestyle{plain}
 \raggedbottom
 
-% No full justification
+% \usepackage{needspace}
 
-\usepackage[document]{ragged2e}
-\RaggedRight
-
-% Turn off hyphenation
-\usepackage[none]{hyphenat}
-
-
-\usepackage{parskip}
-\setlength{\parskip}{8pt} % flexible ~20pt spacing
-\setlength{\parindent}{0pt} % no indent for first lines
-
-% Needed to prevent orphaned headings
-\usepackage{needspace}
-\newcommand{\stickysection}{\needspace{5\baselineskip}}
-\newcommand{\stickysubsection}{\needspace{4\baselineskip}}
-\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
-
-% Page layout
-\usepackage[paper=letterpaper,top=0.35in,bottom=0.50in,left=0.35in,right=0.35in]{geometry}
-\setlength{\columnsep}{24pt}
-\usepackage{needspace}
-
-% Hyperlinks (no colors)
-\usepackage[hidelinks]{hyperref}
 
 % Colors for headings
-\usepackage{xcolor}
 \definecolor{sectioncolor}{HTML}{B85042}      
 \definecolor{subsectioncolor}{HTML}{B85042}    
 \definecolor{subsubsectioncolor}{HTML}{B85042} 
@@ -108,15 +115,14 @@
   }
 
 % Make multi‑paragraph quotes use the same tcolorbox as 'quote'
-\renewenvironment{quotation}
-  {\begin{quote}}
-  {\end{quote}}
-\makeatletter
-\let\quotation\quote
-\let\endquotation\endquote
-\makeatother
+% \renewenvironment{quotation}
+%   {\begin{quote}}
+%   {\end{quote}}
+% \makeatletter
+% \let\quotation\quote
+% \let\endquotation\endquote
+% \makeatother
 
-\usepackage{etoolbox}
 \makeatletter
 % Remove vertical space before \section at top of page
 \patchcmd{\@startsection}
@@ -130,12 +136,6 @@
 \makeatother
 
 
-% Section formatting (no numbering, with colors and spacing)
-\usepackage{titlesec}
-
-\newcommand{\sectionsize}{\LARGE}
-\newcommand{\subsectionsize}{\Large}
-\newcommand{\subsubsectionsize}{\large}
 
 \titleformat{\section}[block]{\stickysection\sectionsize\color{sectioncolor}\headerfont}{}
   {0pt}{}
@@ -157,38 +157,24 @@
 \titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
 \titlespacing*{\subsubsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
 
-% Page numbering bottom-right
-\usepackage{fancyhdr}
-\usepackage{enumitem}
-\usepackage{amsfonts}
+% Stylize bullets in itemize lists
 \setlist[itemize,1]{label=\textcolor{keywordcolor}{\textbullet}}
 \setlist[itemize,2]{label=\textbullet}
 \setlist[itemize,3]{label=\textcolor{keywordcolor}{\textendash}}
-
+\setlist[itemize]{itemsep=10pt, topsep=10pt, parsep=0pt, partopsep=0pt}
 
 \fancyhf{}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \pagestyle{fancy}
 \setlength{\footskip}{15pt}
-\usepackage{enumitem}
-\setlist[itemize]{itemsep=10pt, topsep=10pt, parsep=0pt, partopsep=0pt}
+% \usepackage{enumitem}
 
-
-% Support for tables
-\usepackage{longtable}       % For multi-page tables
-\usepackage{booktabs}        % For better-looking tables (\toprule, \midrule, \bottomrule)
-\usepackage{array}           % For custom column formatting
-\usepackage{multirow}        % Optional: for rowspan-style cells
-\usepackage{colortbl}        % Optional: for cell shading
-\usepackage{tabularx}        % Optional: for auto-width tables
-\usepackage{xcolor}          %
 
 % Support for checkboxes
-\usepackage{amssymb} % for \square
+% \usepackage{amssymb} % for \square
 
 % Blockquote style (D&D-style box with Sans Serif)
-\usepackage[most]{tcolorbox}
 \tcbset{myquote/.style={
   breakable,
   enhanced,
@@ -280,9 +266,6 @@
   ]{\symbolsfont \textcolor{orange!90!black}{◆}~\textbf{Show image:}} \par}
   {\end{tcolorbox}}
 
-% suppress opening top margin
-\usepackage{etoolbox}
-
 \makeatletter
 % Suppress \parskip within list environments
 \patchcmd{\@itemize}{\parskip\z@}{\parskip=0pt}{}{}
@@ -291,7 +274,7 @@
 \makeatother
 
 
-\usepackage{changepage} % For adjustwidth environment
+% \usepackage{changepage} % For adjustwidth environment
 
 \begin{document}
 
