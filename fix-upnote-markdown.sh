@@ -147,7 +147,12 @@ if (/^__BODY_LINE__/) {
   s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
 
   unless ($in_table) {
-    s/<br>//gi;
+    # If the line starts with > and contains <br>, split into multiple > lines
+    if (/^>\s?.*<br\s*\/?>/i) {
+      s/<br\s*\/?>/\n> /gi;
+    } else {
+      s/<br\s*\/?>//gi;
+    }
   }
 
   s/==([^=]+)==/$1/g;
