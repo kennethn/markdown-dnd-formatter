@@ -20,6 +20,7 @@ $endif$
 \usepackage[none]{hyphenat}
 \usepackage{parskip}
 \usepackage{needspace}
+\usepackage{amssymb}
 
 % Hyperlinks (no colors)
 \usepackage[hidelinks]{hyperref}
@@ -29,6 +30,7 @@ $endif$
 \usepackage[paper=letterpaper,top=0.35in,bottom=0.50in,left=0.35in,right=0.35in]{geometry}
 \usepackage{titlesec}
 \usepackage{etoolbox}
+\usepackage[all]{nowidow}
 
 % Page numbering and headers/footers
 \usepackage{fancyhdr}
@@ -79,6 +81,8 @@ $endif$
   Numbers=Lining,
   Scale=1.05
 ]
+
+\newfontfamily\emojifont{Noto Color Emoji}
 
 % =========================
 % 4. Section Formatting
@@ -170,9 +174,16 @@ $endif$
 \pagestyle{fancy}
 \setlength{\footskip}{15pt}
 
-\clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
-\widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
-\displaywidowpenalty=10000
+% \clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
+% \widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
+% \displaywidowpenalty=10000
+
+\clubpenalty=9996
+\widowpenalty=9999
+\brokenpenalty=4991
+\predisplaypenalty=10000
+\postdisplaypenalty=1549
+\displaywidowpenalty=1602
 
 % =========================
 % 9. Environments and Boxes
