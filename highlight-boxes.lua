@@ -126,6 +126,8 @@ end
     -- Begin encounter box with styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
+  enhanced,
+  breakable,
   colback={encountercolor},
   colframe=black,
   boxrule=1pt,

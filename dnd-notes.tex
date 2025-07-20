@@ -65,9 +65,10 @@
 \newfontfamily\AlegreyaSC{Alegreya SC}
 \renewcommand{\textsc}[1]{{\AlegreyaSC#1}}
 
-\newfontfamily\blockquoteFont{Ysabeau Office}[
+\newfontfamily\blockquoteFont{Ysabeau}[
   Ligatures=TeX,
-  Numbers=Lining
+  Numbers=Lining, 
+  Mapping=tex-text               
 ]
 \newfontfamily\headerfont{Ysabeau SC SemiBold}[
   Ligatures=TeX,
@@ -217,57 +218,6 @@
     \setlength{\baselineskip}{10pt}%
   }
 }}
-
-% Highlighting fenced Divs for Encounter and Show Image boxes
-\newenvironment{highlightencounterbox}
-  {\begin{tcolorbox}[
-    enhanced,
-    breakable,
-    boxrule=0pt,
-    arc=2pt,
-    left=6pt,
-    right=6pt,
-    top=2pt,
-    bottom=2pt,
-    boxsep=4pt,
-    before skip=6pt,
-    after skip=6pt,
-    fontupper=\blockquoteFont\footnotesize,
-    before upper={
-      \blockquoteFont
-      \scriptsize
-      \selectfont
-      \setlength{\parskip}{5pt}
-      \setlength{\baselineskip}{8pt}
-    },
-    after upper={\par\vspace{10pt}}
-  ]{\symbolsfont \textcolor{black}{⚔}~\textbf{Encounter:}} \par}
-  {\end{tcolorbox}}
-
-\newenvironment{highlightshowimagebox}
-  {\begin{tcolorbox}[
-    enhanced,
-    breakable,
-    colback=yellow!10,
-    colframe=orange!90!black,
-    boxrule=0pt;
-    frame style={draw=orange!90!black, line width=1pt},
-    arc=2pt,
-    left=6pt,
-    right=6pt,
-    top=2pt,
-    bottom=2pt,
-    boxsep=4pt,
-    before skip=6pt,
-    after skip=6pt,
-    fontupper=\blockquoteFont\footnotesize,
-    before upper={%
-      \setlength{\parskip}{5pt}
-      \setlength{\baselineskip}{8pt}
-    }
-    after upper={\par\vspace{10pt}}
-  ]{\symbolsfont \textcolor{orange!90!black}{◆}~\textbf{Show image:}} \par}
-  {\end{tcolorbox}}
 
 % =========================
 % 10. Miscellaneous Tweaks
