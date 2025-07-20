@@ -90,10 +90,12 @@ if (/^__BODY_LINE__/) {
     if (@table_rows >= 2) {
       my $header = shift @table_rows;
       my $divider = shift @table_rows;
-      my @headers = split /\s*\|\s*/, $header;
+      my @headers = split /\|/, $header;
+      @headers = map { s/^\s+|\s+$//gr } @headers;         # Trim whitespace
+      @headers = grep { $_ ne "" } @headers;               # Remove empties
 
-    # Defensive fix: if no headers found, fallback to 3 blank columns
-    @headers = ("~", "~", "~") if scalar(@headers) < 1;
+      # Defensive fix: fallback if nothing is left
+      @headers = ("~", "~") if scalar(@headers) < 1;
       @headers = map { $_ =~ /^\s*$/ ? "~" : $_ } @headers;
       my $cols = scalar(@headers);
       $_ = "\\begin{center}\n"
