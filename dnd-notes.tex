@@ -52,6 +52,9 @@ $endif$
 % Colored boxes
 \usepackage[most]{tcolorbox}
 
+% Graphics
+\usepackage{graphicx}
+
 % =========================
 % 2. Global Settings
 % =========================
@@ -188,6 +191,12 @@ $endif$
 % =========================
 % 9. Environments and Boxes
 % =========================
+
+% Graphics
+\setkeys{Gin}{width=0.48\textwidth, keepaspectratio}
+\providecommand{\maxwidth}{\linewidth}
+\providecommand{\maxheight}{0.9\textheight}
+\providecommand{\pandocbounded}[1]{#1}
 
 \renewenvironment{quote}
   {%

@@ -143,7 +143,7 @@ if (/^__BODY_LINE__/) {
  s/([\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1F1E6}-\x{1F1FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}])/
   "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"
 /ge;
-
+  
   # Find H4 - #### and convert to subsubsubsection
   s{^#### (.+)$}{::: {.subsubsubsection}\n$1\n:::}gm;
 
@@ -162,6 +162,9 @@ if (/^__BODY_LINE__/) {
 
   # Remove the "# Monsters" H1 if it appears alone
   s/^# Monsters\s*\n/\\clearpage/mg;
+
+  # Convert <br> after images to line break
+  s{(!\[[^\]]*\]\([^)]+\))\n(?!\n)}{$1\n\n}g;
 
   # Heading cleanup
   if ($prev_line =~ /^###\s*$/ && /^==(.+?)==$/) {

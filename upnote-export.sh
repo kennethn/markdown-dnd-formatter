@@ -31,6 +31,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional args
 
 INPUT="$1"
+INPUT_DIR="$(dirname "$INPUT")"
 
 if [ -z "$INPUT" ]; then
   echo "Usage: $0 [--onecolumn] [--landscape] input.md"
@@ -56,6 +57,7 @@ fi
 # Build Pandoc options
 PANDOC_OPTS=(
   --standalone
+  --from markdown+raw_attribute+yaml_metadata_block+inline_code_attributes
   --pdf-engine=xelatex
   --template=dnd-notes.tex
   --lua-filter=first-h1-big.lua
@@ -66,6 +68,7 @@ PANDOC_OPTS=(
   --lua-filter=fix-heading-list-spacing.lua
   -V tables=false
   --number-sections=false
+  --resource-path="$INPUT_DIR"
 )
 
 # Add layout metadata
