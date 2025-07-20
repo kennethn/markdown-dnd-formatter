@@ -91,7 +91,10 @@ if (/^__BODY_LINE__/) {
       my $header = shift @table_rows;
       my $divider = shift @table_rows;
       my @headers = split /\s*\|\s*/, $header;
-      @headers = grep { $_ ne "" } @headers;
+
+    # Defensive fix: if no headers found, fallback to 3 blank columns
+    @headers = ("~", "~", "~") if scalar(@headers) < 1;
+      @headers = map { $_ =~ /^\s*$/ ? "~" : $_ } @headers;
       my $cols = scalar(@headers);
       $_ = "\\begin{center}\n"
         . "{\\sffamily\\fontsize{7pt}{7pt}\\selectfont\n"
