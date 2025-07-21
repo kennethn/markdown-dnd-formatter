@@ -74,16 +74,8 @@ This creates a cleaned file like:
 
 - Two-column layout with tight spacing and good readability
 - Styled blockquotes like D&D boxed text
-- Callout boxes with icons and borders:
-  - ⚔ **Encounter** (red)
-  - ◆ **Show image** (yellow)
-- Full font control: serif body, sans-serif UI text, emoji/symbol font
-- Widow and orphan protection for paragraph layout
+- Callout boxes with icons and borders. Use these keywords:
+  - **Encounter:"** Text following this will be rendered in a red box with skull icon
+  - **Image:** Text following this will be rendered in a yellow box with an image icon
+- Monster stat blocks. Anything after "# Monsters" will be treated as a monster stat block
 - Optional automatic bolding and color for keywords like character names
-- Markdown-based workflow, no Word 
-
---
-
-## TODO:
-
-* Import an NPC names file and pass that to `highlight-keywords.lua`
