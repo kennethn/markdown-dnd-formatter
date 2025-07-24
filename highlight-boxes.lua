@@ -79,7 +79,7 @@ function Div(el)
 \fontsize{9pt}{9pt}\selectfont
 \setlength{\parskip}{3pt}
 \makeatletter
-\setlist[itemize]{left=1.5em, itemsep=0pt, topsep=6pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{left=1.5em, itemsep=1pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 
 

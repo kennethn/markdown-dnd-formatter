@@ -129,15 +129,14 @@ $endif$
 \setlist[itemize,1]{label=\textcolor{keywordcolor}{\textbullet}}
 \setlist[itemize,2]{label=\textbullet}
 \setlist[itemize,3]{label=\textcolor{keywordcolor}{\textendash}}
-\setlist[itemize]{itemsep=10pt, topsep=10pt, parsep=0pt, partopsep=0pt}
 
 % Always override item spacing for itemize outside monsterblocks
-\setlist[itemize]{itemsep=6pt, topsep=10pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{itemsep=4pt, topsep=0pt, parsep=0pt, partopsep=0pt}
 
 % Ensure Pandoc-generated \tightlist honors this too
 \providecommand{\tightlist}{
-  \setlength{\itemsep}{6pt}
-  \setlength{\topsep}{10pt}
+  \setlength{\itemsep}{4pt}
+  \setlength{\topsep}{0pt}
   \setlength{\parsep}{0pt}
   \setlength{\parskip}{0pt}
   \setlength{\partopsep}{0pt}
