@@ -75,33 +75,45 @@ function Div(el)
 \clubpenalty=150
 \widowpenalty=150
 \displaywidowpenalty=150
-\blockquoteFont
-\fontsize{9pt}{9pt}\selectfont
-\setlength{\parskip}{3pt}
+\monsterFont
+\fontsize{10pt}{10pt}\selectfont
+\setlength{\parskip}{2pt}
 \makeatletter
 \setlist[itemize]{left=1.5em, itemsep=1pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 
-
-\renewcommand{\sectionsize}{\LARGE}
+\renewcommand{\sectionsize}{\Large}
 \renewcommand{\subsectionsize}{\normalsize}
 \renewcommand{\subsubsectionsize}{\normalsize}
 
-\titlespacing*{\section}{0pt}{6pt plus 2pt minus 1pt}{2pt}
-\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{2pt}
-\titlespacing*{\subsubsection}{0pt}{4pt plus 1pt minus 1pt}{2pt}
-\titlespacing*{\subsubsubsection}{0pt}{4pt plus 1pt minus 1pt}{2pt}
+\titlespacing*{\section}{0pt}{6pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{4pt}{2pt}
+\titlespacing*{\subsubsubsection}{0pt}{4pt}{2pt}
+
+\titleformat{\section}[block]
+  {\stickysubsection\sectionsize\color{sectioncolor}\headerfont}
+  {}
+  {0pt}
+  {}
+  [\vspace{0.5pt}\color{sectioncolor}\hrule height 1pt]
 
 \titleformat{\subsection}[block]
   {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfont}
   {}
   {0pt}
   {}
-  [\vspace{0pt}\color{subsectioncolor}\hrule height 1pt]
+  [\color{subsectioncolor}]
+\titleformat{\subsubsection}[block]
+  {\stickysubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
+  {}
+  {0pt}
+  {}
+  [\color{subsubsectioncolor}]
 % Local override for \tightlist so global version doesn't bleed in
 \def\tightlist{%
   \setlength{\itemsep}{0pt}%
-  \setlength{\topsep}{6pt}%
+  \setlength{\topsep}{4pt}%
   \setlength{\parsep}{0pt}%
   \setlength{\parskip}{0pt}%
   \setlength{\partopsep}{0pt}%

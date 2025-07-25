@@ -79,10 +79,17 @@ $endif$
   Numbers=Lining, 
   Mapping=tex-text               
 ]
-\newfontfamily\headerfont{Ysabeau SC SemiBold}[
+\newfontfamily\headerfont{Ysabeau SC Bold}[
   Ligatures=TeX,
   Numbers=Lining,
   Scale=1.05
+]
+\newfontfamily\monsterFont{Ysabeau Office Light}[
+  Ligatures=TeX,
+  Numbers=Lining, 
+  UprightFont = {Ysabeau Office Light},
+  BoldFont    = {Ysabeau Office SemiBold},
+  Mapping=tex-text               
 ]
 
 \newfontfamily\emojifont{Symbola}
@@ -123,7 +130,7 @@ $endif$
 % =========================
 
 \let\oldtextbf\textbf
-\renewcommand{\textbf}[1]{\oldtextbf{\textcolor{keywordcolor}{#1}}}
+\renewcommand{\textbf}[1]{\oldtextbf{{#1}}}
 
 % Stylize bullets in itemize lists
 \setlist[itemize,1]{label=\textcolor{keywordcolor}{\textbullet}}
