@@ -14,7 +14,6 @@ $endif$
 \usepackage[normalem]{ulem}  % prevents soul/ulem conflicts
 \usepackage{fontawesome5}
 \usepackage[T1]{fontenc}
-\usepackage{Alegreya}
 \usepackage{fontspec}
 \usepackage[document]{ragged2e}
 \usepackage[none]{hyphenat}
@@ -71,18 +70,36 @@ $endif$
 % 3. Fonts and Font Commands
 % =========================
 
-\newfontfamily\AlegreyaSC{Alegreya SC}
-\renewcommand{\textsc}[1]{{\AlegreyaSC#1}}
-
-\newfontfamily\blockquoteFont{Ysabeau}[
+\setmainfont{XCharter}[
   Ligatures=TeX,
   Numbers=Lining, 
-  Mapping=tex-text               
-]
+  Mapping=tex-text, 
+  StylisticSet=0, % disables all stylistic sets
+  Alternate=0
+]          
+\newfontfamily\XCharterSC{XCharter}[
+  Ligatures=TeX,
+  Numbers=Lining, 
+  Mapping=tex-text,
+  Letters=SmallCaps,
+  StylisticSet=0, % disables all stylistic sets
+  Alternate=0 % disables character alternates
+]          
+\renewcommand{\textsc}[1]{\XCharterSC#1}
+
+\newfontfamily\blockquoteFont{Ysabeau Office}[
+  Ligatures=TeX,
+  Numbers=Lining, 
+  Mapping=tex-text,
+  StylisticSet=0, % disables all stylistic sets
+  Alternate=0 % disables character alternates
+]          
 \newfontfamily\headerfont{Ysabeau SC Bold}[
   Ligatures=TeX,
   Numbers=Lining,
-  Scale=1.05
+  Scale=1.05,
+  StylisticSet=0, % disables all stylistic sets
+  Alternate=0 % disa
 ]
 \newfontfamily\monsterFont{Ysabeau Office Light}[
   Ligatures=TeX,
