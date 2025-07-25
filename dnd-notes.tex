@@ -1,7 +1,7 @@
 $if(layout.onecolumn)$
-\documentclass[11pt,onecolumn]{article}
+\documentclass[10pt,onecolumn]{article}
 $else$
-\documentclass[11pt,twocolumn]{article}
+\documentclass[10pt,twocolumn]{article}
 $endif$
 
 % =========================
@@ -46,7 +46,6 @@ $endif$
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{colortbl}
-\usepackage{tabularx}
 
 % Colored boxes
 \usepackage[most]{tcolorbox}
@@ -70,13 +69,6 @@ $endif$
 % 3. Fonts and Font Commands
 % =========================
 
-% \setmainfont{XCharter}[
-%   Ligatures=TeX,
-%   Numbers=Lining, 
-%   Mapping=tex-text, 
-%   StylisticSet=0, % disables all stylistic sets
-%   Alternate=0
-% ]   
 \setmainfont{XCharter}[
   Ligatures=TeX,
   Numbers=Lining, 
@@ -98,6 +90,7 @@ $endif$
   Ligatures=TeX,
   Numbers=Lining, 
   Mapping=tex-text,
+  BoldFont    = {Ysabeau Office SemiBold},
   StylisticSet=0, % disables all stylistic sets
   Alternate=0 % disables character alternates
 ]   
@@ -115,10 +108,9 @@ $endif$
   StylisticSet=0, % disables all stylistic sets
   Alternate=0 % disa
 ]
-\newfontfamily\monsterFont{Ysabeau Office Light}[
+\newfontfamily\monsterFont{Ysabeau Office}[
   Ligatures=TeX,
   Numbers=Lining, 
-  UprightFont = {Ysabeau Office Light},
   BoldFont    = {Ysabeau Office SemiBold},
   Mapping=tex-text               
 ]
@@ -214,10 +206,6 @@ $endif$
 \pagestyle{fancy}
 \setlength{\footskip}{15pt}
 
-% \clubpenalty=10000  % Avoid orphans (first line of a paragraph at bottom of page)
-% \widowpenalty=10000 % Avoid widows (last line of paragraph at top of page)
-% \displaywidowpenalty=10000
-
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -273,7 +261,7 @@ $endif$
   borderline west={1.5pt}{0pt}{keywordcolor},
   borderline east={1.5pt}{0pt}{keywordcolor},
   sharp corners,
-  fontupper=\blockquoteFont\small,
+  fontupper=\blockquoteFont,
   before upper={%
     \setlength{\parskip}{4pt}%
     \setlength{\baselineskip}{10pt}%
