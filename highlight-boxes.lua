@@ -76,8 +76,8 @@ function Div(el)
 \widowpenalty=150
 \displaywidowpenalty=150
 \monsterFont
-\fontsize{10pt}{10pt}\selectfont
-\setlength{\parskip}{2pt}
+\fontsize{9pt}{10pt}\selectfont
+\setlength{\parskip}{4pt}
 \makeatletter
 \setlist[itemize]{left=1.5em, itemsep=1pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
@@ -88,28 +88,28 @@ function Div(el)
 
 \titlespacing*{\section}{0pt}{6pt}{4pt}
 \titlespacing*{\subsection}{0pt}{6pt}{4pt}
-\titlespacing*{\subsubsection}{0pt}{4pt}{2pt}
-\titlespacing*{\subsubsubsection}{0pt}{4pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{4pt}{4pt}
+\titlespacing*{\subsubsubsection}{0pt}{4pt}{4pt}
 
 \titleformat{\section}[block]
   {\stickysubsection\sectionsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}
-  [\vspace{0.5pt}\color{sectioncolor}\hrule height 1pt]
+  [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
 
 \titleformat{\subsection}[block]
   {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfont}
   {}
   {0pt}
   {}
-  [\color{subsectioncolor}]
+  [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
 \titleformat{\subsubsection}[block]
   {\stickysubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
   {}
-  [\color{subsubsectioncolor}]
+  [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
 % Local override for \tightlist so global version doesn't bleed in
 \def\tightlist{%
   \setlength{\itemsep}{0pt}%
