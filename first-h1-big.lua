@@ -10,7 +10,7 @@ function Header(el)
 \fontsize{36pt}{36pt}\color{highlightcolor}\selectfont
 \faDiceD20
 \\
-\LARGE\color{sectioncolor}\headerfont
+\LARGE\color{sectioncolor}\headerfontbold
 ]] .. content .. [[
 \\[-18pt]
 \color{sectioncolor}\rule{\linewidth}{2pt}

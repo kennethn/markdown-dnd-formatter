@@ -92,7 +92,7 @@ function Div(el)
 \titlespacing*{\subsubsubsection}{0pt}{4pt}{4pt}
 
 \titleformat{\section}[block]
-  {\stickysubsection\sectionsize\color{sectioncolor}\headerfont}
+  {\stickysubsection\sectionsize\color{sectioncolor}\headerfontbold}
   {}
   {0pt}
   {}

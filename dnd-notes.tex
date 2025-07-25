@@ -100,8 +100,15 @@ $endif$
   Mapping=tex-text,
   StylisticSet=0, % disables all stylistic sets
   Alternate=0 % disables character alternates
-]          
-\newfontfamily\headerfont{Ysabeau SC Bold}[
+]   
+\newfontfamily\headerfontbold{Ysabeau SC Bold}[
+  Ligatures=TeX,
+  Numbers=Lining,
+  Scale=1.05,
+  StylisticSet=0, % disables all stylistic sets
+  Alternate=0 % disa
+]       
+\newfontfamily\headerfont{Ysabeau SC}[
   Ligatures=TeX,
   Numbers=Lining,
   Scale=1.05,
@@ -177,17 +184,17 @@ $endif$
 % 7. Section Titles and Spacing
 % =========================
 
-\titleformat{\section}[block]{\stickysection\sectionsize\color{sectioncolor}\headerfont}{}
+\titleformat{\section}[block]{\stickysection\sectionsize\color{sectioncolor}\headerfontbold}{}
   {0pt}{}
 \titleformat{\subsection}[block]
-  {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfont}
+  {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfontbold}
   {}
   {0pt}
   {}
   [\vspace{1pt}\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\subsubsectionsize\color{subsubsectioncolor}\headerfont}
+  {\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
   {}
   {0pt}
   {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
