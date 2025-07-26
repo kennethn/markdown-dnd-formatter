@@ -69,7 +69,6 @@ PANDOC_OPTS=(
   -V tables=false
   --number-sections=false
   --resource-path="$INPUT_DIR"
-  -o foo.tex
 )
 
 # Add layout metadata
