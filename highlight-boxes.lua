@@ -141,7 +141,7 @@ end
   enhanced,
   breakable,
   colback={encountercolor},
-  colframe=black,
+  colframe={keywordcolor},
   boxrule=1pt,
   coltext=black,
   arc=6pt,
@@ -152,13 +152,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{black}}
+  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{keywordcolor}}
 ]
 ]]))
     -- Inject bomb icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faSkull\hspace{0.8em}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\faSkull\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
@@ -178,7 +178,7 @@ end
 \begin{tcolorbox}[
   colback={imagecolor},
   coltext=black,
-  colframe=black,
+  colframe={imageborder},
   boxrule=1pt,
   arc=6pt,
   left=4pt,
@@ -188,13 +188,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{black}}
+  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{imageborder}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faPhotoVideo\hspace{0.8em}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\faPhotoVideo\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end

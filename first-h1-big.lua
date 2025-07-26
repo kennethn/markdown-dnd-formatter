@@ -7,7 +7,7 @@ function Header(el)
     return pandoc.RawBlock("latex", [[
 \begingroup
 \begin{center}
-\fontsize{36pt}{36pt}\color{highlightcolor}\selectfont
+\fontsize{36pt}{36pt}\color{sectioncolor}\selectfont
 \faDiceD20
 \\
 \LARGE\color{sectioncolor}\headerfontbold
