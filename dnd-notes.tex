@@ -90,14 +90,12 @@ $endif$
   Ligatures=TeX,
   Numbers=Lining, 
   Mapping=tex-text,
-  BoldFont    = {Ysabeau Office SemiBold},
   StylisticSet=0, % disables all stylistic sets
   Alternate=0 % disables character alternates
 ]   
 \newfontfamily\headerfontbold{Ysabeau SC Bold}[
   Ligatures=TeX,
   Numbers=Lining,
-  Scale=1.05,
   StylisticSet=0, % disables all stylistic sets
   Alternate=0 % disa
 ]       
@@ -132,22 +130,25 @@ $endif$
 \renewcommand{\ULdepth}{0.5ex}  % adjust this value to move the underline
 \renewcommand{\ULthickness}{0.03em}  % underline thickness
 
-\linespread{1.2}
+\linespread{1.3}
 
 % =========================
 % 5. Colors
 % =========================
 
-\definecolor{sectioncolor}{HTML}{9c3d10}      
-\definecolor{subsectioncolor}{HTML}{9c3d10}    
-\definecolor{subsubsectioncolor}{HTML}{9c3d10} 
-\definecolor{subsubsubsectioncolor}{HTML}{9c3d10} 
+\definecolor{sectioncolor}{HTML}{b50909}      
+\definecolor{subsectioncolor}{HTML}{b50909}    
+\definecolor{subsubsectioncolor}{HTML}{b50909} 
+\definecolor{subsubsubsectioncolor}{HTML}{b50909} 
 
-\definecolor{keywordcolor}{HTML}{9c3d10}
-\definecolor{highlightcolor}{HTML}{efefef}
+\definecolor{keywordcolor}{HTML}{b50909}
+\definecolor{highlightcolor}{HTML}{dfe1e2}
 \definecolor{encountercolor}{HTML}{f4e3db}
-\definecolor{imagecolor}{HTML}{99deea}
-\definecolor{imageborder}{HTML}{009ec1}
+\definecolor{imagecolor}{HTML}{ffe396}
+\definecolor{imageborder}{HTML}{c2850c}
+
+% Highlighted text
+\newcommand{\hlfancy}[2]{\colorlet{hlcolor}{#1}\sethlcolor{hlcolor}\hl{#2}}
 
 % =========================
 % 6. Text and List Styling
@@ -295,7 +296,6 @@ $endif$
 % =========================
 
 \begin{document}
-
 \begingroup
 \makeatletter
 \setlength{\@fptop}{0pt}

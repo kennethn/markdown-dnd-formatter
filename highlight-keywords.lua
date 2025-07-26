@@ -1,3 +1,4 @@
+-- Keyword list
 local keywords = {
   ["Therynzhaal"] = true,
   ["Ryland"] = true,
@@ -11,10 +12,7 @@ local keywords = {
   ["Titania"] = true
 }
 
-local in_header = false
-local skip_formatting = false
-
--- Helper to convert inlines to plain text
+-- Utilities
 local function inlines_to_text(slice)
   local parts = {}
   for _, inline in ipairs(slice) do
@@ -27,20 +25,24 @@ local function inlines_to_text(slice)
   return table.concat(parts)
 end
 
--- Wrap text in LaTeX formatting
-local function latex_bold(text)
- -- return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{" .. text .. "}}")
-     return pandoc.RawInline("latex", "\\textcolor{keywordcolor}{\\textbf{\\textsc{" .. string.lower(text) .. "}}}")
+local function escape_latex_braces(str)
+  return str:gsub("([{}])", "\\%1")
 end
 
--- Checks if a keyword matches, stripping trailing punctuation
+local function latex_bold(text)
+  local safe = escape_latex_braces(string.lower(text))
+  return pandoc.RawInline("latex", "\\hlfancy{imagecolor}{\\textsc{" .. safe .. "}}")
+end
+
 local function normalize_keyword(text)
   return text:match("^(.-)[%.,;:!?]?$")
 end
 
--- Try matching keyword starting at index i
 local function match_keyword(inlines, i)
-  for len = #inlines - i + 1, 1, -1 do
+  -- Limit to max 3-word keywords for performance
+  local MAX_KEYWORD_LEN = 3
+  local maxlen = math.min(MAX_KEYWORD_LEN, #inlines - i + 1)
+  for len = maxlen, 1, -1 do
     local slice = {}
     for j = i, i + len - 1 do
       table.insert(slice, inlines[j])
@@ -48,7 +50,6 @@ local function match_keyword(inlines, i)
     local raw_text = inlines_to_text(slice)
     local normalized = normalize_keyword(raw_text)
     if keywords[normalized] then
-      -- Preserve punctuation by splitting
       local punctuation = raw_text:match("[%.,;:!?]$")
       local formatted = latex_bold(normalized)
       if punctuation then
@@ -61,10 +62,8 @@ local function match_keyword(inlines, i)
   return nil
 end
 
--- Main processing logic
-function Inlines(inlines)
-  if in_header or skip_formatting then return inlines end
-
+-- Only highlight keywords in paragraphs and spans
+local function highlight_inlines(inlines)
   local output = {}
   local i = 1
   while i <= #inlines do
@@ -82,36 +81,63 @@ function Inlines(inlines)
   return output
 end
 
-function Header(el)
-  in_header = true
-  el.content = Inlines(el.content)
-  in_header = false
+function Para(el)
+  el.content = highlight_inlines(el.content)
   return el
 end
 
 function Span(el)
-  if skip_formatting then return nil end
   if el.classes:includes("wikilink") then
     local text = inlines_to_text(el.content)
     local normalized = normalize_keyword(text)
     return latex_bold(normalized)
   end
-  return nil
+  -- Otherwise, highlight keywords in span content
+  el.content = highlight_inlines(el.content)
+  return el
+end
+
+function Plain(el)
+  el.content = highlight_inlines(el.content)
+  return el
+end
+
+function Strong(el)
+  el.content = highlight_inlines(el.content)
+  return el
+end
+
+function Emph(el)
+  el.content = highlight_inlines(el.content)
+  return el
+end
+
+function Header(el)
+  -- Do NOT highlight keywords in headers
+  return el
+end
+
+function BlockQuote(el)
+  -- Do NOT highlight keywords in blockquotes
+  return el
 end
 
 function Div(el)
-  if el.classes:includes("highlightshowimagebox") then
-    skip_formatting = true
-    el.content = pandoc.walk_block(el, {
-      Inlines = Inlines,
-      Header = Header,
-      Span = Span
-    })
-    skip_formatting = false
+  -- Do NOT highlight keywords inside special boxes
+  if el.classes:includes("highlightshowimagebox") or el.classes:includes("highlightencounterbox") then
     return el
   end
+  -- Otherwise, walk blocks inside the Div, but skip blockquotes
+  return pandoc.walk_block(el, {
+    Para = Para,
+    Span = Span,
+    Plain = Plain,
+    Strong = Strong,
+    Emph = Emph,
+    BlockQuote = BlockQuote
+  })
 end
 
 return {
-  { Inlines = Inlines, Header = Header, Span = Span, Div = Div }
+  { Para = Para, Span = Span, Plain = Plain, Header = Header, Strong = Strong, BlockQuote = BlockQuote, Emph = Emph, Div = Div }
 }
