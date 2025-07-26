@@ -188,9 +188,10 @@ if (/^__BODY_LINE__/) {
   s/(\d)\s*--\s*(\d)/$1-$2/g;
   s/(\d)\s*-\s*(\d)/$1--$2/g;
 
-  # Encounter and image boxes
+  # Encounter, image, and remember boxes
   s/^\*\*(Encounter:.*?)\*\*$/$1/;
   s/^\*\*(Image:.*?)\*\*$/$1/;
+  s/^\*\*(Remember:.*?)\*\*$/$1/;
 
   if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/) {
     my $content = $1;
@@ -202,6 +203,13 @@ if (/^__BODY_LINE__/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: highlightshowimagebox\n$content\n:::\n";
+    $prev_line = "";
+    next;
+  }
+  elsif (/\*\*?Show image:\*\*?\s*(.*)/ || /^Remember:\s*(.*)/) {
+    my $content = $1;
+    $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
+    $_ = "::: rememberbox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
