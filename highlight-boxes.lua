@@ -151,13 +151,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{black}}
+  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{sectioncolor}}
 ]
 ]]))
     -- Inject icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faSkull\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\faSkull\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
@@ -186,13 +186,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{black}}
+  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{imageborder}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\faImage\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\faImage\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
