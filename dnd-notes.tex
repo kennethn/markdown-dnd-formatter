@@ -136,16 +136,16 @@ $endif$
 % 5. Colors
 % =========================
 
-\definecolor{sectioncolor}{HTML}{b50909}      
-\definecolor{subsectioncolor}{HTML}{b50909}    
-\definecolor{subsubsectioncolor}{HTML}{b50909} 
-\definecolor{subsubsubsectioncolor}{HTML}{b50909} 
+\definecolor{sectioncolor}{HTML}{8b0a03}      
+\definecolor{subsectioncolor}{HTML}{8b0a03}    
+\definecolor{subsubsectioncolor}{HTML}{8b0a03} 
+\definecolor{subsubsubsectioncolor}{HTML}{8b0a03} 
 
-\definecolor{keywordcolor}{HTML}{b50909}
+\definecolor{keywordcolor}{HTML}{faf3d1}
 \definecolor{highlightcolor}{HTML}{dfe1e2}
-\definecolor{encountercolor}{HTML}{f4e3db}
-\definecolor{imagecolor}{HTML}{ffe396}
-\definecolor{imageborder}{HTML}{c2850c}
+\definecolor{encountercolor}{HTML}{f3e1e4}
+\definecolor{imagecolor}{HTML}{e1f3f8}
+\definecolor{imageborder}{HTML}{2e6276}
 
 % Highlighted text
 \newcommand{\hlfancy}[2]{\colorlet{hlcolor}{#1}\sethlcolor{hlcolor}\hl{#2}}
@@ -158,9 +158,9 @@ $endif$
 \renewcommand{\textbf}[1]{\oldtextbf{{#1}}}
 
 % Stylize bullets in itemize lists
-\setlist[itemize,1]{label=\textcolor{keywordcolor}{\textbullet}}
+\setlist[itemize,1]{label=\textcolor{sectioncolor}{\textbullet}}
 \setlist[itemize,2]{label=\textbullet}
-\setlist[itemize,3]{label=\textcolor{keywordcolor}{\textendash}}
+\setlist[itemize,3]{label=\textcolor{sectioncolor}{\textendash}}
 
 % Always override item spacing for itemize outside monsterblocks
 \setlist[itemize]{itemsep=4pt, topsep=0pt, parsep=0pt, partopsep=0pt}
@@ -260,8 +260,8 @@ $endif$
   boxsep=4pt,
   before skip=12pt,
   after skip=12pt,
-  borderline west={1.5pt}{0pt}{keywordcolor},
-  borderline east={1.5pt}{0pt}{keywordcolor},
+  borderline west={1.5pt}{0pt}{sectioncolor},
+  borderline east={1.5pt}{0pt}{sectioncolor},
   sharp corners,
   fontupper=\blockquoteFont,
   before upper={%
