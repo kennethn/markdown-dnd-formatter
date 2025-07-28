@@ -7,10 +7,11 @@ function Header(el)
     return pandoc.RawBlock("latex", [[
 \begingroup
 \begin{center}
-\Huge\color{black}\headerfontbold\faDiceD20\,
+\vspace*{-14pt}
+\Huge\color{sectioncolor}\headerfontbold\faDiceD20\,
 ]] .. content .. [[
 \\[-18pt]
-\color{black}\rule{\linewidth}{1pt}
+\color{sectioncolor}\rule{\linewidth}{2pt}
 \\[-2pt]
 \end{center}
 \endgroup
