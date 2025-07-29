@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Usage: ./upnote-export.sh [--onecolumn] [--landscape] input.md
+# Usage: ./upnote-export.sh input.md
 
-ONECOLUMN=false
-LANDSCAPE=false
 POSITIONAL=()
 
 # Parse switches
@@ -34,12 +32,17 @@ INPUT="$1"
 INPUT_DIR="$(dirname "$INPUT")"
 
 if [ -z "$INPUT" ]; then
-  echo "Usage: $0 [--onecolumn] [--landscape] input.md"
+  echo "Usage: $0 input.md"
   exit 1
 fi
 
 if [[ "$INPUT" != *.md ]]; then
   echo "❌ Input file must be a .md file"
+  exit 1
+fi
+
+if [ ! -f "$INPUT" ]; then
+  echo "❌ Input file not found: $INPUT"
   exit 1
 fi
 
@@ -70,10 +73,6 @@ PANDOC_OPTS=(
   --number-sections=false
   --resource-path="$INPUT_DIR"
 )
-
-# Add layout metadata
-$ONECOLUMN && PANDOC_OPTS+=(--metadata layout.onecolumn=true)
-$LANDSCAPE && PANDOC_OPTS+=(--metadata layout.landscape=true)
 
 echo "📄 Generating PDF..."
 pandoc "$CLEANED" -o "$OUTPUT" "${PANDOC_OPTS[@]}"
