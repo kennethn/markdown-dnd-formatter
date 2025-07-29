@@ -58,7 +58,7 @@ fi
 PANDOC_OPTS=(
   --standalone
   --from markdown+raw_attribute+yaml_metadata_block+inline_code_attributes
-  --pdf-engine=xelatex
+  --pdf-engine=lualatex
   --template=dnd-notes.tex
   --lua-filter=first-h1-big.lua
   --lua-filter=subsubsubsection.lua
