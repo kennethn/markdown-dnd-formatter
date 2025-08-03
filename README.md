@@ -75,7 +75,11 @@ This creates a cleaned file like:
 - Two-column layout with tight spacing and good readability
 - Styled blockquotes like D&D boxed text
 - Callout boxes with icons and borders. Use these keywords:
-  - **Encounter:"** Text following this will be rendered in a red box with skull icon
-  - **Image:** Text following this will be rendered in a yellow box with an image icon
+  - **Encounter:"** Text following this will be rendered in a red box with ⚔️ emoji
+  - **Image:** Text following this will be rendered in a blue box with 🖼️ emoji
+  - **Remember:** Text following this will be rendered in a yellow box with 🔺 emoji
 - Monster stat blocks. Anything after "# Monsters" will be treated as a monster stat block
-- Optional automatic bolding and color for keywords like character names
+  - Stat blocks always start a new column
+  - Smaller sans serif font and tighter vertical spacing
+- Optional automatic bolding and highlighting for keywords like character names
+  - Add any keywords you'd like bolded (NPCs, character names, etc.) to the array in `highlight-keywords.lua`
