@@ -75,9 +75,9 @@ This creates a cleaned file like:
 - Two-column layout with tight spacing and good readability
 - Styled blockquotes like D&D boxed text
 - Callout boxes with icons and borders. Use these keywords:
-  - **Encounter:"** Text following this will be rendered in a red box with ⚔️ emoji
-  - **Image:** Text following this will be rendered in a blue box with 🖼️ emoji
-  - **Remember:** Text following this will be rendered in a yellow box with ❗ emoji
+  - **Encounter:"** Text following this string or this emoji (⚔️) will be rendered in a red box with ⚔️ emoji
+  - **Image:** Text following this will string or this emoji (🖼️) will be rendered in a blue box with 🖼️ emoji
+  - **Remember:** Text following this string or this emoji (⚠️) will be rendered in a yellow box with ⚠️ emoji
 - Monster stat blocks. Anything after "# Monsters" will be treated as a monster stat block
   - Stat blocks always start a new column
   - Smaller sans serif font and tighter vertical spacing

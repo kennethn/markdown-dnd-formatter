@@ -69,6 +69,8 @@ BEGIN { in_yaml=0 }
 # Step 3: Perl Cleanup Transformations
 #########################################
 perl -CSD -pe '
+use utf8;
+binmode(STDIN, ":encoding(UTF-8)");
 BEGIN {
   our @table_rows = ();
   our $in_table = 0;
@@ -136,14 +138,6 @@ if (/^__BODY_LINE__/) {
     $_ = "";
     next;
   }
-
-  # General cleanup
-  # Strip stray control characters (Unicode 0x00–0x1F except newline/tab)
-  s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g;
-  #s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
- s/([\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1F1E6}-\x{1F1FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{2B00}-\x{2BFF}])/
-  "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"
-/ge;
   
   # Find H4 - #### and convert to subsubsubsection
   s{^#### (.+)$}{::: {.subsubsubsection}\n$1\n:::}gm;
@@ -193,20 +187,24 @@ if (/^__BODY_LINE__/) {
   s/^\*\*(Show image:.*?)\*\*$/$1/;
   s/^\*\*(Remember:.*?)\*\*$/$1/;
 
-  if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/) {
+  my $CROSSED_SWORDS = qr/\x{2694}(?:\x{FE0F})?/;
+  my $PICTURE_FRAME = qr/\x{1F5BC}\x{FE0F}?/; 
+  my $WARNING_SIGN = qr/\x{26A0}(?:\x{FE0F})?/; 
+
+  if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/ || /\*\*?$CROSSED_SWORDS\s*(.*)/ || /^$CROSSED_SWORDS\s*(.*)/) {
     my $content = $1;
     $_ = "::: highlightencounterbox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
-  elsif (/^Show image:\s*(.*)/ || /^Image:\s*(.*)/) {
+  elsif (/^Show image:\s*(.*)/ || /^Image:\s*(.*)/ || /\*\*?$PICTURE_FRAME\s*(.*)/ || /^$PICTURE_FRAME\s*(.*)/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: highlightshowimagebox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
-  elsif (/^Remember:\s*(.*)/) {
+  elsif (/^Remember:\s*(.*)/ || /\*\*?$WARNING_SIGN\s*(.*)/ || /^$WARNING_SIGN\s*(.*)/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: rememberbox\n$content\n:::\n";
@@ -231,6 +229,14 @@ if (/^__BODY_LINE__/) {
 
   s/^(\s*[*_-]+\s*)$//;
   s/^\s*#{1,6}\s*$//;
+
+  # General cleanup
+  # Strip stray control characters (Unicode 0x00–0x1F except newline/tab)
+  s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g;
+  #s/[\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/ /g;
+ s/([\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1F1E6}-\x{1F1FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{2B00}-\x{2BFF}])/
+  "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"
+/ge;
 
   $prev_line = $_;
 } else {
