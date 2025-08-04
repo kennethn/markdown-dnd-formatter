@@ -41,7 +41,7 @@ end
 local function latex_bold(kw)
   local safe = escape_latex_braces(string.lower(kw))
   return pandoc.RawInline("latex",
-    "\\hlfancy{keywordcolor}{\\textsc{" .. safe .. "}}"
+    "{\\textsc{" .. safe .. "}}"
   )
 end
 

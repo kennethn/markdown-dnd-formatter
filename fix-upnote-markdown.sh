@@ -99,13 +99,13 @@ if (/^__BODY_LINE__/) {
       @headers = map { $_ =~ /^\s*$/ ? "~" : $_ } @headers;
       my $cols = scalar(@headers);
       $_ = "\\begin{center}\n"
-        . "{\\sffamily\\selectfont\\tiny\n"
+        . "{\\sffamily\\selectfont\\footnotesize\n"
         . "\\rowcolors{2}{highlightcolor}{white}\n"
         . "\\begin{tabular}{" . ("l" x $cols) . "}\n";
 
       $_ .= "\\toprule\n";
       for my $i (0 .. $#headers) {
-        $headers[$i] =~ s/\*\*(.*?)\*\*/\\sffamily\\fselectfont\\tiny\\textbf{$1}/g;
+        $headers[$i] =~ s/\*\*(.*?)\*\*/\\sffamily\\fselectfont\\footnotesize\\textbf{$1}/g;
         $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
         $headers[$i] =~ s/(<br\s*\/?>)+/\\\\/gi;
         if ($headers[$i] =~ /\\\\/) {
@@ -227,7 +227,7 @@ if (/^__BODY_LINE__/) {
   if ($inside_showimagebox) {
     s/\[\[([^\]]+)\]\]/$1/g;
   } else {
-    s/\[\[([^\]]+)\]\]/<span class="wikilink">$1<\/span>/g;
+    s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{$1}/g;
   }
 
   s/^(\s*[*_-]+\s*)$//;
