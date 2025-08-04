@@ -100,10 +100,10 @@ if (/^__BODY_LINE__/) {
       my $cols = scalar(@headers);
       $_ = "\\begin{center}\n"
         . "{\\sffamily\\selectfont\\footnotesize\n"
-        . "\\rowcolors{2}{highlightcolor}{white}\n"
+        . "\\rowcolors{2}{encountercolor}{white}\n"
         . "\\begin{tabular}{" . ("l" x $cols) . "}\n";
 
-      $_ .= "\\toprule\n";
+      $_ .= "\\rowcolor{sectioncolor}\n";
       for my $i (0 .. $#headers) {
         $headers[$i] =~ s/\*\*(.*?)\*\*/\\sffamily\\fselectfont\\footnotesize\\textbf{$1}/g;
         $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
@@ -111,12 +111,11 @@ if (/^__BODY_LINE__/) {
         if ($headers[$i] =~ /\\\\/) {
           $headers[$i] = "\\shortstack[t]{" . $headers[$i] . "}";
         } else {
-          $headers[$i] = "\\textbf{" . $headers[$i] . "}";
+          $headers[$i] = "\\textcolor{white}{\\textbf{" . $headers[$i] . "}}";
         }
       }
       $_ .= join(" & ", @headers) . " \\\\\n";
 
-      $_ .= "\\midrule\n";
       foreach my $line (@table_rows) {
         my @cells = split /\s*\|\s*/, $line;
         @cells = grep { $_ ne "" } @cells;
@@ -128,7 +127,7 @@ if (/^__BODY_LINE__/) {
 
         $_ .= join(" & ", @cells) . " \\\\\n";
       }
-      $_ .= "\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
+      $_ .= "\\arrayrulecolor{sectioncolor}\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
     }
     @table_rows = ();
   }
