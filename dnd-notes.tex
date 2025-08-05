@@ -24,6 +24,7 @@
 
 % Page layout
 \usepackage[paper=letterpaper,top=0.35in,bottom=0.75in,left=0.35in,right=0.35in]{geometry}
+%\geometry{showframe}% for debugging purposes -- displays the margins
 
 \usepackage{titlesec}
 \usepackage{etoolbox}
@@ -191,12 +192,14 @@
   {}
   {0pt}
   {}
+  [\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
   {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
   {}
   {0pt}
   {}
+  [\color{subsubsectioncolor}\hrule height 0.5pt]
 
 \titleformat{\subsubsubsection}[block]
   {\stickysubsubsubsection\subsubsubsectionsize\color{subsubsubsectioncolor}\headerfontbold}
@@ -205,8 +208,8 @@
   {}
 
 \titlespacing*{\section}{0pt}{8pt plus 1pt minus 1pt}{4pt}
-\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{4pt}
-\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{6pt}
 \titlespacing*{\subsubsubsection}{0pt}{8pt plus 1pt minus 1pt}{4pt}
 
 % =========================
