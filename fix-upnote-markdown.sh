@@ -129,7 +129,7 @@ if (/^__BODY_LINE__/) {
 
         $_ .= join(" & ", @cells) . " \\\\\n";
       }
-      $_ .= "\\arrayrulecolor{sectioncolor}\\bottomrule\n\\end{tabular}}\n\\end{center}\n";
+      $_ .= "\\arrayrulecolor{sectioncolor}\\bottomrule\n\\end{tabular}}\n\\end{center}\n\n";
     }
     @table_rows = ();
   }

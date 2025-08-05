@@ -118,9 +118,10 @@
 % 4. Section Formatting
 % =========================
 
-\newcommand{\stickysection}{\needspace{5\baselineskip}}
-\newcommand{\stickysubsection}{\needspace{4\baselineskip}}
-\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
+\newcommand{\stickysection}{\needspace{3\baselineskip}}
+\newcommand{\stickysubsection}{\needspace{3\baselineskip}}
+\newcommand{\stickysubsubsection}{\needspace{2\baselineskip}}
+\newcommand{\stickysubsubsubsection}{\needspace{2\baselineskip}}
 
 \newcommand{\sectionsize}{\LARGE}
 \newcommand{\subsectionsize}{\Large}
@@ -184,23 +185,29 @@
 
 \titleformat{\section}[block]{\stickysection\sectionsize\color{sectioncolor}\headerfontbold}{}
   {0pt}{}
+
 \titleformat{\subsection}[block]
   {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfontbold}
   {}
   {0pt}
   {}
-  [\vspace{1pt}\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
+  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
   {}
   {0pt}
-  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
-  [\vspace{1pt}\color{subsubsectioncolor}\hrule height 1pt]
-\titlespacing*{\section}{0pt}{14pt plus 2pt minus 1pt}{10pt}
-\titlespacing*{\subsection}{0pt}{12pt plus 1pt minus 1pt}{10pt}
-\titlespacing*{\subsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
-\titlespacing*{\subsubsubsection}{0pt}{10pt plus 1pt minus 1pt}{12pt}
+  {}
+
+\titleformat{\subsubsubsection}[block]
+  {\stickysubsubsubsection\subsubsubsectionsize\color{subsubsubsectioncolor}\headerfontbold}
+  {}
+  {0pt}
+  {}
+
+\titlespacing*{\section}{0pt}{8pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 1pt minus 1pt}{4pt}
+\titlespacing*{\subsubsubsection}{0pt}{8pt plus 1pt minus 1pt}{4pt}
 
 % =========================
 % 8. Headers, Footers, and Pagination
@@ -242,7 +249,7 @@
     \begingroup
       % restore normal indent & spacing
       \setlength{\parindent}{1em}%
-      \setlength{\parskip}{0pt}%
+      % \setlength{\parskip}{0pt}%
       \begin{tcolorbox}[myquote,
         before upper={%
           \let\textbf\oldtextbf
@@ -267,7 +274,7 @@
   arc=0pt,
   left=6pt,
   right=6pt,
-  top=4pt,
+  top=6pt,
   bottom=4pt,
   boxsep=4pt,
   before skip=12pt,
