@@ -237,6 +237,7 @@ if (/^__BODY_LINE__/) {
  s/([\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1F1E6}-\x{1F1FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{2B00}-\x{2BFF}])/
   "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"
 /ge;
+ s/[\x{2003}]/ /g; # em space
 
   $prev_line = $_;
 } else {
