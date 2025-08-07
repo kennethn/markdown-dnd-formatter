@@ -159,7 +159,7 @@ if (/^__BODY_LINE__/) {
   s/^# Monsters\s*\n/\\clearpage/mg;
 
   # Convert <br> after images to line break
-  s{(!\[[^\]]*\]\([^)]+\))\n(?!\n)}{$1\n\n}g;
+  s{(!\[[^\]]*\]\([^)]+\))\n(?!\n)}{\n$1\n\n}g;
 
   # Heading cleanup
   if ($prev_line =~ /^###\s*$/ && /^==(.+?)==$/) {
