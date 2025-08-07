@@ -105,8 +105,8 @@
 
 \newcommand{\stickysection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsection}{\needspace{3\baselineskip}}
-\newcommand{\stickysubsubsection}{\needspace{2\baselineskip}}
-\newcommand{\stickysubsubsubsection}{\needspace{2\baselineskip}}
+\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
+\newcommand{\stickysubsubsubsection}{\needspace{3\baselineskip}}
 
 \newcommand{\sectionsize}{\Large}
 \newcommand{\subsectionsize}{\large}
@@ -148,12 +148,12 @@
 \setlist[itemize,3]{label=\textcolor{sectioncolor}{\textendash}}
 
 % Always override item spacing for itemize outside monsterblocks
-\setlist[itemize]{itemsep=4pt, topsep=0pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{itemsep=4pt, topsep=1pt, parsep=0pt, partopsep=0pt}
 
 % Ensure Pandoc-generated \tightlist honors this too
 \providecommand{\tightlist}{
   \setlength{\itemsep}{4pt}
-  \setlength{\topsep}{0pt}
+  \setlength{\topsep}{1pt}
   \setlength{\parsep}{0pt}
   \setlength{\parskip}{0pt}
   \setlength{\partopsep}{0pt}

@@ -21,10 +21,10 @@ function Header(el)
 \newcommand{\staticleftmark}{]] .. escaped .. [[}
 \begingroup
 \begin{center}
-\vspace*{-14pt}
+\vspace*{-16pt}
 \Huge\color{sectioncolor}\headerfontbold\faDiceD20\,
 ]] .. escaped .. [[
-\\[-12pt]
+\\[-16pt]
 \color{sectioncolor}\rule{\linewidth}{2pt}
 \\[-2pt]
 \end{center}
