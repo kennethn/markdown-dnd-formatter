@@ -78,7 +78,7 @@
   Ligatures=TeX,
   Numbers=Lining, 
   Mapping=tex-text,
-  Scale=0.9
+  Scale=0.8
 ]   
 \newfontfamily\headerfontbold{TeX Gyre Heros Bold}[
   Ligatures=TeX,
@@ -108,9 +108,9 @@
 \newcommand{\stickysubsubsection}{\needspace{2\baselineskip}}
 \newcommand{\stickysubsubsubsection}{\needspace{2\baselineskip}}
 
-\newcommand{\sectionsize}{\LARGE}
-\newcommand{\subsectionsize}{\Large}
-\newcommand{\subsubsectionsize}{\large}
+\newcommand{\sectionsize}{\Large}
+\newcommand{\subsectionsize}{\large}
+\newcommand{\subsubsectionsize}{\normalsize}
 
 \renewcommand{\ULdepth}{0.5ex}  % adjust this value to move the underline
 \renewcommand{\ULthickness}{0.03em}  % underline thickness
@@ -180,7 +180,7 @@
   [\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
+  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
   {}
   {0pt}
   {}
