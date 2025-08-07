@@ -154,7 +154,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{sectioncolor}}
+  fontupper={\blockquoteFont\small\selectfont\color{sectioncolor}}
 ]
 ]]))
     -- Inject icon inline into the first paragraph
@@ -194,7 +194,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont\color{imageborder}}
+  fontupper={\blockquoteFont\small\selectfont\color{imageborder}}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
