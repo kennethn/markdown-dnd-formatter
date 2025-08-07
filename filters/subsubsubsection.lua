@@ -2,7 +2,7 @@
 local pandoc = require("pandoc")
 
 -- tweak these to match your LaTeX setup:
-local font_cmd  = "\\headerfontbold\\normalsize"
+local font_cmd  = "\\headerfont\\normalsize"
 local color_cmd = "\\color{subsubsectioncolor}"
 local before    = "\\vspace{1pt}\\noindent\\stickysubsubsection"
 local after     = "\\par"

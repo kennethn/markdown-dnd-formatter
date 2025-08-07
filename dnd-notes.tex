@@ -37,6 +37,7 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{colortbl}
+\renewcommand{\arraystretch}{1.1}
 
 % Colored boxes
 \usepackage[most]{tcolorbox}
@@ -79,14 +80,15 @@
   Mapping=tex-text,
   Scale=0.9
 ]   
-\newfontfamily\headerfontbold{Ysabeau SC Bold}[
-  Ligatures=TeX,
-  Numbers=Lining
-]       
-\newfontfamily\headerfont{Ysabeau SC}[
+\newfontfamily\headerfontbold{TeX Gyre Heros Bold}[
   Ligatures=TeX,
   Numbers=Lining,
-  Scale=1.05
+  Letters=SmallCaps
+]       
+\newfontfamily\headerfont{TeX Gyre Heros}[
+  Ligatures=TeX,
+  Numbers=Lining,
+  Letters=SmallCaps
 ]
 \newfontfamily\monsterFont{TeX Gyre Heros}[
   Ligatures=TeX,
@@ -159,6 +161,10 @@
 \setlength{\aboverulesep}{0pt}
 \setlength{\belowrulesep}{0pt}
 
+% Ensure lists have enough space
+\BeforeBeginEnvironment{itemize}{\needspace{2\baselineskip}}
+\BeforeBeginEnvironment{enumerate}{\needspace{2\baselineskip}}
+
 % =========================
 % 7. Section Titles and Spacing
 % =========================
@@ -174,14 +180,14 @@
   [\color{subsectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
+  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
   {}
   {0pt}
   {}
   [\color{subsubsectioncolor}\hrule height 0.5pt]
 
 \titleformat{\subsubsubsection}[block]
-  {\stickysubsubsubsection\subsubsubsectionsize\color{subsubsubsectioncolor}\headerfontbold}
+  {\stickysubsubsubsection\subsubsubsectionsize\color{subsubsubsectioncolor}\headerfont}
   {}
   {0pt}
   {}
