@@ -66,7 +66,7 @@ fi
 # Build Pandoc options
 PANDOC_OPTS=(
   --standalone
-  --from markdown+raw_attribute+yaml_metadata_block+inline_code_attributes
+  --from markdown+raw_attribute+yaml_metadata_block+inline_code_attributes+smart
   --pdf-engine=lualatex
   --template="$TEMPLATE_PATH"
   --lua-filter="$FILTER_DIR/first-h1-big.lua"
