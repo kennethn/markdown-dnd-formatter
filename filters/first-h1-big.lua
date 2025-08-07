@@ -22,7 +22,7 @@ function Header(el)
 \begingroup
 \begin{center}
 \vspace*{-14pt}
-\LARGE\color{sectioncolor}\headerfontbold\faDiceD20\,
+\Huge\color{sectioncolor}\headerfontbold\faDiceD20\,
 ]] .. escaped .. [[
 \\[-12pt]
 \color{sectioncolor}\rule{\linewidth}{2pt}
