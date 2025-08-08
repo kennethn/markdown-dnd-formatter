@@ -34,3 +34,13 @@ function Header(el)
     return el
   end
 end
+
+function Pandoc(doc)
+  if not seen_first_h1 then
+    -- Prepend the missing \staticleftmark definition
+    table.insert(doc.blocks, 1, pandoc.RawBlock("latex", [[
+\newcommand{\staticleftmark}{}
+]]))
+  end
+  return doc
+end
