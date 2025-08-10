@@ -82,30 +82,26 @@ function Div(el)
 \setlist[itemize]{left=1.5em, itemsep=1pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 \setlist[enumerate]{left=1.5em, itemsep=2pt, topsep=6pt, parsep=0pt, partopsep=0pt}
 
-\renewcommand{\sectionsize}{\Large}
-\renewcommand{\subsectionsize}{\normalsize}
-\renewcommand{\subsubsectionsize}{\normalsize}
-
 \titlespacing*{\section}{0pt}{6pt}{4pt}
 \titlespacing*{\subsection}{0pt}{6pt}{4pt}
 \titlespacing*{\subsubsection}{0pt}{4pt}{4pt}
-\titlespacing*{\subsubsubsection}{0pt}{4pt}{4pt}
+\titlespacing*{\paragraph}{0pt}{4pt}{4pt}
 
 \titleformat{\section}[block]
-  {\stickysubsection\sectionsize\color{sectioncolor}\headerfontbold}
+  {\stickysubsection\Large\color{sectioncolor}\headerfontbold}
   {}
   {0pt}
   {}
   [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
 
 \titleformat{\subsection}[block]
-  {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfont}
+  {\stickysubsection\normalsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}
   [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
 \titleformat{\subsubsection}[block]
-  {\stickysubsection\subsubsectionsize\color{subsubsectioncolor}\headerfont}
+  {\stickysubsection\normalsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}

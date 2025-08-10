@@ -15,6 +15,7 @@
 \usepackage{parskip}
 \usepackage{needspace}
 \usepackage{amssymb}
+\usepackage{contour}
 
 % Hyperlinks (no colors)
 \usepackage[hidelinks]{hyperref}
@@ -106,11 +107,12 @@
 \newcommand{\stickysection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
-\newcommand{\stickysubsubsubsection}{\needspace{3\baselineskip}}
 
-\newcommand{\sectionsize}{\Large}
-\newcommand{\subsectionsize}{\large}
-\newcommand{\subsubsectionsize}{\normalsize}
+\newcommand{\sectionsize}{\fontsize{14}{16}}
+\newcommand{\subsectionsize}{\fontsize{12}{14}}
+\newcommand{\subsubsectionsize}{\fontsize{11}{13}}
+\newcommand{\paragraphsize}{\fontsize{10.5}{12}}
+\newcommand{\subparagraphsize}{\fontsize{10}{12}}
 
 \renewcommand{\ULdepth}{0.5ex}  % adjust this value to move the underline
 \renewcommand{\ULthickness}{0.03em}  % underline thickness
@@ -122,9 +124,6 @@
 % =========================
 
 \definecolor{sectioncolor}{HTML}{981b1e}      
-\definecolor{subsectioncolor}{HTML}{981b1e}    
-\definecolor{subsubsectioncolor}{HTML}{981b1e} 
-\definecolor{subsubsubsectioncolor}{HTML}{981b1e} 
 
 \definecolor{keywordcolor}{HTML}{fff1d2}
 \definecolor{highlightcolor}{HTML}{e6e6e6}
@@ -185,29 +184,30 @@
   {0pt}{}
 
 \titleformat{\subsection}[block]
-  {\stickysubsection\subsectionsize\color{subsectioncolor}\headerfontbold}
+  {\stickysubsection\subsectionsize\color{sectioncolor}\headerfontbold}
   {}
   {0pt}
   {}
-  [\color{subsectioncolor}\hrule height 1pt]
+  [\color{sectioncolor}\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\stickysubsubsection\subsubsectionsize\color{subsubsectioncolor}\headerfontbold}
+  {\stickysubsubsection\subsubsectionsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}
-  [\color{subsubsectioncolor}\hrule height 0.5pt]
+  [\color{sectioncolor}\hrule height 0.5pt]
 
-\titleformat{\subsubsubsection}[block]
-  {\stickysubsubsubsection\subsubsubsectionsize\color{subsubsubsectioncolor}\headerfont}
+\titleformat{\paragraph}[block]
+  {\stickysubsubsection\paragraphsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}
 
-\titlespacing*{\section}{0pt}{8pt}{4pt}
-\titlespacing*{\subsection}{0pt}{8pt}{6pt}
-\titlespacing*{\subsubsection}{0pt}{8pt}{6pt}
-\titlespacing*{\subsubsubsection}{0pt}{8pt}{4pt}
+\titlespacing*{\section}      {0pt}{1.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsection}   {0pt}{1.25\baselineskip}{0.4\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{1.0\baselineskip}{0.3\baselineskip}
+\titlespacing*{\paragraph}    {0pt}{0.75\baselineskip}{0.3\baselineskip}
+\titlespacing*{\subparagraph} {0pt}{0.5\baselineskip}{0.25\baselineskip}
 
 % =========================
 % 8. Headers, Footers, and Pagination
@@ -228,12 +228,22 @@
 \pagestyle{fancy}
 \setlength{\footskip}{28pt}
 
-\clubpenalty=9996
-\widowpenalty=9999
+\clubpenalty=10000
+\widowpenalty=10000
 \brokenpenalty=4991
 \predisplaypenalty=10000
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
+
+\AtBeginEnvironment{quote}{
+  \clubpenalty=10000  % No orphan lines at bottom of page
+  \widowpenalty=10000 % No widow lines at top of page
+}
+
+\AtBeginEnvironment{quotation}{
+  \clubpenalty=10000
+  \widowpenalty=10000
+}
 
 % =========================
 % 9. Environments and Boxes

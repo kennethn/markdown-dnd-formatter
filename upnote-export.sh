@@ -70,7 +70,7 @@ PANDOC_OPTS=(
   --pdf-engine=lualatex
   --template="$TEMPLATE_PATH"
   --lua-filter="$FILTER_DIR/first-h1-big.lua"
-  --lua-filter="$FILTER_DIR/subsubsubsection.lua"
+
   --lua-filter="$FILTER_DIR/sticky-headings.lua"
   --lua-filter="$FILTER_DIR/highlight-boxes.lua"
   --lua-filter="$FILTER_DIR/highlight-keywords.lua"

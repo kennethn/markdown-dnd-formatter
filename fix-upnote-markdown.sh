@@ -139,8 +139,8 @@ if (/^__BODY_LINE__/) {
     next;
   }
   
-  # Find H4 - #### and convert to subsubsubsection
-  s{^#### (.+)$}{::: {.subsubsubsection}\n$1\n:::}gm;
+  # # Find H4 - #### and convert to subsubsubsection
+  # s{^#### (.+)$}{::: {.subsubsubsection}\n$1\n:::}gm;
 
   s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;
 

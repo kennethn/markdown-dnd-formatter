@@ -2,9 +2,9 @@
 local pandoc = require("pandoc")
 
 -- tweak these to match your LaTeX setup:
-local font_cmd  = "\\headerfont\\normalsize"
-local color_cmd = "\\color{subsubsectioncolor}"
-local before    = "\\vspace{1pt}\\noindent\\stickysubsubsection"
+local font_cmd  = "\\headerfont\\paragraphsize"
+local color_cmd = "\\color{sectioncolor}"
+local before    = "\\vspace{1pt}\\noindent\\stickysubsection"
 local after     = "\\par"
 
 function Div(el)
