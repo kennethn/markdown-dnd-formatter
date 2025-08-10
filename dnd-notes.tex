@@ -103,8 +103,8 @@
 % 4. Section Formatting
 % =========================
 
-\newcommand{\stickysection}{\needspace{4\baselineskip}}
-\newcommand{\stickysubsection}{\needspace{4\baselineskip}}
+\newcommand{\stickysection}{\needspace{3\baselineskip}}
+\newcommand{\stickysubsection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsubsubsection}{\needspace{3\baselineskip}}
 
@@ -147,6 +147,18 @@
 \setlist[itemize,2]{label=\textbullet}
 \setlist[itemize,3]{label=\textcolor{sectioncolor}{\textendash}}
 
+% Allow paragraphs in lists to span columns/pages
+\makeatletter
+\AtBeginEnvironment{itemize}{%
+  \clubpenalty=0 \widowpenalty=0 \displaywidowpenalty=0
+  \interlinepenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0
+}
+\AtBeginEnvironment{enumerate}{%
+  \clubpenalty=0 \widowpenalty=0 \displaywidowpenalty=0
+  \interlinepenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0
+}
+\makeatother
+
 % Always override item spacing for itemize outside monsterblocks
 \setlist[itemize]{itemsep=4pt, topsep=1pt, parsep=0pt, partopsep=0pt}
 
@@ -162,8 +174,8 @@
 \setlength{\belowrulesep}{0pt}
 
 % Ensure lists have enough space
-\BeforeBeginEnvironment{itemize}{\needspace{2\baselineskip}}
-\BeforeBeginEnvironment{enumerate}{\needspace{2\baselineskip}}
+\BeforeBeginEnvironment{itemize}{\needspace{1\baselineskip}}
+\BeforeBeginEnvironment{enumerate}{\needspace{1\baselineskip}}
 
 % =========================
 % 7. Section Titles and Spacing
