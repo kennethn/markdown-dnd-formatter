@@ -156,7 +156,7 @@ if (/^__BODY_LINE__/) {
   s/==([^=]+)==/$1/g;
 
   # Remove the "# Monsters" H1 if it appears alone
-  s/^# Monsters\s*\n/\\clearpage/mg;
+  s/^# Monsters\s*\n/\\vfill\\break/mg;
 
   # Convert <br> after images to line break
   s{(!\[[^\]]*\]\([^)]+\))\n(?!\n)}{\n$1\n\n}g;
