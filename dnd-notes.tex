@@ -121,10 +121,13 @@
 \definecolor{keywordcolor}{HTML}{fff1d2}
 \definecolor{highlightcolor}{HTML}{f6f6f6}
 \definecolor{highlightborder}{HTML}{0076d6}
-\definecolor{encountercolor}{HTML}{ffbc78}
+\definecolor{encountercolor}{HTML}{ffe2d1}
+\definecolor{encounterborder}{HTML}{ff580a}
 \definecolor{monstercolor}{HTML}{b50909}
-\definecolor{imagecolor}{HTML}{a1d3ff}
-\definecolor{remembercolor}{HTML}{fff5c2}
+\definecolor{imagecolor}{HTML}{cfe8ff}
+\definecolor{imageborder}{HTML}{0076d6}
+\definecolor{remembercolor}{HTML}{ffe396}
+\definecolor{rememberborder}{HTML}{e5a000}
 
 % Highlighted text
 \newcommand{\hlfancy}[2]{\colorlet{hlcolor}{#1}\sethlcolor{hlcolor}\hl{#2}}
@@ -183,14 +186,14 @@
   [\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\stickysubsubsection\subsubsectionsize\headerfont}
+  {\stickysubsubsection\subsubsectionsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}
   [\hrule height 0.5pt]
 
 \titleformat{\paragraph}[block]
-  {\stickysubsubsection\paragraphsize\headerfont}
+  {\stickysubsubsection\paragraphsize\color{sectioncolor}\headerfont}
   {}
   {0pt}
   {}

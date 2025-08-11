@@ -136,13 +136,11 @@ end
 \begin{tcolorbox}[
   enhanced,
   breakable,
+  sharp corners,
   colback={encountercolor},
   boxrule=0pt,
   coltext=black,
-  borderline north={0pt}{0pt}{white},
-  borderline south={0pt}{0pt}{white},
-  borderline west={0pt}{0pt}{white},
-  borderline east={0pt}{0pt}{white},
+  borderline west={2pt}{0pt}{encounterborder},
   left=4pt,
   right=4pt,
   top=1pt,
@@ -150,13 +148,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\selectfont\footnotesize\color{sectioncolor}}
+  fontupper={\blockquoteFont\selectfont}
 ]
 ]]))
     -- Inject icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[{\emojifont{⚔️}}\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\footnotesize\color{encounterborder}{\faSkull}\color{black}\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
@@ -179,10 +177,8 @@ end
   colback={imagecolor},
   boxrule=0pt,
   coltext=black,
-  borderline north={0pt}{0pt}{white},
-  borderline south={0pt}{0pt}{white},
-  borderline west={0pt}{0pt}{white},
-  borderline east={0pt}{0pt}{white},
+  sharp corners,
+  borderline west={2pt}{0pt}{sectioncolor},
   left=4pt,
   right=4pt,
   top=1pt,
@@ -190,13 +186,13 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\footnotesize\selectfont}
+  fontupper={\blockquoteFont\selectfont}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[{\emojifont{🖼️}}\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\footnotesize\color{sectioncolor}{\faStar}\color{black}\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
@@ -218,12 +214,14 @@ end
   colback={keywordcolor},
   boxrule=0pt,
   colframe=white,
+  sharp corners,
   coltext=black,
   left=4pt,
   right=4pt,
   top=2pt,
   bottom=2pt,
   boxsep=4pt,
+  borderline west={2pt}{0pt}{rememberborder},
   before skip=10pt,
   after skip=10pt,
   fontupper={\blockquoteFont\small\linespread{0.9}\selectfont}
@@ -232,7 +230,7 @@ end
     -- Inject icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[{\emojifont{⚠️}}\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\footnotesize\color{rememberborder}{\faExclamationTriangle}\color{black}\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
         table.insert(blocks, pandoc.Para(inlines))
