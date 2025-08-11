@@ -88,24 +88,24 @@ function Div(el)
 \titlespacing*{\paragraph}{0pt}{4pt}{4pt}
 
 \titleformat{\section}[block]
-  {\stickysubsection\Large\color{sectioncolor}\headerfontbold}
+  {\stickysubsection\Large\color{monstercolor}\headerfontbold}
   {}
   {0pt}
   {}
-  [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
+  [\vspace{0pt}\color{monstercolor}\hrule height 1pt]
 
 \titleformat{\subsection}[block]
-  {\stickysubsection\normalsize\color{sectioncolor}\headerfont}
+  {\stickysubsection\normalsize\color{monstercolor}\headerfont}
   {}
   {0pt}
   {}
-  [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
+  [\vspace{0pt}\color{monstercolor}\hrule height 1pt]
 \titleformat{\subsubsection}[block]
-  {\stickysubsection\normalsize\color{sectioncolor}\headerfont}
+  {\stickysubsection\normalsize\color{monstercolor}\headerfont}
   {}
   {0pt}
   {}
-  [\vspace{0pt}\color{sectioncolor}\hrule height 1pt]
+  [\vspace{0pt}\color{monstercolor}\hrule height 1pt]
 % Local override for \tightlist so global version doesn't bleed in
 \def\tightlist{%
   \setlength{\itemsep}{0pt}%
@@ -139,8 +139,8 @@ end
   colback={encountercolor},
   boxrule=0pt,
   coltext=black,
-  borderline north={1pt}{0pt}{sectioncolor},
-  borderline south={1pt}{0pt}{sectioncolor},
+  borderline north={0pt}{0pt}{white},
+  borderline south={0pt}{0pt}{white},
   borderline west={0pt}{0pt}{white},
   borderline east={0pt}{0pt}{white},
   left=4pt,
@@ -150,7 +150,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\selectfont\color{sectioncolor}}
+  fontupper={\blockquoteFont\selectfont\footnotesize\color{sectioncolor}}
 ]
 ]]))
     -- Inject icon inline into the first paragraph
@@ -179,8 +179,8 @@ end
   colback={imagecolor},
   boxrule=0pt,
   coltext=black,
-  borderline north={1pt}{0pt}{imageborder},
-  borderline south={1pt}{0pt}{imageborder},
+  borderline north={0pt}{0pt}{white},
+  borderline south={0pt}{0pt}{white},
   borderline west={0pt}{0pt}{white},
   borderline east={0pt}{0pt}{white},
   left=4pt,
@@ -190,7 +190,7 @@ end
   boxsep=4pt,
   before skip=10pt,
   after skip=10pt,
-  fontupper={\blockquoteFont\small\selectfont\color{imageborder}}
+  fontupper={\blockquoteFont\footnotesize\selectfont}
 ]
 ]]))
     -- Inject image icon inline into the first paragraph

@@ -102,10 +102,10 @@ if (/^__BODY_LINE__/) {
       my $cols = scalar(@headers);
       $_ = "\\begin{center}\n"
         . "{\\selectfont\\monsterFont\n"
-        . "\\rowcolors{2}{encountercolor}{white}\n"
+        . "\\rowcolors{2}{highlightcolor}{white}\n"
         . "\\begin{tabular}{" . ("l" x $cols) . "}\n";
 
-      $_ .= "\\rowcolor{sectioncolor}\n";
+      $_ .= "\\rowcolor{black}\n";
       for my $i (0 .. $#headers) {
         $headers[$i] =~ s/\*\*(.*?)\*\*/\\selectfont\\monsterFont\\textbf{$1}/g;
         $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
@@ -129,7 +129,7 @@ if (/^__BODY_LINE__/) {
 
         $_ .= join(" & ", @cells) . " \\\\\n";
       }
-      $_ .= "\\arrayrulecolor{sectioncolor}\\bottomrule\n\\end{tabular}}\n\\end{center}\n\n";
+      $_ .= "\\arrayrulecolor{black}\\bottomrule\n\\end{tabular}}\n\\end{center}\n\n";
     }
     @table_rows = ();
   }
@@ -156,7 +156,7 @@ if (/^__BODY_LINE__/) {
   s/==([^=]+)==/$1/g;
 
   # Remove the "# Monsters" H1 if it appears alone
-  s/^# Monsters\s*\n/\\vfill\\break/mg;
+  s/^# Monsters\s*\n/\\clearpage/mg;
 
   # Convert <br> after images to line break
   s{(!\[[^\]]*\]\([^)]+\))\n(?!\n)}{\n$1\n\n}g;
@@ -224,7 +224,7 @@ if (/^__BODY_LINE__/) {
   if ($inside_showimagebox) {
     s/\[\[([^\]]+)\]\]/$1/g;
   } else {
-    s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{\\textit{$1}}/g;
+    s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{$1}/g;
   }
 
   s/^(\s*[*_-]+\s*)$//;

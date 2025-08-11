@@ -16,6 +16,7 @@
 \usepackage{needspace}
 \usepackage{amssymb}
 \usepackage{contour}
+\usepackage{xfp}
 
 % Hyperlinks (no colors)
 \usepackage[hidelinks]{hyperref}
@@ -62,6 +63,9 @@
 % 3. Fonts and Font Commands
 % =========================
 
+% Set base font size for body text
+\newcommand{\basefontsize}{10}
+
 \setmainfont{Atkinson Hyperlegible Next}[
   Ligatures=TeX,
   Mapping=tex-text
@@ -72,11 +76,11 @@
   BoldFont={Atkinson Hyperlegible Next SemiBold},
   BoldItalicFont={Atkinson Hyperlegible Next SemiBold Italic}
 ]   
-\newfontfamily\headerfontbold{Atkinson Hyperlegible Next ExtraBold}[
+\newfontfamily\headerfontbold{Atkinson Hyperlegible Next Bold}[
   Ligatures=TeX,
   Mapping=tex-text
 ]       
-\newfontfamily\headerfont{Atkinson Hyperlegible Next Bold}[
+\newfontfamily\headerfont{Atkinson Hyperlegible Next SemiBold}[
   Ligatures=TeX,
   Mapping=tex-text
 ]
@@ -98,11 +102,11 @@
 \newcommand{\stickysubsection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
 
-\newcommand{\sectionsize}{\fontsize{14}{16}}
-\newcommand{\subsectionsize}{\fontsize{12}{14}}
-\newcommand{\subsubsectionsize}{\fontsize{11}{13}}
-\newcommand{\paragraphsize}{\fontsize{10.5}{12}}
-\newcommand{\subparagraphsize}{\fontsize{10}{12}}
+\newcommand{\sectionsize}{\fontsize{\fpeval{\basefontsize * 1.36}pt}{\fpeval{\basefontsize * 1.54}pt}\selectfont}
+\newcommand{\subsectionsize}{\fontsize{\fpeval{\basefontsize * 1.18}pt}{\fpeval{\basefontsize * 1.36}pt}\selectfont}
+\newcommand{\subsubsectionsize}{\fontsize{\fpeval{\basefontsize * 1.09}pt}{\fpeval{\basefontsize * 1.27}pt}\selectfont}
+\newcommand{\paragraphsize}{\fontsize{\fpeval{\basefontsize * 1.045}pt}{\fpeval{\basefontsize * 1.18}pt}\selectfont}
+\newcommand{\subparagraphsize}{\fontsize{\fpeval{\basefontsize * 1.0}pt}{\fpeval{\basefontsize * 1.18}pt}\selectfont}
 
 \renewcommand{\ULdepth}{0.5ex}  % adjust this value to move the underline
 \renewcommand{\ULthickness}{0.03em}  % underline thickness
@@ -113,16 +117,14 @@
 % 5. Colors
 % =========================
 
-\definecolor{sectioncolor}{HTML}{981b1e}      
-
+\definecolor{sectioncolor}{HTML}{0b4778}      
 \definecolor{keywordcolor}{HTML}{fff1d2}
-\definecolor{highlightcolor}{HTML}{e6e6e6}
-\definecolor{highlightborder}{HTML}{981b1e}
-\definecolor{encountercolor}{HTML}{e59393}
-\definecolor{imagecolor}{HTML}{9bdaf1}
-\definecolor{imageborder}{HTML}{046b99}
-\definecolor{remembercolor}{HTML}{e59393}
-\definecolor{rememberborder}{HTML}{cd2026}
+\definecolor{highlightcolor}{HTML}{f6f6f6}
+\definecolor{highlightborder}{HTML}{0076d6}
+\definecolor{encountercolor}{HTML}{ffbc78}
+\definecolor{monstercolor}{HTML}{b50909}
+\definecolor{imagecolor}{HTML}{a1d3ff}
+\definecolor{remembercolor}{HTML}{fff5c2}
 
 % Highlighted text
 \newcommand{\hlfancy}[2]{\colorlet{hlcolor}{#1}\sethlcolor{hlcolor}\hl{#2}}
@@ -132,9 +134,9 @@
 % =========================
 
 % Stylize bullets in itemize lists
-\setlist[itemize,1]{label=\textcolor{sectioncolor}{\textbullet}}
-\setlist[itemize,2]{label=\textbullet}
-\setlist[itemize,3]{label=\textcolor{sectioncolor}{\textendash}}
+% \setlist[itemize,1]{label=\textcolor{sectioncolor}{\textbullet}}
+% \setlist[itemize,2]{label=\textbullet}
+% \setlist[itemize,3]{label=\textcolor{sectioncolor}{\textendash}}
 
 % Allow paragraphs in lists to span columns/pages
 \makeatletter
@@ -178,17 +180,17 @@
   {}
   {0pt}
   {}
-  [\color{sectioncolor}\hrule height 1pt]
+  [\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
-  {\stickysubsubsection\subsubsectionsize\color{sectioncolor}\headerfont}
+  {\stickysubsubsection\subsubsectionsize\headerfont}
   {}
   {0pt}
   {}
-  [\color{sectioncolor}\hrule height 0.5pt]
+  [\hrule height 0.5pt]
 
 \titleformat{\paragraph}[block]
-  {\stickysubsubsection\paragraphsize\color{sectioncolor}\headerfont}
+  {\stickysubsubsection\paragraphsize\headerfont}
   {}
   {0pt}
   {}
@@ -204,15 +206,14 @@
 % =========================
 
 \fancyhf{}
-\fancyfoot[LE,RO]{\headerfont\color{sectioncolor}\textbf\thepage}
-\fancyfoot[LO,RE]{\headerfont\color{sectioncolor}\staticleftmark}
+\fancyfoot[LE,RO]{\color{sectioncolor}\thepage}
+\fancyfoot[LO,RE]{\color{sectioncolor}\staticleftmark}
 \renewcommand{\headrulewidth}{0pt}
 
 % Define a custom colored rule
 \makeatletter
-\renewcommand{\footrule}{%
-  \color{sectioncolor}%
-  \hrule \@height 0.8pt \@width \headwidth \vskip2pt
+\renewcommand{\footrule}{
+  \color{sectioncolor} \hrule \@height 0.5pt \@width \headwidth \vskip2pt
 }
 \makeatother
 \pagestyle{fancy}
