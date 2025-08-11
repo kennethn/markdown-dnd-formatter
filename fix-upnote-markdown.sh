@@ -224,7 +224,7 @@ if (/^__BODY_LINE__/) {
   if ($inside_showimagebox) {
     s/\[\[([^\]]+)\]\]/$1/g;
   } else {
-    s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{$1}/g;
+    s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{\\textit{$1}}/g;
   }
 
   s/^(\s*[*_-]+\s*)$//;
