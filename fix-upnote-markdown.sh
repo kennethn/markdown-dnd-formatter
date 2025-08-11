@@ -105,7 +105,7 @@ if (/^__BODY_LINE__/) {
         . "\\rowcolors{2}{highlightcolor}{white}\n"
         . "\\begin{tabular}{" . ("l" x $cols) . "}\n";
 
-      $_ .= "\\rowcolor{black}\n";
+      $_ .= "\\rowcolor{tableheadercolor}\n";
       for my $i (0 .. $#headers) {
         $headers[$i] =~ s/\*\*(.*?)\*\*/\\selectfont\\monsterFont\\textbf{$1}/g;
         $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;

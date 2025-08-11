@@ -178,7 +178,7 @@ end
   boxrule=0pt,
   coltext=black,
   sharp corners,
-  borderline west={2pt}{0pt}{sectioncolor},
+  borderline west={2pt}{0pt}{imageborder},
   left=4pt,
   right=4pt,
   top=1pt,
@@ -192,7 +192,7 @@ end
     -- Inject image icon inline into the first paragraph
     for i, b in ipairs(el.content) do
       if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\footnotesize\color{sectioncolor}{\faStar}\color{black}\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local icon = pandoc.RawInline('latex', [[\footnotesize\color{imageborder}{\faStar}\color{black}\hspace{0.8em}\selectfont\color{black}\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
         
         local inlines = { icon }
         for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
@@ -211,7 +211,7 @@ end
 \begin{tcolorbox}[
   enhanced,
   breakable,
-  colback={keywordcolor},
+  colback={remembercolor},
   boxrule=0pt,
   colframe=white,
   sharp corners,

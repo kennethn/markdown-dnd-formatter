@@ -74,7 +74,8 @@
   Ligatures=TeX,
   Mapping=tex-text,
   BoldFont={Atkinson Hyperlegible Next SemiBold},
-  BoldItalicFont={Atkinson Hyperlegible Next SemiBold Italic}
+  BoldItalicFont={Atkinson Hyperlegible Next SemiBold Italic},
+  Scale=0.9
 ]   
 \newfontfamily\headerfontbold{Atkinson Hyperlegible Next Bold}[
   Ligatures=TeX,
@@ -120,14 +121,15 @@
 \definecolor{sectioncolor}{HTML}{0b4778}      
 \definecolor{keywordcolor}{HTML}{fff1d2}
 \definecolor{highlightcolor}{HTML}{f6f6f6}
-\definecolor{highlightborder}{HTML}{0076d6}
-\definecolor{encountercolor}{HTML}{ffe2d1}
-\definecolor{encounterborder}{HTML}{ff580a}
+\definecolor{highlightborder}{HTML}{000000}
+\definecolor{tableheadercolor}{HTML}{757575}
+\definecolor{encountercolor}{HTML}{fef2e4}
+\definecolor{encounterborder}{HTML}{e66f0e}
 \definecolor{monstercolor}{HTML}{b50909}
-\definecolor{imagecolor}{HTML}{cfe8ff}
-\definecolor{imageborder}{HTML}{0076d6}
-\definecolor{remembercolor}{HTML}{ffe396}
-\definecolor{rememberborder}{HTML}{e5a000}
+\definecolor{imagecolor}{HTML}{e8f5ff}
+\definecolor{imageborder}{HTML}{2491ff}
+\definecolor{remembercolor}{HTML}{fee685}
+\definecolor{rememberborder}{HTML}{947100}
 
 % Highlighted text
 \newcommand{\hlfancy}[2]{\colorlet{hlcolor}{#1}\sethlcolor{hlcolor}\hl{#2}}
@@ -135,11 +137,6 @@
 % =========================
 % 6. Text and List Styling
 % =========================
-
-% Stylize bullets in itemize lists
-% \setlist[itemize,1]{label=\textcolor{sectioncolor}{\textbullet}}
-% \setlist[itemize,2]{label=\textbullet}
-% \setlist[itemize,3]{label=\textcolor{sectioncolor}{\textendash}}
 
 % Allow paragraphs in lists to span columns/pages
 \makeatletter
@@ -216,7 +213,7 @@
 % Define a custom colored rule
 \makeatletter
 \renewcommand{\footrule}{
-  \color{sectioncolor} \hrule \@height 0.5pt \@width \headwidth \vskip2pt
+  \color{sectioncolor} \hrule \@height 1pt \@width \headwidth \vskip2pt
 }
 \makeatother
 \pagestyle{fancy}
@@ -284,8 +281,8 @@
   boxsep=4pt,
   before skip=12pt,
   after skip=12pt,
-  borderline west={1.5pt}{0pt}{highlightborder},
-  borderline east={1.5pt}{0pt}{highlightborder},
+  borderline west={2pt}{0pt}{highlightborder},
+  borderline east={2pt}{0pt}{highlightborder},
   sharp corners,
   fontupper=\blockquoteFont,
   before upper={%
