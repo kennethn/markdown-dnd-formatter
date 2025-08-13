@@ -22,7 +22,7 @@ function Header(el)
 \begingroup
 \begin{center}
 \vspace*{-16pt}
-\huge\color{monstercolor}\headerfontbold\faDAndD\,\,
+\huge\color{monstercolor}\headerfontbold\faIcon{d-and-d}\,\,
 ]] .. escaped .. [[
 \\[-12pt]
 \rule{\linewidth}{2pt}
