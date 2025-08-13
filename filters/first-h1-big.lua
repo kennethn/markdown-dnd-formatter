@@ -22,10 +22,10 @@ function Header(el)
 \begingroup
 \begin{center}
 \vspace*{-16pt}
-\huge\color{sectioncolor}\headerfontbold\faDAndD\,
+\huge\color{monstercolor}\headerfontbold\faDAndD\,\,
 ]] .. escaped .. [[
 \\[-12pt]
-\color{sectioncolor}\rule{\linewidth}{2pt}
+\rule{\linewidth}{2pt}
 \end{center}
 \endgroup
 ]])
