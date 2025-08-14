@@ -209,7 +209,7 @@ end
     return blocks
   elseif el.classes:includes('rememberbox') then
     local blocks = {}
-    -- Begin encounter box with styling
+    -- Begin remember box with styling
     table.insert(blocks, pandoc.RawBlock('latex', [[
 \begin{tcolorbox}[
   enhanced,
@@ -244,10 +244,45 @@ end
     -- End tcolorbox
     table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
     return blocks
+  elseif el.classes:includes('musicbox') then
+    local blocks = {}
+    -- Begin music box with styling (identical to rememberbox)
+    table.insert(blocks, pandoc.RawBlock('latex', [[
+\begin{tcolorbox}[
+  enhanced,
+  breakable,
+  colback={musiccolor},
+  boxrule=1pt,
+  colframe={black},
+  rounded corners,
+  arc=9pt,
+  coltext=black,
+  left=4pt,
+  right=4pt,
+  top=2pt,
+  bottom=2pt,
+  boxsep=4pt,
+  before skip=10pt,
+  after skip=10pt,
+  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont}
+]
+]]))
+    -- Inject icon inline into the first paragraph
+    for i, b in ipairs(el.content) do
+      if i == 1 and b.t == 'Para' then
+        local icon = pandoc.RawInline('latex', [[\footnotesize\color{black}\faIcon{music}\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
+        local inlines = { icon }
+        for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
+        table.insert(blocks, pandoc.Para(inlines))
+      else
+        table.insert(blocks, b)
+      end
+    end
+    -- End tcolorbox
+    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
+    return blocks
   end
   return nil
 end
-
-
 
 return {{Meta = Meta}, {Div = Div}}

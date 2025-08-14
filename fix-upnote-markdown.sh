@@ -190,6 +190,7 @@ if (/^__BODY_LINE__/) {
   my $CROSSED_SWORDS = qr/\x{2694}(?:\x{FE0F})?/;
   my $PICTURE_FRAME = qr/\x{1F5BC}\x{FE0F}?/; 
   my $WARNING_SIGN = qr/\x{26A0}(?:\x{FE0F})?/; 
+  my $MUSIC_NOTE = qr/\x{1F3B5}(?:\x{FE0F})?/;
 
   if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/ || /\*\*?$CROSSED_SWORDS\s*(.*)/ || /^$CROSSED_SWORDS\s*(.*)/) {
     my $content = $1;
@@ -208,6 +209,13 @@ if (/^__BODY_LINE__/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: rememberbox\n$content\n:::\n";
+    $prev_line = "";
+    next;
+  }
+  elsif (/^Music:\s*(.*)/ || /\*\*?$MUSIC_NOTE\s*(.*)/ || /^$MUSIC_NOTE\s*(.*)/) {
+    my $content = $1;
+    $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
+    $_ = "::: musicbox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
