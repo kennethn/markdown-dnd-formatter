@@ -141,16 +141,18 @@
 % 6. Text and List Styling
 % =========================
 
-% Allow paragraphs in lists to span columns/pages
+% Lists: avoid one-line widows/orphans safely
 \makeatletter
-\AtBeginEnvironment{itemize}{%
-  \clubpenalty=0 \widowpenalty=0 \displaywidowpenalty=0
-  \interlinepenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0
+\newcommand{\ListWidowControl}{%
+  \clubpenalty=\@M
+  \widowpenalty=\@M
+  \displaywidowpenalty=\@M
+  \clubpenalties 2 \@M \@M
+  \widowpenalties 2 \@M \@M
+  \interlinepenalty=100 % mild push to break earlier, not mid-line
 }
-\AtBeginEnvironment{enumerate}{%
-  \clubpenalty=0 \widowpenalty=0 \displaywidowpenalty=0
-  \interlinepenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0
-}
+\AtBeginEnvironment{itemize}{\ListWidowControl}
+\AtBeginEnvironment{enumerate}{\ListWidowControl}
 \makeatother
 
 % Always override item spacing for itemize outside monsterblocks
