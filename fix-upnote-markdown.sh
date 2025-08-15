@@ -177,9 +177,9 @@ if (/^__BODY_LINE__/) {
   # Wrap standalone negative numbers in texttt
   s{(?<![`0-9])\\?(-\d+)(?![\d`])}{"\\texttt{$1}"}ge;
 
-  # Fix number ranges like "5--6" or "5 - 6"
-  s/(\d)\s*--\s*(\d)/$1-$2/g;
-  s/(\d)\s*-\s*(\d)/$1--$2/g;
+  # # # Fix en and em dashes to markdown
+  s/(\d)\s*—\s*(\d)/$1---$2/g;
+  s/(\d)\s*–\s*(\d)/$1--$2/g;
 
   # Encounter, image, and remember boxes
   s/^\*\*(Encounter:.*?)\*\*$/$1/;

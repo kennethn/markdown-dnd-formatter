@@ -66,15 +66,13 @@ fi
 # Build Pandoc options
 PANDOC_OPTS=(
   --standalone
-  --from markdown+raw_attribute+yaml_metadata_block+inline_code_attributes+smart
+  --from=markdown+smart+backtick_code_blocks+task_lists
   --pdf-engine=lualatex
   --template="$TEMPLATE_PATH"
   --lua-filter="$FILTER_DIR/first-h1-big.lua"
-
   --lua-filter="$FILTER_DIR/sticky-headings.lua"
   --lua-filter="$FILTER_DIR/highlight-boxes.lua"
   --lua-filter="$FILTER_DIR/highlight-keywords.lua"
-  --lua-filter="$FILTER_DIR/force-tabular.lua"
   --lua-filter="$FILTER_DIR/fix-heading-list-spacing.lua"
   -V tables=false
   --number-sections=false
