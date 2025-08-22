@@ -1,6 +1,7 @@
 -- highlight-keywords.lua
+-- Highlights specific keywords and character names in D&D notes
 
--- 1. Your keyword list
+-- Configuration: Keywords to highlight
 local keywords = {
   Therynzhaal   = true,
   Ryland       = true,
@@ -17,7 +18,9 @@ local keywords = {
 
 local MAX_KEYWORD_LEN = 3
 
--- 2. Helpers
+-- =========================
+-- Utility Functions
+-- =========================
 local function inlines_to_text(slice)
   local parts = {}
   for _, inline in ipairs(slice) do
@@ -46,7 +49,7 @@ local function latex_bold(kw)
   )
 end
 
--- 3. Try to match up to 3‑word keywords at position i
+-- Keyword matching function
 local function match_keyword(inls,i)
   local maxlen = math.min(MAX_KEYWORD_LEN, #inls - i + 1)
   for len = maxlen,1,-1 do
@@ -67,8 +70,7 @@ local function match_keyword(inls,i)
   return nil
 end
 
--- 4. Recursively walk a list of inlines, highlighting only at the top level,
---    but recursing into any Strong/Emph/Span found.
+-- Main highlighting function - recursively processes inline elements
 local function highlight_inlines(inls)
   local out = {}
   local i = 1
@@ -102,32 +104,33 @@ local function highlight_inlines(inls)
   return out
 end
 
--- 5. Block‑level filters
+-- =========================
+-- Pandoc Filters
+-- =========================
 
--- only touch paragraphs
+-- Process paragraphs
 function Para(el)
   el.content = highlight_inlines(el.content)
   return el
 end
 
--- and plain blocks
+-- Process plain text blocks
 function Plain(el)
   el.content = highlight_inlines(el.content)
   return el
 end
 
--- leave headers completely alone
+-- Skip headers (no highlighting)
 function Header(el)
   return el
 end
 
--- never highlight inside blockquotes
+-- Skip blockquotes (no highlighting)
 function BlockQuote(el)
   return el
 end
 
--- skip your special divs, otherwise dive in and only re‑process
--- any paragraphs or plain blocks they contain.
+-- Process divs selectively
 function Div(el)
   if el.classes:includes("highlightshowimagebox")
   or el.classes:includes("highlightencounterbox") then
@@ -143,7 +146,7 @@ function Div(el)
   return el
 end
 
--- 6. Export only the block‑level handlers
+-- Export filter functions
 return {
   { Para       = Para,
     Plain      = Plain,

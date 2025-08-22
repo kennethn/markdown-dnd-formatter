@@ -1,6 +1,12 @@
 -- highlight-boxes.lua
 -- Handles custom fenced Divs, monster stat blocks, and custom callout boxes for D&D notes
 
+-- Get the directory of the current script
+local script_dir = debug.getinfo(1, "S").source:match("@?(.*/)") or "./"
+package.path = package.path .. ";" .. script_dir .. "?.lua"
+
+local utils = require('utils')
+
 -- Enable tight lists by default
 function Meta(meta)
   return {
@@ -9,50 +15,20 @@ function Meta(meta)
   }
 end
 
--- Flatten a bullet list into inline content
+-- Flatten lists using shared utility
 function flatten_bullet_list(blist)
-  local new_items = {}
-  for _, item in ipairs(blist.content) do
-    local flat = {}
-    for _, part in ipairs(item) do
-      if part.t == 'Para' then
-        for _, subpart in ipairs(part.c) do
-          table.insert(flat, subpart)
-        end
-      else
-        table.insert(flat, part)
-      end
-    end
-    table.insert(new_items, flat)
-  end
-  return pandoc.BulletList(new_items)
+  return pandoc.BulletList(utils.flatten_list_content(blist.content))
 end
 
--- Flatten an ordered list into inline content
 function flatten_ordered_list(olist)
-  local new_items = {}
-  for _, item in ipairs(olist.content) do
-    local flat = {}
-    for _, part in ipairs(item) do
-      if part.t == 'Para' then
-        for _, subpart in ipairs(part.c) do
-          table.insert(flat, subpart)
-        end
-      else
-        table.insert(flat, part)
-      end
-    end
-    table.insert(new_items, flat)
-  end
-  return pandoc.OrderedList(olist.start, new_items)
+  return pandoc.OrderedList(olist.start, utils.flatten_list_content(olist.content))
 end
 
 -- Main Div filter: handles custom highlightencounterbox and highlightshowimagebox
 function Div(el)
   
-  -- Encounter callout box
-    -- MONSTERBLOCK
- if el.classes:includes("monsterblock") then
+  -- Monster stat block
+  if el.classes:includes("monsterblock") then
   -- Inject spacing override before bullet lists
   local function insert_itemsep_before_lists(blocks)
     local new_blocks = {}
@@ -130,157 +106,31 @@ function Div(el)
 end
 
   
+  -- Encounter callout box
   if el.classes:includes('highlightencounterbox') then
-    local blocks = {}
-    -- Begin encounter box with styling
-    table.insert(blocks, pandoc.RawBlock('latex', [[
-\begin{tcolorbox}[
-  enhanced,
-  breakable,
-  rounded corners,
-  arc=9pt,
-  colback={encountercolor},
-  colframe={encountercolor},
-  boxrule=1pt,
-  coltext=black,
-  left=4pt,
-  right=4pt,
-  top=2pt,
-  bottom=2pt,
-  boxsep=4pt,
-  before skip=10pt,
-  after skip=10pt,
-  fontupper={\blockquoteFont\selectfont}
-]
-]]))
-    -- Inject icon inline into the first paragraph
-    for i, b in ipairs(el.content) do
-      if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\footnotesize\color{encounterborder}\faIcon{skull-crossbones}\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
-        local inlines = { icon }
-        for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
-        table.insert(blocks, pandoc.Para(inlines))
-      else
-        table.insert(blocks, b)
-      end
-    end
-    -- End tcolorbox
-    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
-    return blocks
+    return utils.create_tcolorbox(
+      'encountercolor', 'encounterborder',
+      '\\faIcon{skull-crossbones}', el.content
+    )
 
   -- Image callout box
   elseif el.classes:includes('highlightshowimagebox') then
-    local blocks = {}
-    -- Begin image box with styling
-    table.insert(blocks, pandoc.RawBlock('latex', [[
-\begin{tcolorbox}[
-  enhanced,
-  breakable,
-  colback={imagecolor},
-  coltext=black,
-  rounded corners,
-  colframe={imagecolor},
-  boxrule=1pt,
-  arc=9pt,
-  left=4pt,
-  right=4pt,
-  top=2pt,
-  bottom=2pt,
-  boxsep=4pt,
-  before skip=10pt,
-  after skip=10pt,
-  fontupper={\blockquoteFont\selectfont}
-]
-]]))
-    -- Inject image icon inline into the first paragraph
-    for i, b in ipairs(el.content) do
-      if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\footnotesize\color{imageborder}\faIcon{scroll}\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
-        
-        local inlines = { icon }
-        for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
-        table.insert(blocks, pandoc.Para(inlines))
-      else
-        table.insert(blocks, b)
-      end
-    end
-    -- End tcolorbox
-    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
-    return blocks
+    return utils.create_tcolorbox(
+      'imagecolor', 'imageborder',
+      '\\faIcon{scroll}', el.content
+    )
+  -- Remember callout box
   elseif el.classes:includes('rememberbox') then
-    local blocks = {}
-    -- Begin remember box with styling
-    table.insert(blocks, pandoc.RawBlock('latex', [[
-\begin{tcolorbox}[
-  enhanced,
-  breakable,
-  colback={remembercolor},
-  boxrule=1pt,
-  colframe={rememberborder},
-  rounded corners,
-  arc=9pt,
-  coltext=black,
-  left=4pt,
-  right=4pt,
-  top=2pt,
-  bottom=2pt,
-  boxsep=4pt,
-  before skip=10pt,
-  after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont}
-]
-]]))
-    -- Inject icon inline into the first paragraph
-    for i, b in ipairs(el.content) do
-      if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\footnotesize\color{rememberborder}\faAsterisk\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
-        local inlines = { icon }
-        for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
-        table.insert(blocks, pandoc.Para(inlines))
-      else
-        table.insert(blocks, b)
-      end
-    end
-    -- End tcolorbox
-    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
-    return blocks
+    return utils.create_tcolorbox(
+      'remembercolor', 'rememberborder',
+      '\\faAsterisk', el.content
+    )
+  -- Music callout box
   elseif el.classes:includes('musicbox') then
-    local blocks = {}
-    -- Begin music box with styling (identical to rememberbox)
-    table.insert(blocks, pandoc.RawBlock('latex', [[
-\begin{tcolorbox}[
-  enhanced,
-  breakable,
-  colback={musiccolor},
-  boxrule=1pt,
-  colframe={black},
-  rounded corners,
-  arc=9pt,
-  coltext=black,
-  left=4pt,
-  right=4pt,
-  top=2pt,
-  bottom=2pt,
-  boxsep=4pt,
-  before skip=10pt,
-  after skip=10pt,
-  fontupper={\blockquoteFont\small\linespread{0.9}\selectfont}
-]
-]]))
-    -- Inject icon inline into the first paragraph
-    for i, b in ipairs(el.content) do
-      if i == 1 and b.t == 'Para' then
-        local icon = pandoc.RawInline('latex', [[\footnotesize\color{black}\faIcon{music}\hspace{0.8em}\selectfont\begin{minipage}[t]{\dimexpr\linewidth-1.8em\hangindent=1.8em\hangafter=0}]])
-        local inlines = { icon }
-        for _, inline in ipairs(b.c) do table.insert(inlines, inline) end
-        table.insert(blocks, pandoc.Para(inlines))
-      else
-        table.insert(blocks, b)
-      end
-    end
-    -- End tcolorbox
-    table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
-    return blocks
+    return utils.create_tcolorbox(
+      'musiccolor', 'black',
+      '\\faIcon{music}', el.content
+    )
   end
   return nil
 end

@@ -61,50 +61,51 @@
 \raggedbottom
 
 % =========================
-% 3. Fonts and Font Commands
+% 3. Font Configuration
 % =========================
 
-% Set base font size for body text
+% Base font size for calculations
 \newcommand{\basefontsize}{10}
 
-\setmainfont{Atkinson Hyperlegible Next}[
-  Ligatures=TeX
-]                 
+% Main document font
+\setmainfont{Atkinson Hyperlegible Next}[Ligatures=TeX]
+
+% Specialized font families
 \newfontfamily\blockquoteFont{Atkinson Hyperlegible Next}[
   Ligatures=TeX,
   BoldFont={Atkinson Hyperlegible Next SemiBold},
   BoldItalicFont={Atkinson Hyperlegible Next SemiBold Italic},
   Scale=0.9
-]   
-\newfontfamily\headerfontbold{Atkinson Hyperlegible Next Bold}[
-  Ligatures=TeX
-]       
-\newfontfamily\headerfont{Atkinson Hyperlegible Next SemiBold}[
-  Ligatures=TeX
 ]
+
+\newfontfamily\headerfontbold{Atkinson Hyperlegible Next Bold}[Ligatures=TeX]
+\newfontfamily\headerfont{Atkinson Hyperlegible Next SemiBold}[Ligatures=TeX]
+
 \newfontfamily\monsterFont{Atkinson Hyperlegible Next}[
   Ligatures=TeX,
   Scale=0.85,
   BoldFont={Atkinson Hyperlegible Next SemiBold},
-  BoldItalicFont={Atkinson Hyperlegible Next SemiBold Italic} 
+  BoldItalicFont={Atkinson Hyperlegible Next SemiBold Italic}
 ]
 
+% Special purpose fonts
 \newfontfamily\emojifont[Renderer=HarfBuzz]{NotoColorEmoji.ttf}
-
 \setmonofont{Atkinson Hyperlegible Mono}[
-    Contextuals=Alternate, 
-    Scale=MatchLowercase
+  Contextuals=Alternate,
+  Scale=MatchLowercase
 ]
 
 
 % =========================
-% 4. Section Formatting
+% 4. Typography and Sizing
 % =========================
 
+% Spacing control for section breaks
 \newcommand{\stickysection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsection}{\needspace{3\baselineskip}}
 \newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
 
+% Font size calculations based on base size
 \newcommand{\sectionsize}{\fontsize{\fpeval{\basefontsize * 1.36}pt}{\fpeval{\basefontsize * 1.54}pt}\selectfont}
 \newcommand{\subsectionsize}{\fontsize{\fpeval{\basefontsize * 1.18}pt}{\fpeval{\basefontsize * 1.36}pt}\selectfont}
 \newcommand{\subsubsectionsize}{\fontsize{\fpeval{\basefontsize * 1.09}pt}{\fpeval{\basefontsize * 1.27}pt}\selectfont}
@@ -117,32 +118,34 @@
 \linespread{1.0} % default line spacing
 
 % =========================
-% 5. Colors
+% 5. Color Scheme
 % =========================
 
-% original dark blue: 003d5b
-\definecolor{sectioncolor}{HTML}{30638E}      
-\definecolor{keywordcolor}{HTML}{30638E}
-\definecolor{highlightcolor}{HTML}{ebf8ff}
-\definecolor{highlightborder}{HTML}{30638E}
-\definecolor{tableheadercolor}{HTML}{30638E}
-\definecolor{encountercolor}{HTML}{A32939}
-\definecolor{encounterborder}{HTML}{ffffff}
-\definecolor{monstercolor}{HTML}{A32939}
-\definecolor{imagecolor}{HTML}{30638e}
-\definecolor{imageborder}{HTML}{ffffff}
-\definecolor{remembercolor}{HTML}{edae49}
-\definecolor{rememberborder}{HTML}{000000}
-\definecolor{musiccolor}{HTML}{06D6A0}
+% Primary colors
+\definecolor{sectioncolor}{HTML}{30638E}     % Main blue theme
+\definecolor{keywordcolor}{HTML}{30638E}     % Keyword highlighting
+\definecolor{highlightcolor}{HTML}{ebf8ff}   % Light blue background
+\definecolor{highlightborder}{HTML}{30638E}  % Border for highlights
+\definecolor{tableheadercolor}{HTML}{30638E} % Table header background
+
+% Callout box colors
+\definecolor{encountercolor}{HTML}{A32939}   % Red for encounters
+\definecolor{encounterborder}{HTML}{ffffff}  % White borders
+\definecolor{monstercolor}{HTML}{A32939}     % Red for monster blocks
+\definecolor{imagecolor}{HTML}{30638e}       % Blue for images
+\definecolor{imageborder}{HTML}{ffffff}      % White borders
+\definecolor{remembercolor}{HTML}{edae49}    % Yellow for reminders
+\definecolor{rememberborder}{HTML}{000000}   % Black borders
+\definecolor{musiccolor}{HTML}{06D6A0}       % Green for music
 
 % Highlighted text
 \newcommand{\hlfancy}[2]{\colorlet{hlcolor}{#1}\sethlcolor{hlcolor}\hl{#2}}
 
 % =========================
-% 6. Text and List Styling
+% 6. List and Text Control
 % =========================
 
-% Lists: avoid one-line widows/orphans safely
+% Widow/orphan control for lists
 \makeatletter
 \newcommand{\ListWidowControl}{%
   \clubpenalty=\@M
@@ -150,57 +153,56 @@
   \displaywidowpenalty=\@M
   \clubpenalties 2 \@M \@M
   \widowpenalties 2 \@M \@M
-  \interlinepenalty=100 % mild push to break earlier, not mid-line
+  \interlinepenalty=100
 }
 \AtBeginEnvironment{itemize}{\ListWidowControl}
 \AtBeginEnvironment{enumerate}{\ListWidowControl}
 \makeatother
 
-% Always override item spacing for itemize outside monsterblocks
+% List spacing configuration
 \setlist[itemize]{itemsep=4pt, topsep=1pt, parsep=0pt, partopsep=0pt}
 
-% Ensure Pandoc-generated \tightlist honors this too
-\providecommand{\tightlist}{
-  \setlength{\itemsep}{4pt}
-  \setlength{\topsep}{1pt}
-  \setlength{\parsep}{0pt}
-  \setlength{\parskip}{0pt}
-  \setlength{\partopsep}{0pt}
+% Pandoc tightlist compatibility
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{4pt}%
+  \setlength{\topsep}{1pt}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+  \setlength{\partopsep}{0pt}%
 }
+
+% Table rules spacing
 \setlength{\aboverulesep}{0pt}
 \setlength{\belowrulesep}{0pt}
 
-% Ensure lists have enough space
+% Prevent orphaned lists
 \BeforeBeginEnvironment{itemize}{\needspace{1\baselineskip}}
 \BeforeBeginEnvironment{enumerate}{\needspace{1\baselineskip}}
 
 % =========================
-% 7. Section Titles and Spacing
+% 7. Section Formatting
 % =========================
 
-\titleformat{\section}[block]{\stickysection\sectionsize\color{sectioncolor}\headerfontbold}{}
-  {0pt}{}
+% Section title formats
+\titleformat{\section}[block]
+  {\stickysection\sectionsize\color{sectioncolor}\headerfontbold}
+  {}{0pt}{}
 
 \titleformat{\subsection}[block]
   {\stickysubsection\subsectionsize\color{sectioncolor}\headerfontbold}
-  {}
-  {0pt}
-  {}
+  {}{0pt}{}
   [\hrule height 1pt]
 
 \titleformat{\subsubsection}[block]
   {\stickysubsubsection\subsubsectionsize\color{sectioncolor}\headerfont}
-  {}
-  {0pt}
-  {}
+  {}{0pt}{}
   [\hrule height 0.5pt]
 
 \titleformat{\paragraph}[block]
   {\stickysubsubsection\paragraphsize\color{sectioncolor}\headerfont}
-  {}
-  {0pt}
-  {}
+  {}{0pt}{}
 
+% Section spacing
 \titlespacing*{\section}      {0pt}{1.5\baselineskip}{0.5\baselineskip}
 \titlespacing*{\subsection}   {0pt}{1.25\baselineskip}{0.4\baselineskip}
 \titlespacing*{\subsubsection}{0pt}{1.0\baselineskip}{0.3\baselineskip}
@@ -208,23 +210,25 @@
 \titlespacing*{\subparagraph} {0pt}{0.5\baselineskip}{0.25\baselineskip}
 
 % =========================
-% 8. Headers, Footers, and Pagination
+% 8. Page Layout and Pagination
 % =========================
 
+% Header and footer setup
 \fancyhf{}
 \fancyfoot[LE,RO]{\color{sectioncolor}\textbf\thepage}
 \fancyfoot[LO,RE]{\color{sectioncolor}\staticleftmark}
 \renewcommand{\headrulewidth}{0pt}
 
-% Define a custom colored rule
+% Custom colored footer rule
 \makeatletter
-\renewcommand{\footrule}{
-  \color{sectioncolor} \hrule \@height 1pt \@width \headwidth \vskip2pt
+\renewcommand{\footrule}{%
+  \color{sectioncolor}\hrule\@height 1pt\@width\headwidth\vskip2pt
 }
 \makeatother
 \pagestyle{fancy}
 \setlength{\footskip}{28pt}
 
+% Penalty settings for better page breaks
 \clubpenalty=10000
 \widowpenalty=10000
 \brokenpenalty=4991
@@ -232,48 +236,50 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 
-\AtBeginEnvironment{quote}{
-  \clubpenalty=10000  % No orphan lines at bottom of page
-  \widowpenalty=10000 % No widow lines at top of page
+% Quote environment penalties
+\AtBeginEnvironment{quote}{%
+  \clubpenalty=10000
+  \widowpenalty=10000
 }
 
-\AtBeginEnvironment{quotation}{
+\AtBeginEnvironment{quotation}{%
   \clubpenalty=10000
   \widowpenalty=10000
 }
 
 % =========================
-% 9. Environments and Boxes
+% 9. Graphics and Media
 % =========================
 
-% Graphics
+% Image sizing defaults
 \setkeys{Gin}{width=0.48\textwidth, keepaspectratio}
 \providecommand{\maxwidth}{\linewidth}
 \providecommand{\maxheight}{0.9\textheight}
 \providecommand{\pandocbounded}[1]{#1}
 
-\renewenvironment{quote}
-  {%
-    \begingroup
-      % restore normal indent & spacing
-      \setlength{\parindent}{1em}%
-      \linespread{1.0}
-      \begin{tcolorbox}[myquote,
-        before upper={%
-          \let\textbf\oldtextbf
-          % <-- set indent & skip *inside* the box
-          \setlength{\parindent}{1.5em}%
-          \setlength{\parskip}{0pt}%
-          \noindent              % <-- suppress *first* paragraph indent
-        }%
-      ]%
-  }
-  {%
-      \end{tcolorbox}%
-    \endgroup
-  }
+% =========================
+% 10. Custom Environments
+% =========================
 
-% Blockquote style (D&D-style box with Sans Serif)
+% D&D-style blockquote environment
+\renewenvironment{quote}{%
+  \begingroup
+  \setlength{\parindent}{1em}
+  \linespread{1.0}
+  \begin{tcolorbox}[myquote,
+    before upper={%
+      \let\textbf\oldtextbf
+      \setlength{\parindent}{1.5em}
+      \setlength{\parskip}{0pt}
+      \noindent
+    }
+  ]
+}{%
+  \end{tcolorbox}
+  \endgroup
+}
+
+% Blockquote box styling
 \tcbset{myquote/.style={
   breakable,
   enhanced,
@@ -292,13 +298,13 @@
   sharp corners,
   fontupper=\blockquoteFont,
   before upper={%
-    \setlength{\parskip}{4pt}%
-    \setlength{\baselineskip}{10pt}%
+    \setlength{\parskip}{4pt}
+    \setlength{\baselineskip}{10pt}
   }
 }}
 
 % =========================
-% 10. Document Content
+% 11. Document Content
 % =========================
 
 \begin{document}
