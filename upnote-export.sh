@@ -52,7 +52,7 @@ OUTPUT_FILE="${INPUT_DIR}/${INPUT_FILE}.pdf"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FILTER_DIR="$SCRIPT_DIR/filters"
 TEMPLATE_PATH="$SCRIPT_DIR/dnd-notes.tex"
-FIX_SCRIPT="$SCRIPT_DIR/fix-upnote-markdown.sh"
+FIX_SCRIPT="$SCRIPT_DIR/scripts/fix-upnote-markdown.sh"
 
 # =========================
 # Processing Steps

@@ -64,13 +64,25 @@ The main script combines these steps:
 
 1. **Clean the Markdown:**
    ```bash
-   ./fix-upnote-markdown.sh "Input.md" "Output_cleaned.md"
+   ./scripts/fix-upnote-markdown.sh "Input.md" "Output_cleaned.md"
    ```
 
 2. **Generate PDF with Pandoc:**
    ```bash
    pandoc Input_cleaned.md -o Output.pdf --template=dnd-notes.tex [filters...]
    ```
+
+### Development Commands
+
+Use the included Makefile for development tasks:
+
+```bash
+make test        # Run comprehensive test suite
+make demo        # Run demonstration with sample file
+make clean       # Clean temporary files
+make lint        # Run code quality checks
+make validate    # Validate configuration files
+```
 
 ---
 
@@ -105,10 +117,13 @@ Create highlighted callout boxes with icons using these triggers:
 - **Wikilink support** for `[[linked terms]]`
 
 ### Processing Features
-- **Unicode emoji handling** with proper font rendering
-- **Table formatting** with colored headers and alternating rows
+- **Unicode emoji handling** with proper LaTeX font rendering (`\emojifont`)
+- **Advanced table formatting** with colored headers, alternating row colors, and proper LaTeX styling
 - **Markdown compatibility** including task lists and code blocks
 - **Smart text cleanup** removing unwanted characters and formatting
+- **Negative number preservation** in normal font (no monospace wrapping)
+- **Comprehensive error handling** with informative logging
+- **Modular architecture** for easy maintenance and extension
 
 ---
 
@@ -116,15 +131,28 @@ Create highlighted callout boxes with icons using these triggers:
 
 ```
 ├── upnote-export.sh          # Main conversion script
-├── fix-upnote-markdown.sh     # Markdown preprocessing
+├── scripts/                  # Refactored modular processing scripts
+│   ├── fix-upnote-markdown.sh # Main markdown preprocessing
+│   └── lib/                  # Processing modules
+│       ├── common.sh         # Shared utilities and logging
+│       ├── monster-blocks.sh # Monster stat block wrapping
+│       ├── yaml-processor.sh # YAML frontmatter handling
+│       ├── content-transformer.sh # Main content transformations
+│       └── cleanup.sh        # Final formatting and cleanup
+├── config/                   # Configuration files
+│   └── transform-config.json # Transformation settings
+├── tests/                    # Test suite
+│   ├── test-fix-upnote-markdown.sh # Comprehensive test suite
+│   └── fixtures/             # Test data (generated)
 ├── dnd-notes.tex             # LaTeX template
-└── filters/                  # Pandoc Lua filters
-    ├── utils.lua             # Shared utilities
-    ├── highlight-boxes.lua   # Callout box processing
-    ├── highlight-keywords.lua # Keyword highlighting
-    ├── sticky-headings.lua   # Page break control
-    ├── first-h1-big.lua      # Title formatting
-    └── fix-heading-list-spacing.lua # Spacing fixes
+├── filters/                  # Pandoc Lua filters
+│   ├── utils.lua             # Shared utilities
+│   ├── highlight-boxes.lua   # Callout box processing
+│   ├── highlight-keywords.lua # Keyword highlighting
+│   ├── sticky-headings.lua   # Page break control
+│   ├── first-h1-big.lua      # Title formatting
+│   └── fix-heading-list-spacing.lua # Spacing fixes
+└── Makefile                  # Build automation and development tools
 ```
 
 ---

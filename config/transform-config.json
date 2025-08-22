@@ -1,0 +1,37 @@
+{
+  "callout_boxes": {
+    "encounter": {
+      "keywords": ["Encounter:", "⚔️"],
+      "div_class": "highlightencounterbox"
+    },
+    "image": {
+      "keywords": ["Image:", "Show image:", "🖼️"],
+      "div_class": "highlightshowimagebox"
+    },
+    "remember": {
+      "keywords": ["Remember:", "⚠️"],
+      "div_class": "rememberbox"
+    },
+    "music": {
+      "keywords": ["Music:", "🎵"],
+      "div_class": "musicbox"
+    }
+  },
+  "unicode_patterns": {
+    "crossed_swords": "⚔️",
+    "picture_frame": "🖼️",
+    "warning_sign": "⚠️",
+    "music_note": "🎵"
+  },
+  "table_styling": {
+    "enable_alternating_rows": true,
+    "header_color": "tableheadercolor",
+    "highlight_color": "highlightcolor"
+  },
+  "text_processing": {
+    "normalize_dashes": true,
+    "wrap_negative_numbers": true,
+    "remove_zero_width_chars": true,
+    "convert_emojis_to_latex": true
+  }
+}

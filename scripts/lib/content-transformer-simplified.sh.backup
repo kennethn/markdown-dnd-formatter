@@ -1,0 +1,142 @@
+#!/bin/bash
+# content-transformer.sh - Main content transformation logic
+
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+# =========================
+# Content Transformation
+# =========================
+
+transform_content() {
+    local input_file="$1"
+    local output_file="$2"
+    
+    log_info "Transforming markdown content..."
+    
+    # Simplified Perl transformation inline
+    perl -CSD -pe '
+    use utf8;
+    binmode(STDIN, ":encoding(UTF-8)");
+    BEGIN {
+        our @table_rows = ();
+        our $in_table = 0;
+        our $inside_showimagebox = 0;
+        our $prev_line = "";
+    }
+
+    if (/^__BODY_LINE__/) {
+        s/^__BODY_LINE__//;
+        
+        # Basic table processing
+        if (/^\|.*\|$/) {
+            $in_table = 1;
+            push @table_rows, $_;
+            $_ = "";
+            next;
+        }
+        elsif ($in_table && /^\s*$/) {
+            $in_table = 0;
+            if (@table_rows >= 2) {
+                my $header = shift @table_rows;
+                shift @table_rows; # Skip divider row
+                
+                my @headers = split /\|/, $header;
+                @headers = map { s/^\s+|\s+$//gr } @headers;
+                @headers = grep { $_ ne "" } @headers;
+                
+                my $cols = scalar(@headers);
+                $_ = "\\begin{tabular}{" . ("l" x $cols) . "}\n";
+                
+                for my $i (0 .. $#headers) {
+                    $headers[$i] = "\\textbf{$headers[$i]}";
+                }
+                $_ .= join(" & ", @headers) . " \\\\\n";
+                
+                foreach my $row (@table_rows) {
+                    my @cells = split /\s*\|\s*/, $row;
+                    @cells = grep { $_ ne "" } @cells;
+                    $_ .= join(" & ", @cells) . " \\\\\n";
+                }
+                $_ .= "\\end{tabular}\n\n";
+            }
+            @table_rows = ();
+            $prev_line = $_;
+            next;
+        }
+        elsif ($in_table) {
+            push @table_rows, $_;
+            $_ = "";
+            next;
+        }
+        
+        # Remove bold markers from callout keywords (restored from original)
+        s/^\*\*(Encounter:.*)\*\*/$1/;
+        s/^\*\*(Image:.*)\*\*/$1/;
+        s/^\*\*(Show image:.*)\*\*/$1/;
+        s/^\*\*(Remember:.*)\*\*/$1/;
+        s/^\*\*(Music:.*)\*\*/$1/;
+        
+        # Unicode patterns for callout boxes (restored from original)
+        my $CROSSED_SWORDS = qr/\x{2694}(?:\x{FE0F})?/;
+        my $PICTURE_FRAME = qr/\x{1F5BC}\x{FE0F}?/; 
+        my $WARNING_SIGN = qr/\x{26A0}(?:\x{FE0F})?/; 
+        my $MUSIC_NOTE = qr/\x{1F3B5}(?:\x{FE0F})?/;
+
+        # Callout box processing with emoji support (restored from original)
+        if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/ || /\*\*?$CROSSED_SWORDS\s*(.*)/ || /^$CROSSED_SWORDS\s*(.*)/) {
+            my $content = $1;
+            $_ = "::: highlightencounterbox\n$content\n:::\n";
+            $prev_line = "";
+            next;
+        }
+        elsif (/^Show image:\s*(.*)/ || /^Image:\s*(.*)/ || /\*\*?$PICTURE_FRAME\s*(.*)/ || /^$PICTURE_FRAME\s*(.*)/) {
+            my $content = $1;
+            $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
+            $_ = "::: highlightshowimagebox\n$content\n:::\n";
+            $prev_line = "";
+            next;
+        }
+        elsif (/^Remember:\s*(.*)/ || /\*\*?$WARNING_SIGN\s*(.*)/ || /^$WARNING_SIGN\s*(.*)/) {
+            my $content = $1;
+            $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
+            $_ = "::: rememberbox\n$content\n:::\n";
+            $prev_line = "";
+            next;
+        }
+        elsif (/^Music:\s*(.*)/ || /\*\*?$MUSIC_NOTE\s*(.*)/ || /^$MUSIC_NOTE\s*(.*)/) {
+            my $content = $1;
+            $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
+            $_ = "::: musicbox\n$content\n:::\n";
+            $prev_line = "";
+            next;
+        }
+        
+        # Wiki links (simplified)
+        s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{\\textbf{$1}}/g;
+        
+        # Unicode and emoji processing (from original)
+        s/[\x{200B}-\x{200D}\x{2060}\x{FE0F}\x{00AD}]//g;  # Zero-width chars
+        
+        # Convert emojis to LaTeX with \emojifont (restored from original)
+        s/([\x{2300}-\x{23FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{2B00}-\x{2BFF}\x{1F1E6}-\x{1F1FF}\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1FA70}-\x{1FAFF}])/
+        "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"/uge;
+        
+        # Handle special spaces
+        s/[\x{2003}]/\\hspace*{1.5em}/g;  # em space
+        
+        # Other cleanup
+        s/==([^=]+)==/$1/g;  # Remove highlights
+        s/(?<![`0-9])\\?(-\d+)(?![\d`])/\\texttt{$1}/g;  # Negative numbers
+        s/<br\s*\/?>//gi unless $in_table;  # Remove <br> tags
+        
+        $prev_line = $_;
+    }
+    ' "$input_file" > "$output_file"
+    
+    if [[ $? -eq 0 ]]; then
+        log_success "Content transformation complete"
+    else
+        log_error "Content transformation failed"
+        return 1
+    fi
+}
