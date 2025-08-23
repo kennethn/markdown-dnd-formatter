@@ -53,6 +53,7 @@ if (/^__BODY_LINE__/) {
 
       $_ .= "\\rowcolor{tableheadercolor}\n";
       for my $i (0 .. $#headers) {
+        $headers[$i] =~ s/&/\\&/g;  # Escape ampersands
         $headers[$i] =~ s/\*\*(.*?)\*\*/\\selectfont\\monsterFont\\textbf{$1}/g;
         $headers[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
         $headers[$i] =~ s/(<br\s*\/?>)+/\\\\/gi;
@@ -68,6 +69,7 @@ if (/^__BODY_LINE__/) {
         my @cells = split /\s*\|\s*/, $line;
         @cells = grep { $_ ne "" } @cells;
         for my $i (0 .. $#cells) {
+          $cells[$i] =~ s/&/\\&/g;  # Escape ampersands
           $cells[$i] =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
           $cells[$i] =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
           $cells[$i] =~ s/(<br\s*\/?>)+/\\\\ /gi;  # Convert <br> to LaTeX line break

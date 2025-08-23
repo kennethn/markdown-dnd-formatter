@@ -10,8 +10,12 @@ set -euo pipefail
 # =========================
 
 print_usage() {
-    echo "Usage: $0 input.md"
+    echo "Usage: $0 [options] input.md"
     echo "Converts UpNote markdown export to D&D-styled PDF"
+    echo ""
+    echo "Options:"
+    echo "  --one-column    Use single column layout instead of two columns"
+    echo "  -h, --help      Show this help message"
 }
 
 validate_input() {
@@ -38,7 +42,31 @@ validate_input() {
 # =========================
 
 # Parse command line arguments
-INPUT="$1"
+ONE_COLUMN=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --one-column)
+            ONE_COLUMN=true
+            shift
+            ;;
+        -h|--help)
+            print_usage
+            exit 0
+            ;;
+        -*)
+            echo "❌ Unknown option: $1" >&2
+            print_usage
+            exit 1
+            ;;
+        *)
+            INPUT="$1"
+            shift
+            break
+            ;;
+    esac
+done
+
 validate_input "$INPUT"
 
 # Set up file paths
@@ -81,6 +109,11 @@ PANDOC_OPTS=(
     --number-sections=false
     --resource-path="."
 )
+
+# Add onecolumn variable only if true
+if [ "$ONE_COLUMN" = true ]; then
+    PANDOC_OPTS+=(-V onecolumn=true)
+fi
 
 echo "📄 Generating PDF..."
 (

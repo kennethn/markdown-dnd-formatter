@@ -151,6 +151,9 @@ sub generate_table_latex {
 sub format_table_cell {
     my ($cell, $is_header) = @_;
     
+    # Escape LaTeX special characters
+    $cell =~ s/&/\\&/g;  # Escape ampersands
+    
     # Basic markdown formatting
     $cell =~ s/\*\*(.*?)\*\*/\\textbf{$1}/g;
     $cell =~ s/(\*|_)(.*?)\1/\\emph{$2}/g;
