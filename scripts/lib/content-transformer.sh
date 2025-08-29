@@ -11,7 +11,7 @@ transform_content() {
     local input_file="$1"
     local output_file="$2"
     
-    log_info "Transforming markdown content (complete original functionality)..."
+    log_info "Transforming markdown content..."
     
     # Complete Perl transformation - EXACTLY as in original script
     perl -CSD -pe '
@@ -203,7 +203,7 @@ if (/^__BODY_LINE__/) {
     ' "$input_file" > "$output_file"
     
     if [[ $? -eq 0 ]]; then
-        log_success "Content transformation complete (all original functionality restored)"
+        log_success "Content transformation complete"
     else
         log_error "Content transformation failed"
         return 1
