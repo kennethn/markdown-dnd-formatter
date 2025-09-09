@@ -128,7 +128,7 @@ end
   -- Music callout box
   elseif el.classes:includes('musicbox') then
     return utils.create_tcolorbox(
-      'musiccolor', 'black',
+      'musiccolor', 'white',
       '\\faIcon{music}', el.content
     )
   end
