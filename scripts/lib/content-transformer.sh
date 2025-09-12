@@ -181,7 +181,7 @@ if (/^__BODY_LINE__/) {
   if ($inside_showimagebox) {
     s/\[\[([^\]]+)\]\]/$1/g;
   } else {
-    s/\[\[([^\]]+)\]\]/\\textcolor{sectioncolor}{\\textbf{$1}}/g;
+    s/\[\[([^\]]+)\]\]/"\\textcolor{sectioncolor}{\\textbf{" . ($1 =~ s!&!\\&!gr) . "}"/ge;
   }
 
   s/^(\s*[*_-]+\s*)$//;
