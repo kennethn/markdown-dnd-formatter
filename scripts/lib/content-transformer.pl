@@ -320,7 +320,7 @@ sub process_general_cleanup {
     my ($line) = @_;
     
     # Remove monster section headers
-    $line =~ s/^# Monsters\s*\n/\\clearpage/mg;
+    $line =~ s/^# Monsters\s*\n/\\\cleardoublepage/mg;
     
     # Image line break handling
     $line =~ s{(!\[[^\]]*\]\([^)]+\))\n(?!\n)}{\n$1\n\n}g;
