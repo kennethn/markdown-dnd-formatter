@@ -45,7 +45,7 @@ end
 local function latex_bold(kw)
   local safe = escape_latex_braces(kw)
   return pandoc.RawInline("latex",
-    "{\\textcolor{sectioncolor}{\\bfseries " .. safe .. "}}"
+    "\\textbf{" .. safe .. "}"
   )
 end
 
