@@ -97,12 +97,12 @@ make validate    # Validate configuration files
 ### Callout Boxes
 Create highlighted callout boxes with icons using these triggers:
 
-| Trigger | Icon | Color | Usage |
-|---------|------|-------|---------|
-| `Encounter:` or ⚔️ | ⚔️ | Red | Combat encounters |
-| `Image:` or `Show image:` or 🖼️ | 📜 | Blue | Visual references |
-| `Remember:` or ⚠️ | ⚠ | Yellow | Important reminders |
-| `Music:` or 🎵 | 🎵 | Green | Audio/atmosphere |
+| Trigger | Icon | Obsidian Callout | Color | Usage |
+|---------|---|----|-------|---------|
+| `Encounter:` or ⚔️ | ⚔️ | `[!dnd-encounter]`| Red | Combat encounters |
+| `Image:` or `Show image:` or 🖼️ | 📜 | `[!dnd-showimage]`| Blue | Visual references |
+| `Remember:` or ⚠️ | ⚠ | `[!dnd-remember]`| Yellow | Important reminders |
+| `Music:` or 🎵 | 🎵 | `[!dnd-musc]`| Green | Audio/atmosphere |
 
 ### Monster Stat Blocks
 - Anything after `# Monsters` gets special formatting
