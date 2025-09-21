@@ -108,49 +108,74 @@ end
 -- Pandoc Filters
 -- =========================
 
--- Process paragraphs
-function Para(el)
-  el.content = highlight_inlines(el.content)
-  return el
-end
-
--- Process plain text blocks
-function Plain(el)
-  el.content = highlight_inlines(el.content)
-  return el
-end
-
--- Skip headers (no highlighting)
-function Header(el)
-  return el
-end
-
--- Skip blockquotes (no highlighting)
-function BlockQuote(el)
-  return el
-end
-
--- Process divs selectively
-function Div(el)
-  if el.classes:includes("highlightshowimagebox")
-  or el.classes:includes("highlightencounterbox") then
-    return el
-  end
-  for i, blk in ipairs(el.content) do
-    if blk.t == "Para" then
-      el.content[i] = Para(blk)
-    elseif blk.t == "Plain" then
-      el.content[i] = Plain(blk)
+-- Main filter function that walks the document properly
+function highlight_document(doc)
+  return pandoc.walk_block(doc, {
+    Para = function(el)
+      el.content = highlight_inlines(el.content)
+      return el
+    end,
+    Plain = function(el)
+      el.content = highlight_inlines(el.content)
+      return el
+    end,
+    BlockQuote = function(el)
+      -- Skip processing blockquotes entirely
+      return el
+    end,
+    Header = function(el)
+      -- Skip processing headers
+      return el
+    end,
+    Div = function(el)
+      if el.classes:includes("highlightshowimagebox")
+      or el.classes:includes("highlightencounterbox") then
+        return el
+      end
+      -- Let the walker handle the content recursively
+      return nil -- continue walking
     end
-  end
-  return el
+  })
 end
 
--- Export filter functions
+-- Export the document-level filter
 return {
-  { Para       = Para,
-    Plain      = Plain,
-    Header     = Header,
-    BlockQuote = BlockQuote,
-    Div        = Div }
+  { Pandoc = function(doc)
+      doc.blocks = pandoc.List(doc.blocks):map(function(blk)
+        if blk.t == "BlockQuote" then
+          return blk -- return unchanged
+        elseif blk.t == "Para" then
+          blk.content = highlight_inlines(blk.content)
+          return blk
+        elseif blk.t == "Plain" then
+          blk.content = highlight_inlines(blk.content)
+          return blk
+        elseif blk.t == "Header" then
+          return blk -- skip headers
+        elseif blk.t == "Div" then
+          if blk.classes:includes("highlightshowimagebox")
+          or blk.classes:includes("highlightencounterbox") then
+            return blk
+          end
+          -- Process div content recursively, but skip blockquotes
+          blk.content = pandoc.List(blk.content):map(function(inner_blk)
+            if inner_blk.t == "BlockQuote" then
+              return inner_blk
+            elseif inner_blk.t == "Para" then
+              inner_blk.content = highlight_inlines(inner_blk.content)
+              return inner_blk
+            elseif inner_blk.t == "Plain" then
+              inner_blk.content = highlight_inlines(inner_blk.content)
+              return inner_blk
+            else
+              return inner_blk
+            end
+          end)
+          return blk
+        else
+          return blk
+        end
+      end)
+      return doc
+    end }
 }
