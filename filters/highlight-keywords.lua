@@ -108,38 +108,6 @@ end
 -- Pandoc Filters
 -- =========================
 
--- Main filter function that walks the document properly
-function highlight_document(doc)
-  return pandoc.walk_block(doc, {
-    Para = function(el)
-      el.content = highlight_inlines(el.content)
-      return el
-    end,
-    Plain = function(el)
-      el.content = highlight_inlines(el.content)
-      return el
-    end,
-    BlockQuote = function(el)
-      -- Skip processing blockquotes entirely
-      return el
-    end,
-    Header = function(el)
-      -- Skip processing headers
-      return el
-    end,
-    Div = function(el)
-      if el.classes:includes("highlightshowimagebox")
-      or el.classes:includes("highlightencounterbox")
-      or el.classes:includes("rememberbox")
-      or el.classes:includes("musicbox") then
-        return el
-      end
-      -- Let the walker handle the content recursively
-      return nil -- continue walking
-    end
-  })
-end
-
 -- Export the document-level filter
 return {
   { Pandoc = function(doc)
