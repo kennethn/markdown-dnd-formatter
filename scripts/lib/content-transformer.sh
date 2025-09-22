@@ -184,6 +184,11 @@ if (/^__BODY_LINE__/) {
     s/\[\[([^\]]+)\]\]/"\\textcolor{sectioncolor}{\\textbf{" . ($1 =~ s!&!\\&!gr) . "}}"/ge;
   }
 
+  # Convert markdown links [text](url) to bold text (like wikilinks)
+  unless ($inside_showimagebox) {
+    s/\[([^\]]+)\]\([^)]+\)/"\\textcolor{sectioncolor}{\\textbf{" . ($1 =~ s!&!\\&!gr) . "}}"/ge;
+  }
+
   s/^(\s*[*_-]+\s*)$//;
   s/^\s*#{1,6}\s*$//;
 

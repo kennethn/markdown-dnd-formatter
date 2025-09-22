@@ -86,15 +86,8 @@ local function highlight_inlines(inls)
         x.content = highlight_inlines(x.content)
         table.insert(out,x)
       elseif x.t == "Span" then
-        if x.classes:includes("wikilink") then
-          -- special-case your wikilinks
-          local txt  = inlines_to_text(x.content)
-          local norm = normalize_keyword(txt)
-          table.insert(out, latex_bold(norm))
-        else
-          x.content = highlight_inlines(x.content)
-          table.insert(out,x)
-        end
+        x.content = highlight_inlines(x.content)
+        table.insert(out,x)
       else
         table.insert(out,x)
       end
