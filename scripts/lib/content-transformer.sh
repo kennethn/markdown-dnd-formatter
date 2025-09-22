@@ -141,27 +141,27 @@ if (/^__BODY_LINE__/) {
   my $WARNING_SIGN = qr/\x{26A0}(?:\x{FE0F})?/; 
   my $MUSIC_NOTE = qr/\x{1F3B5}(?:\x{FE0F})?/;
 
-  if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/ || /\*\*?$CROSSED_SWORDS\s*(.*)/ || /^$CROSSED_SWORDS\s*(.*)/ || /^>\s*\[\\?!dnd-encounter\]\s*(.*)/) {
+  if (/\*\*?Encounter:\*\*?\s*(.*)/ || /^Encounter:\s*(.*)/ || /\*\*?$CROSSED_SWORDS\s*(.*)/ || /^$CROSSED_SWORDS\s*(.*)/ || /^\s*>\s*\[\\?!dnd-encounter\]\s*(.*)/) {
     my $content = $1;
     $_ = "::: highlightencounterbox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
-  elsif (/^Show image:\s*(.*)/ || /^Image:\s*(.*)/ || /\*\*?$PICTURE_FRAME\s*(.*)/ || /^$PICTURE_FRAME\s*(.*)/ || /^>\s*\[\\?!dnd-showimage\]\s*(.*)/) {
+  elsif (/^Show image:\s*(.*)/ || /^Image:\s*(.*)/ || /\*\*?$PICTURE_FRAME\s*(.*)/ || /^$PICTURE_FRAME\s*(.*)/ || /^\s*>\s*\[\\?!dnd-showimage\]\s*(.*)/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: highlightshowimagebox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
-  elsif (/^Remember:\s*(.*)/ || /\*\*?$WARNING_SIGN\s*(.*)/ || /^$WARNING_SIGN\s*(.*)/ || /^>\s*\[\\?!dnd-remember\]\s*(.*)/) {
+  elsif (/^Remember:\s*(.*)/ || /\*\*?$WARNING_SIGN\s*(.*)/ || /^$WARNING_SIGN\s*(.*)/ || /^\s*>\s*\[\\?!dnd-remember\]\s*(.*)/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: rememberbox\n$content\n:::\n";
     $prev_line = "";
     next;
   }
-  elsif (/^Music:\s*(.*)/ || /\*\*?$MUSIC_NOTE\s*(.*)/ || /^$MUSIC_NOTE\s*(.*)/ || /^>\s*\[\\?!dnd-music\]\s*(.*)/) {
+  elsif (/^Music:\s*(.*)/ || /\*\*?$MUSIC_NOTE\s*(.*)/ || /^$MUSIC_NOTE\s*(.*)/ || /^\s*>\s*\[\\?!dnd-music\]\s*(.*)/) {
     my $content = $1;
     $content =~ s/\[\[([^\]]+)\]\]/$1/g;  # Remove [[...]] in title
     $_ = "::: musicbox\n$content\n:::\n";

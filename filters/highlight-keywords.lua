@@ -129,7 +129,9 @@ function highlight_document(doc)
     end,
     Div = function(el)
       if el.classes:includes("highlightshowimagebox")
-      or el.classes:includes("highlightencounterbox") then
+      or el.classes:includes("highlightencounterbox")
+      or el.classes:includes("rememberbox")
+      or el.classes:includes("musicbox") then
         return el
       end
       -- Let the walker handle the content recursively
@@ -154,7 +156,9 @@ return {
           return blk -- skip headers
         elseif blk.t == "Div" then
           if blk.classes:includes("highlightshowimagebox")
-          or blk.classes:includes("highlightencounterbox") then
+          or blk.classes:includes("highlightencounterbox")
+          or blk.classes:includes("rememberbox")
+          or blk.classes:includes("musicbox") then
             return blk
           end
           -- Process div content recursively, but skip blockquotes

@@ -41,14 +41,19 @@ collapse_blank_lines() {
 # =========================
 
 normalize_line_endings() {
-    local file="$1"
-    
+    local input_file="$1"
+    local output_file="$2"
+
     log_info "Normalizing line endings..."
-    
+
     if command -v dos2unix &> /dev/null; then
-        dos2unix "$file" 2>/dev/null
+        # Use dos2unix on a copy to avoid race conditions
+        cp "$input_file" "$output_file"
+        dos2unix "$output_file" 2>/dev/null
         log_success "Line endings normalized"
     else
+        # If dos2unix not available, just copy the file
+        cp "$input_file" "$output_file"
         log_warning "dos2unix not available, skipping line ending normalization"
     fi
 }

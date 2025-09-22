@@ -58,27 +58,29 @@ process_markdown() {
     fi
     
     # Create temporary files
+    temp_normalized=$(create_temp_file "normalized")
     temp_monsters=$(create_temp_file "monsters")
     temp_yaml=$(create_temp_file "yaml")
     temp_transformed=$(create_temp_file "transformed")
     temp_final=$(create_temp_file "final")
-    
+
     # Setup cleanup function and trap
     cleanup_on_exit() {
+        [[ -n "${temp_normalized:-}" && -f "$temp_normalized" ]] && rm -f "$temp_normalized" 2>/dev/null || true
         [[ -n "${temp_monsters:-}" && -f "$temp_monsters" ]] && rm -f "$temp_monsters" 2>/dev/null || true
         [[ -n "${temp_yaml:-}" && -f "$temp_yaml" ]] && rm -f "$temp_yaml" 2>/dev/null || true
         [[ -n "${temp_transformed:-}" && -f "$temp_transformed" ]] && rm -f "$temp_transformed" 2>/dev/null || true
         [[ -n "${temp_final:-}" && -f "$temp_final" ]] && rm -f "$temp_final" 2>/dev/null || true
     }
     trap cleanup_on_exit EXIT
-    
+
     # Processing pipeline
-    normalize_line_endings "$input_file" || {
+    normalize_line_endings "$input_file" "$temp_normalized" || {
         log_error "Failed to normalize line endings"
         exit 1
     }
-    
-    wrap_monster_blocks "$input_file" "$temp_monsters" || {
+
+    wrap_monster_blocks "$temp_normalized" "$temp_monsters" || {
         log_error "Monster block processing failed"
         exit 1
     }
