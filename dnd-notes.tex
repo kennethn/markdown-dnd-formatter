@@ -1,7 +1,9 @@
 $if(onecolumn)$
 \documentclass[10pt,twoside]{article}
+\usepackage[paper=letterpaper,top=1in,bottom=1in,left=1in,right=1in]{geometry}
 $else$
 \documentclass[10pt,twocolumn,twoside]{article}
+\usepackage[paper=letterpaper,top=0.35in,bottom=0.75in,left=0.35in,right=0.35in]{geometry}
 $endif$
 
 % =========================
@@ -28,7 +30,6 @@ $endif$
 \usepackage{xcolor}
 
 % Page layout
-\usepackage[paper=letterpaper,top=0.35in,bottom=0.75in,left=0.35in,right=0.35in]{geometry}
 \usepackage{titlesec}
 \usepackage{etoolbox}
 
