@@ -257,7 +257,12 @@ $endif$
 % =========================
 
 % Image sizing defaults
+$if(onecolumn)$
+\setkeys{Gin}{width=\linewidth, keepaspectratio}
+$else$
 \setkeys{Gin}{width=0.48\textwidth, keepaspectratio}
+$endif$
+
 \providecommand{\maxwidth}{\linewidth}
 \providecommand{\maxheight}{0.9\textheight}
 \providecommand{\pandocbounded}[1]{#1}
