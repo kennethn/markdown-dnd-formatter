@@ -1,6 +1,6 @@
 # 🧙‍♂️ D&D Markdown PDF Generator
 
-A powerful tool that converts Markdown notes (especially UpNote exports) into beautifully styled, two-column PDFs optimized for D&D gameplay and reference.
+A powerful tool that converts Markdown notes into beautifully styled, two-column PDFs optimized for D&D gameplay and reference.
 
 ---
 
@@ -89,20 +89,21 @@ make validate    # Validate configuration files
 ## 🎨 Features
 
 ### Layout & Typography
-- **Two-column layout** with optimized spacing for readability
-- **Professional typography** using Atkinson Hyperlegible font family
-- **Smart page breaks** to avoid orphaned content
+- **Two-column layout** (default) with optimized spacing for readability
+- **One-column layout** also supported (with `--one-column` command line switch)
+- **Professional typography** using Atkinson Hyperlegible font family for readability
+- **Smart page and column breaks** to avoid orphaned content
 - **Styled blockquotes** with D&D-inspired borders
 
 ### Callout Boxes
-Create highlighted callout boxes with icons using these triggers:
+Support for Obsidian-style callots and tokenized callouts using these triggers:
 
-| Trigger | Icon | Obsidian Callout | Color | Usage |
-|---------|---|----|-------|---------|
-| `Encounter:` or ⚔️ | ⚔️ | `[!dnd-encounter]`| Red | Combat encounters |
-| `Image:` or `Show image:` or 🖼️ | 📜 | `[!dnd-showimage]`| Blue | Visual references |
-| `Remember:` or ⚠️ | ⚠ | `[!dnd-remember]`| Yellow | Important reminders |
-| `Music:` or 🎵 | 🎵 | `[!dnd-musc]`| Green | Audio/atmosphere |
+| Trigger |  Obsidian Callout | Color | Usage |
+|---------|----|-------|---------|
+| `Encounter:` or ⚔️ |  `[!dnd-encounter]`| Red | Combat encounters |
+| `Image:` or `Show image:` or 🖼️ | `[!dnd-showimage]`| Blue | Visual references |
+| `Remember:` or ⚠️ |  `[!dnd-remember]`| Yellow | Important reminders |
+| `Music:` or 🎵 | `[!dnd-musc]`| Green | Audio/atmosphere cues |
 
 ### Monster Stat Blocks
 - Anything after `# Monsters` gets special formatting
@@ -114,14 +115,15 @@ Create highlighted callout boxes with icons using these triggers:
 - **Automatic bolding** of important terms (NPCs, locations, etc.)
 - **Customizable keyword list** in `filters/highlight-keywords.lua`
 - **Smart detection** of multi-word names
-- **Wikilink support** for `[[linked terms]]`
+- **Links** for Wikilinks `[[linked terms]]` and Markdown links `[linked term](link)`
 
 ### Processing Features
-- **Unicode emoji handling** with proper LaTeX font rendering (`\emojifont`)
+- **Enhanced unicode emoji handling** with expanded unicode ranges and proper LaTeX font rendering (`\emojifont`)
 - **Advanced table formatting** with colored headers, alternating row colors, and proper LaTeX styling
 - **Markdown compatibility** including task lists and code blocks
 - **Smart text cleanup** removing unwanted characters and formatting
 - **Negative number preservation** in normal font (no monospace wrapping)
+- **Robust keyword highlighting** with proper handling inside blockquotes and callout boxes
 - **Comprehensive error handling** with informative logging
 - **Modular architecture** for easy maintenance and extension
 
@@ -172,7 +174,7 @@ local keywords = {
 ```
 
 ### Color Scheme
-Modify colors in `dnd-notes.tex` in the "Color Scheme" section:
+Modify colors in `dnd-notes.tex` in the "Color Scheme" section (default: Nord color palette):
 
 ```latex
 \definecolor{sectioncolor}{HTML}{30638E}     % Main blue theme

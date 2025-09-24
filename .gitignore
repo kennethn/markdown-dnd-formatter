@@ -3,3 +3,4 @@ markdown-dnd-formatter.code-workspace
 mydoc.*
 *.lastgood
 .DS_Store
+.claude
