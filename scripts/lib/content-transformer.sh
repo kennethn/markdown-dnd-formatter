@@ -196,7 +196,7 @@ if (/^__BODY_LINE__/) {
   # Strip stray control characters (Unicode 0x00–0x1F except newline/tab)
   s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g;
   # Convert ALL emojis to LaTeX format with \emojifont
-  s/([\x{2300}-\x{23FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{2B00}-\x{2BFF}\x{1F1E6}-\x{1F1FF}\x{1F300}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{1FA70}-\x{1FAFF}])/
+  s/([\x{2300}-\x{23FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{2B00}-\x{2BFF}\x{1F1E6}-\x{1F1FF}\x{1F300}-\x{1F6FF}\x{1F7E0}-\x{1F7FF}\x{1F900}-\x{1F9FF}\x{1FA70}-\x{1FAFF}])/
   "\\textnormal{\\emojifont\\char\"".sprintf("%X", ord($1))."}"/uge;
 
    s/[\x{2003}]/\\hspace*{1.5em}/g; # em space
