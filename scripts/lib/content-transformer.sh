@@ -179,9 +179,14 @@ if (/^__BODY_LINE__/) {
 
   # Apply wikilink span only if not in showimagebox
   if ($inside_showimagebox) {
-    s/\[\[([^\]]+)\]\]/$1/g;
+    s/\[\[([^\]]+)\]\]/
+      my $content = $1;
+      $content =~ m!\|(.+)$! ? $1 : $content/gex;
   } else {
-    s/\[\[([^\]]+)\]\]/"\\textcolor{sectioncolor}{\\textbf{" . ($1 =~ s!&!\\&!gr) . "}}"/ge;
+    s/\[\[([^\]]+)\]\]/
+      my $content = $1;
+      my $display_text = $content =~ m!\|(.+)$! ? $1 : $content;
+      "\\textcolor{sectioncolor}{\\textbf{" . ($display_text =~ s!&!\\&!gr) . "}}"/gex;
   }
 
   # Convert markdown links [text](url) to bold text (like wikilinks)
