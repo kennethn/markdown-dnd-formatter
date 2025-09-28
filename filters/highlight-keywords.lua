@@ -13,7 +13,10 @@ local keywords = {
   ["Raven Queen"]  = true,
   ["Summer Queen"] = true,
   Titania      = true,
-  Lillion      = true
+  Lillion      = true,
+  Muzilloth    = true,
+  ["Veylin Marr"] = true,
+  Merach       = true
 }
 
 local MAX_KEYWORD_LEN = 3
@@ -45,7 +48,7 @@ end
 local function latex_bold(kw)
   local safe = escape_latex_braces(kw)
   return pandoc.RawInline("latex",
-    "\\textbf{" .. safe .. "}"
+    "\\textcolor{sectioncolor}{\\textbf{" .. safe .. "}}"
   )
 end
 
