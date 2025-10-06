@@ -1,8 +1,8 @@
 $if(onecolumn)$
-\documentclass[10pt,twoside]{article}
+\documentclass[twoside]{article}
 \usepackage[paper=letterpaper,top=1in,bottom=1in,left=1in,right=1in]{geometry}
 $else$
-\documentclass[10pt,twocolumn,twoside]{article}
+\documentclass[twocolumn,twoside]{article}
 \usepackage[paper=letterpaper,top=0.35in,bottom=0.75in,left=0.35in,right=0.35in]{geometry}
 $endif$
 
@@ -24,6 +24,7 @@ $endif$
 \usepackage{contour}
 \usepackage{xfp}
 \usepackage{fontawesome7}
+\usepackage[fontsize=10pt]{fontsize}
 
 % Hyperlinks (no colors)
 \usepackage[hidelinks]{hyperref}
@@ -106,9 +107,9 @@ $endif$
 % =========================
 
 % Spacing control for section breaks
-\newcommand{\stickysection}{\needspace{3\baselineskip}}
-\newcommand{\stickysubsection}{\needspace{3\baselineskip}}
-\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
+\newcommand{\stickysection}{\needspace{5\baselineskip}}
+\newcommand{\stickysubsection}{\needspace{5\baselineskip}}
+\newcommand{\stickysubsubsection}{\needspace{4\baselineskip}}
 
 % Font size calculations based on base size
 \newcommand{\sectionsize}{\fontsize{\fpeval{\basefontsize * 1.36}pt}{\fpeval{\basefontsize * 1.54}pt}\selectfont}
