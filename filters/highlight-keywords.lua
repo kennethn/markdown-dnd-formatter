@@ -30,10 +30,11 @@ local function load_keywords(filename)
   return keywords, max_len
 end
 
--- Get the directory of the current script and go up one level to the main directory
+-- Get the project root directory (one level up from filters/)
 local script_path = PANDOC_SCRIPT_FILE or arg[0] or ""
-local script_dir = script_path:match("(.*[/\\])") or "./"
-local keywords_file = script_dir .. "../keywords.txt"
+local filters_dir = script_path:match("^(.*)/[^/]+$") or "."
+local project_root = filters_dir:match("^(.*)/filters$") or filters_dir .. "/.."
+local keywords_file = project_root .. "/keywords.txt"
 
 local keywords, MAX_KEYWORD_LEN = load_keywords(keywords_file)
 
@@ -53,8 +54,16 @@ local function inlines_to_text(slice)
 end
 
 local function normalize_keyword(text)
-  -- strip trailing punctuation
-  return text:match("^(.-)[%.,;:!?]?$")
+  -- strip trailing punctuation and possessive 's
+  -- handles both straight apostrophe (') and curly apostrophe (U+2019)
+  -- U+2019 in UTF-8 is: \226\128\153 or we can use pandoc.text to handle it
+  local normalized = text
+  -- Strip possessive: both 's and 's (where second is UTF-8 right single quote)
+  normalized = normalized:gsub("'s$", "")
+  normalized = normalized:gsub("\226\128\153s$", "")  -- UTF-8 encoding of U+2019 + s
+  -- Strip trailing punctuation
+  normalized = normalized:gsub("[%.,;:!?]+$", "")
+  return normalized
 end
 
 local function escape_latex_braces(s)
@@ -64,7 +73,7 @@ end
 local function latex_bold(kw)
   local safe = escape_latex_braces(kw)
   return pandoc.RawInline("latex",
-    "\\textbf{" .. safe .. "}"
+    "\\textcolor{sectioncolor}{\\textbf{" .. safe .. "}}"
   )
 end
 
@@ -77,9 +86,23 @@ local function match_keyword(inls,i)
     local raw = inlines_to_text(slice)
     local norm = normalize_keyword(raw)
     if keywords[norm] then
-      local punct = raw:match("[%.,;:!?]$")
-      local fmt   = latex_bold(norm)
-      if punct then
+      -- Check if there's a possessive suffix ('s or 's)
+      local possessive = raw:match("('s)$") or raw:match("(\226\128\153s)$") or ""
+      local punct = ""
+      if possessive == "" then
+        -- No possessive, check for punctuation only
+        punct = raw:match("([%.,;:!?]+)$") or ""
+      else
+        -- Has possessive, check if there's also punctuation after it
+        local after_possessive = raw:sub(#norm + #possessive + 1)
+        punct = after_possessive:match("([%.,;:!?]+)$") or ""
+      end
+
+      -- Bold the keyword + possessive together
+      local to_bold = norm .. possessive
+      local fmt = latex_bold(to_bold)
+
+      if punct ~= "" then
         return len, { fmt, pandoc.Str(punct) }
       else
         return len, { fmt }
@@ -134,6 +157,17 @@ return {
           return blk
         elseif blk.t == "Header" then
           return blk -- skip headers
+        elseif blk.t == "BulletList" or blk.t == "OrderedList" then
+          -- Process list items
+          blk.content = pandoc.List(blk.content):map(function(item)
+            return pandoc.List(item):map(function(item_blk)
+              if item_blk.t == "Para" or item_blk.t == "Plain" then
+                item_blk.content = highlight_inlines(item_blk.content)
+              end
+              return item_blk
+            end)
+          end)
+          return blk
         elseif blk.t == "Div" then
           if blk.classes:includes("highlightshowimagebox")
           or blk.classes:includes("highlightencounterbox")

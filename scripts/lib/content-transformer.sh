@@ -186,12 +186,12 @@ if (/^__BODY_LINE__/) {
     s/\[\[([^\]]+)\]\]/
       my $content = $1;
       my $display_text = $content =~ m!\|(.+)$! ? $1 : $content;
-      "\\textcolor{sectioncolor}{\\textbf{" . ($display_text =~ s!&!\\&!gr) . "}}"/gex;
+      "\\textcolor{sectioncolor}{\\uline{" . ($display_text =~ s!&!\\&!gr) . "}}"/gex;
   }
 
   # Convert markdown links [text](url) to bold text (like wikilinks)
   unless ($inside_showimagebox) {
-    s/\[([^\]]+)\]\([^)]+\)/"\\textcolor{sectioncolor}{\\textbf{" . ($1 =~ s!&!\\&!gr) . "}}"/ge;
+    s/\[([^\]]+)\]\([^)]+\)/"\\textcolor{sectioncolor}{\\uline{" . ($1 =~ s!&!\\&!gr) . "}}"/ge;
   }
 
   s/^(\s*[*_-]+\s*)$//;
