@@ -1,25 +1,41 @@
 -- highlight-keywords.lua
 -- Highlights specific keywords and character names in D&D notes
 
--- Configuration: Keywords to highlight
-local keywords = {
-  Therynzhaal   = true,
-  Ryland       = true,
-  Kelmenor     = true,
-  Glynda       = true,
-  ["Sir Talavar"] = true,
-  Aeltheryn    = true,
-  Orcus        = true,
-  ["Raven Queen"]  = true,
-  ["Summer Queen"] = true,
-  Titania      = true,
-  Lillion      = true,
-  Muzilloth    = true,
-  ["Veylin Marr"] = true,
-  Merach       = true
-}
+-- Load keywords from external file
+local function load_keywords(filename)
+  local keywords = {}
+  local max_len = 0
 
-local MAX_KEYWORD_LEN = 3
+  local file = io.open(filename, "r")
+  if not file then
+    io.stderr:write("Warning: Could not open " .. filename .. "\n")
+    return keywords, 0
+  end
+
+  for line in file:lines() do
+    -- Strip whitespace and skip empty lines or comments
+    local keyword = line:match("^%s*(.-)%s*$")
+    if keyword ~= "" and not keyword:match("^#") then
+      keywords[keyword] = true
+      -- Calculate word count for max_len
+      local word_count = 0
+      for _ in keyword:gmatch("%S+") do
+        word_count = word_count + 1
+      end
+      max_len = math.max(max_len, word_count)
+    end
+  end
+
+  file:close()
+  return keywords, max_len
+end
+
+-- Get the directory of the current script and go up one level to the main directory
+local script_path = PANDOC_SCRIPT_FILE or arg[0] or ""
+local script_dir = script_path:match("(.*[/\\])") or "./"
+local keywords_file = script_dir .. "../keywords.txt"
+
+local keywords, MAX_KEYWORD_LEN = load_keywords(keywords_file)
 
 -- =========================
 -- Utility Functions
@@ -48,7 +64,7 @@ end
 local function latex_bold(kw)
   local safe = escape_latex_braces(kw)
   return pandoc.RawInline("latex",
-    "\\textcolor{sectioncolor}{\\textbf{" .. safe .. "}}"
+    "\\textbf{" .. safe .. "}"
   )
 end
 

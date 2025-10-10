@@ -162,16 +162,16 @@ Support for Obsidian-style callots and tokenized callouts using these triggers:
 ## ⚙️ Customization
 
 ### Adding Keywords
-Edit `filters/highlight-keywords.lua` to add character names, locations, or other important terms:
+Edit `keywords.txt` in the main directory to add character names, locations, or other important terms (one per line):
 
-```lua
-local keywords = {
-  ["Strahd"] = true,
-  ["Barovia"] = true,
-  ["Castle Ravenloft"] = true,
-  -- Add your keywords here
-}
 ```
+# Keywords to highlight in D&D notes
+Strahd
+Barovia
+Castle Ravenloft
+```
+
+The filter supports multi-word names and comments (lines starting with #).
 
 ### Color Scheme
 Modify colors in `dnd-notes.tex` in the "Color Scheme" section (default: Nord color palette):

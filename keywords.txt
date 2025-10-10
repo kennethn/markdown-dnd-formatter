@@ -1,0 +1,17 @@
+# Keywords to highlight in D&D notes
+# One keyword per line. Multi-word names are supported.
+
+Therynzhaal
+Ryland
+Kelmenor
+Glynda
+Sir Talavar
+Aeltheryn
+Orcus
+Raven Queen
+Summer Queen
+Titania
+Lillion
+Muzilloth
+Veylin Marr
+Merach
