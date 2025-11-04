@@ -107,9 +107,9 @@ $endif$
 % =========================
 
 % Spacing control for section breaks
-\newcommand{\stickysection}{\needspace{8\baselineskip}}
-\newcommand{\stickysubsection}{\needspace{8\baselineskip}}
-\newcommand{\stickysubsubsection}{\needspace{6\baselineskip}}
+\newcommand{\stickysection}{\needspace{5\baselineskip}}
+\newcommand{\stickysubsection}{\needspace{4\baselineskip}}
+\newcommand{\stickysubsubsection}{\needspace{3\baselineskip}}
 
 % Font size calculations based on base size
 \newcommand{\sectionsize}{\fontsize{\fpeval{\basefontsize * 1.36}pt}{\fpeval{\basefontsize * 1.54}pt}\selectfont}
@@ -153,11 +153,11 @@ $endif$
 
 % Widow/orphan control for lists
 \makeatletter
-\newcommand{\ListWidowControl}{%
-  \clubpenalty=150
-  \widowpenalty=150
-  \displaywidowpenalty=150
-  \interlinepenalty=75
+\newcommand{\ListWidowControl}{
+  \clubpenalty=50
+  \widowpenalty=50
+  \displaywidowpenalty=50
+  \interlinepenalty=0
 }
 \AtBeginEnvironment{itemize}{\ListWidowControl}
 \AtBeginEnvironment{enumerate}{\ListWidowControl}
