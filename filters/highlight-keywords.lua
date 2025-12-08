@@ -112,8 +112,25 @@ local function match_keyword(inls,i)
   return nil
 end
 
+-- Check if inlines contain LaTeX box commands (parbox, minipage, tcolorbox)
+local function contains_latex_boxes(inls)
+  for _, inline in ipairs(inls) do
+    if inline.t == "RawInline" and inline.format == "latex" then
+      if inline.text:match("\\parbox") or inline.text:match("\\begin{minipage}") or inline.text:match("\\begin{tcolorbox}") then
+        return true
+      end
+    end
+  end
+  return false
+end
+
 -- Main highlighting function - recursively processes inline elements
 local function highlight_inlines(inls)
+  -- Skip processing if this contains LaTeX box commands (from highlight-boxes filter)
+  if contains_latex_boxes(inls) then
+    return inls
+  end
+
   local out = {}
   local i = 1
   while i <= #inls do

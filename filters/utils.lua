@@ -6,7 +6,7 @@ local utils = {}
 -- Create a tcolorbox with specified styling
 function utils.create_tcolorbox(color, border_color, icon, content)
   local blocks = {}
-  
+
   -- Begin tcolorbox with styling
   table.insert(blocks, pandoc.RawBlock('latex', string.format([[
 \begin{tcolorbox}[
@@ -45,7 +45,7 @@ function utils.create_tcolorbox(color, border_color, icon, content)
       table.insert(blocks, block)
     end
   end
-  
+
   -- End tcolorbox
   table.insert(blocks, pandoc.RawBlock('latex', [[\end{minipage}\end{tcolorbox}]]))
   return blocks
