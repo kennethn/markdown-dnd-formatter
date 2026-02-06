@@ -7,6 +7,9 @@ package.path = package.path .. ";" .. script_dir .. "?.lua"
 
 local utils = require('utils')
 
+-- Load callout config
+local config = utils.load_config()
+
 -- Enable tight lists by default
 function Meta(meta)
   return {
@@ -26,7 +29,7 @@ end
 
 -- Main Div filter: handles custom highlightencounterbox and highlightshowimagebox
 function Div(el)
-  
+
   -- Monster stat block
   if el.classes:includes("monsterblock") then
   -- Inject spacing override before bullet lists
@@ -44,7 +47,7 @@ function Div(el)
   local monster_content = insert_itemsep_before_lists(el.content)
 
   local blocks = {
-    pandoc.RawBlock("latex", "\\vfill\\break"), 
+    pandoc.RawBlock("latex", "\\vfill\\break"),
     pandoc.RawBlock("latex", "\\begingroup"),
     pandoc.RawBlock("latex", [[
 \makeatletter
@@ -105,33 +108,15 @@ function Div(el)
   return blocks
 end
 
-  
-  -- Encounter callout box
-  if el.classes:includes('highlightencounterbox') then
-    return utils.create_tcolorbox(
-      'encountercolor', 'encounterborder',
-      '\\faIcon{skull-crossbones}', el.content
-    )
-
-  -- Image callout box
-  elseif el.classes:includes('highlightshowimagebox') then
-    return utils.create_tcolorbox(
-      'imagecolor', 'imageborder',
-      '\\faIcon{scroll}', el.content
-    )
-  -- Remember callout box
-  elseif el.classes:includes('rememberbox') then
-    return utils.create_tcolorbox(
-      'remembercolor', 'rememberborder',
-      '\\faAsterisk', el.content
-    )
-  -- Music callout box
-  elseif el.classes:includes('musicbox') then
-    return utils.create_tcolorbox(
-      'musiccolor', 'black',
-      '\\faIcon{music}', el.content
-    )
+  -- Callout boxes (config-driven)
+  if config.callout_types then
+    for _, ct in ipairs(config.callout_types) do
+      if el.classes:includes(ct.div_class) then
+        return utils.create_tcolorbox(ct.bg_color, ct.icon_color, ct.icon_latex, el.content)
+      end
+    end
   end
+
   return nil
 end
 

@@ -1,37 +1,49 @@
 {
-  "callout_boxes": {
-    "encounter": {
-      "keywords": ["Encounter:", "⚔️"],
-      "div_class": "highlightencounterbox"
+  "callout_types": [
+    {
+      "div_class": "highlightencounterbox",
+      "text_triggers": ["Encounter:"],
+      "emoji_codepoints": ["2694"],
+      "obsidian_tag": "dnd-encounter",
+      "strip_wikilinks": false,
+      "bg_color": "encountercolor",
+      "icon_color": "encounterborder",
+      "icon_latex": "\\faIcon{skull-crossbones}"
     },
-    "image": {
-      "keywords": ["Image:", "Show image:", "🖼️"],
-      "div_class": "highlightshowimagebox"
+    {
+      "div_class": "highlightshowimagebox",
+      "text_triggers": ["Show image:", "Image:"],
+      "emoji_codepoints": ["1F5BC"],
+      "obsidian_tag": "dnd-showimage",
+      "strip_wikilinks": true,
+      "bg_color": "imagecolor",
+      "icon_color": "imageborder",
+      "icon_latex": "\\faIcon{scroll}"
     },
-    "remember": {
-      "keywords": ["Remember:", "⚠️"],
-      "div_class": "rememberbox"
+    {
+      "div_class": "rememberbox",
+      "text_triggers": ["Remember:"],
+      "emoji_codepoints": ["26A0"],
+      "obsidian_tag": "dnd-remember",
+      "strip_wikilinks": true,
+      "bg_color": "remembercolor",
+      "icon_color": "rememberborder",
+      "icon_latex": "\\faAsterisk"
     },
-    "music": {
-      "keywords": ["Music:", "🎵"],
-      "div_class": "musicbox"
+    {
+      "div_class": "musicbox",
+      "text_triggers": ["Music:"],
+      "emoji_codepoints": ["1F3B5"],
+      "obsidian_tag": "dnd-music",
+      "strip_wikilinks": true,
+      "bg_color": "musiccolor",
+      "icon_color": "black",
+      "icon_latex": "\\faIcon{music}"
     }
-  },
-  "unicode_patterns": {
-    "crossed_swords": "⚔️",
-    "picture_frame": "🖼️",
-    "warning_sign": "⚠️",
-    "music_note": "🎵"
-  },
+  ],
   "table_styling": {
     "enable_alternating_rows": true,
     "header_color": "tableheadercolor",
     "highlight_color": "highlightcolor"
-  },
-  "text_processing": {
-    "normalize_dashes": true,
-    "wrap_negative_numbers": true,
-    "remove_zero_width_chars": true,
-    "convert_emojis_to_latex": true
   }
 }

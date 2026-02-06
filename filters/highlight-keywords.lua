@@ -1,6 +1,19 @@
 -- highlight-keywords.lua
 -- Highlights specific keywords and character names in D&D notes
 
+-- Load shared utilities and config
+local script_dir = debug.getinfo(1, "S").source:match("@?(.*/)") or "./"
+package.path = package.path .. ";" .. script_dir .. "?.lua"
+local utils = require('utils')
+
+local config = utils.load_config()
+local callout_classes = {}
+if config.callout_types then
+  for _, ct in ipairs(config.callout_types) do
+    table.insert(callout_classes, ct.div_class)
+  end
+end
+
 -- Load keywords from external file
 local function load_keywords(filename)
   local keywords = {}
@@ -186,11 +199,11 @@ return {
           end)
           return blk
         elseif blk.t == "Div" then
-          if blk.classes:includes("highlightshowimagebox")
-          or blk.classes:includes("highlightencounterbox")
-          or blk.classes:includes("rememberbox")
-          or blk.classes:includes("musicbox") then
-            return blk
+          -- Skip keyword highlighting inside callout boxes (config-driven)
+          for _, cls in ipairs(callout_classes) do
+            if blk.classes:includes(cls) then
+              return blk
+            end
           end
           -- Process div content recursively, but skip blockquotes
           blk.content = pandoc.List(blk.content):map(function(inner_blk)
