@@ -11,6 +11,7 @@ transform_content() {
     local input_file="$1"
     local output_file="$2"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     
     log_info "Transforming markdown content (complete original functionality)..."
     
@@ -210,6 +211,15 @@ BEGIN {
     ' "$input_file" > "$output_file"
     
 =======
+>>>>>>> Stashed changes
+=======
+    local perl_script
+    perl_script="$(dirname "${BASH_SOURCE[0]}")/content-transformer.pl"
+
+    log_info "Transforming markdown content..."
+
+    perl -CSD -p "$perl_script" "$input_file" > "$output_file"
+
 >>>>>>> Stashed changes
     if [[ $? -eq 0 ]]; then
         log_success "Content transformation complete (all original functionality restored)"

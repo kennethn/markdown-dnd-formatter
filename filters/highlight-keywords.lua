@@ -146,6 +146,7 @@ end
 -- =========================
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 -- Process paragraphs
 function Para(el)
   el.content = highlight_inlines(el.content)
@@ -192,6 +193,8 @@ return {
     BlockQuote = BlockQuote,
     Div        = Div }
 =======
+=======
+>>>>>>> Stashed changes
 return {
   { Pandoc = function(doc)
       doc.blocks = walk_blocks(doc.blocks)
