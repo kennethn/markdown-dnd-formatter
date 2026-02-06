@@ -105,9 +105,47 @@ local function highlight_inlines(inls)
 end
 
 -- =========================
+-- Block Walker
+-- =========================
+
+local skip_div_classes = {
+  highlightshowimagebox = true,
+  highlightencounterbox = true,
+  rememberbox = true,
+  musicbox = true,
+}
+
+local function has_skip_class(classes)
+  for _, cls in ipairs(classes) do
+    if skip_div_classes[cls] then return true end
+  end
+  return false
+end
+
+local function walk_blocks(blocks)
+  return pandoc.List(blocks):map(function(blk)
+    if blk.t == "BlockQuote" or blk.t == "Header" then
+      return blk
+    elseif blk.t == "Para" or blk.t == "Plain" then
+      blk.content = highlight_inlines(blk.content)
+    elseif blk.t == "BulletList" or blk.t == "OrderedList" then
+      blk.content = pandoc.List(blk.content):map(function(item)
+        return walk_blocks(item)
+      end)
+    elseif blk.t == "Div" then
+      if not has_skip_class(blk.classes) then
+        blk.content = walk_blocks(blk.content)
+      end
+    end
+    return blk
+  end)
+end
+
+-- =========================
 -- Pandoc Filters
 -- =========================
 
+<<<<<<< Updated upstream
 -- Process paragraphs
 function Para(el)
   el.content = highlight_inlines(el.content)
@@ -153,4 +191,11 @@ return {
     Header     = Header,
     BlockQuote = BlockQuote,
     Div        = Div }
+=======
+return {
+  { Pandoc = function(doc)
+      doc.blocks = walk_blocks(doc.blocks)
+      return doc
+    end }
+>>>>>>> Stashed changes
 }

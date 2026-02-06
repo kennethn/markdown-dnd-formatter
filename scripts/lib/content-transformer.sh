@@ -10,6 +10,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 transform_content() {
     local input_file="$1"
     local output_file="$2"
+<<<<<<< Updated upstream
     
     log_info "Transforming markdown content (complete original functionality)..."
     
@@ -23,10 +24,16 @@ BEGIN {
   our $inside_showimagebox = 0;
   our $prev_line = "";
 }
+=======
+    local perl_script
+    perl_script="$(dirname "${BASH_SOURCE[0]}")/content-transformer.pl"
 
-if (/^__BODY_LINE__/) {
-  s/^__BODY_LINE__//;
+    log_info "Transforming markdown content..."
+>>>>>>> Stashed changes
 
+    perl -CSD -p "$perl_script" "$input_file" > "$output_file"
+
+<<<<<<< Updated upstream
   if (/^\|.*\|$/) {
     $in_table = 1;
     push @table_rows, $_;
@@ -202,6 +209,8 @@ if (/^__BODY_LINE__/) {
 }
     ' "$input_file" > "$output_file"
     
+=======
+>>>>>>> Stashed changes
     if [[ $? -eq 0 ]]; then
         log_success "Content transformation complete (all original functionality restored)"
     else
