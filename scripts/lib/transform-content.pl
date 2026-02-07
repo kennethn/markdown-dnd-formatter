@@ -235,11 +235,6 @@ if (/^__BODY_LINE__/) {
   s/^(\s*[*_-]+\s*)$//;
   s/^\s*#{1,6}\s*$//;
 
-  # Convert inline code (backtick-enclosed text) to monospace font
-  s/`([^`]+)`/\\texttt{$1}/g;
-  # Strip any remaining backticks (unpaired or from code fences)
-  s/`//g;
-
   # General cleanup
   # Strip stray control characters (Unicode 0x00-0x1F except newline/tab)
   s/[\x00-\x08\x0B\x0C\x0E-\x1F]//g;
