@@ -2,8 +2,8 @@
 
 ## Documentation Bugs
 
-- [ ] **LICENSE mismatch**: README.md:204 says "MIT License" but the actual `LICENSE` file is Apache 2.0. Pick one and fix the other.
-- [ ] **Typo in README**: README.md:99 says "callots" — should be "callouts".
+- [x] **LICENSE mismatch**: README.md:204 says "MIT License" but the actual `LICENSE` file is Apache 2.0. Pick one and fix the other.
+- [x] **Typo in README**: README.md:99 says "callots" — should be "callouts".
 - [ ] **Wrong callout name in README**: README.md:106 shows `[!dnd-musc]` but the actual code uses `[!dnd-music]` (content-transformer.sh:164).
 - [ ] **Project structure is incomplete in README**: README.md:134-158 doesn't list `filters/subsubsubsection.lua` or `filters/force-tabular.lua`, which both exist in the repo.
 - [ ] **Misleading comment in LaTeX template**: dnd-notes.tex:62 comment says `"flexible ~20pt spacing"` but the value is `8pt`.
@@ -37,15 +37,15 @@
 
 ## Maintainability / Architecture
 
-- [ ] **200-line Perl script embedded in a bash heredoc**: content-transformer.sh:17-213 is a massive inline Perl script. It's impossible to lint, syntax-check, or test in isolation. Extracting it to a standalone `.pl` file would improve debuggability significantly.
+- [x] **200-line Perl script embedded in a bash heredoc**: content-transformer.sh:17-213 is a massive inline Perl script. It's impossible to lint, syntax-check, or test in isolation. Extracting it to a standalone `.pl` file would improve debuggability significantly.
 - [ ] **Fragile `__BODY_LINE__` marker coupling**: yaml-processor.sh adds the prefix and content-transformer.sh strips it. If any intermediate step corrupts or strips this marker, the pipeline silently breaks. This coupling is undocumented and non-obvious.
 - [x] **Callout types defined in 3 separate places**: ~~Adding a new callout type requires synchronized edits to `content-transformer.sh` (Perl regex), `highlight-boxes.lua` (Div handler), and `transform-config.json` (if you keep it). There's no single source of truth.~~ Fixed: `config/transform-config.json` is now the single source of truth. Both `transform-content.pl` (via JSON::PP) and the Lua filters (via `utils.load_config()`) read callout types from it at runtime.
 - [ ] **Misleading variable name in utils.lua**: `create_tcolorbox(color, border_color, ...)` — the `border_color` parameter is actually used as the icon color (line 36-37), not the box border color. The actual `colframe` is set to `color` (line 30), not `border_color`.
-- [ ] **Inconsistent icon color arg for music box**: highlight-boxes.lua:131 passes the literal string `'black'` while all other callout types use named LaTeX color variables (`'encounterborder'`, `'imageborder'`, `'rememberborder'`).
+- [x] **Inconsistent icon color arg for music box**: highlight-boxes.lua:131 passes the literal string `'black'` while all other callout types use named LaTeX color variables (`'encounterborder'`, `'imageborder'`, `'rememberborder'`).
 
 ## Misleading / Stale Content
 
-- [ ] **Wrong filename in file header**: content-transformer.sh:2 says `# content-transformer-complete.sh` but the file is named `content-transformer.sh`. Leftover from a rename.
+- [x] **Wrong filename in file header**: content-transformer.sh:2 says `# content-transformer-complete.sh` but the file is named `content-transformer.sh`. Leftover from a rename.
 - [ ] **`demo/sample.md` is both generated and committed**: `make demo` overwrites it (Makefile:63-68), but it's tracked in git. Either .gitignore it or don't overwrite it in the Makefile.
 - [ ] **Makefile lint only checks `scripts/`**: Makefile:42 runs `find scripts -name "*.sh"` but doesn't lint `upnote-export.sh` in the project root.
 
