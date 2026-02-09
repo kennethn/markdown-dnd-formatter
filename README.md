@@ -103,7 +103,7 @@ make validate    # Validate configuration files
 ### Layout & Typography
 - **Two-column layout** (default) with optimized spacing for readability
 - **One-column layout** also supported (with `--one-column` command line switch)
-- **Professional typography** using Atkinson Hyperlegible font family for readability
+- **Professional typography** using [Public Sans](https://github.com/uswds/public-sans) and [Roboto Mono](https://github.com/googlefonts/RobotoMono) for readability
 - **Smart page and column breaks** to avoid orphaned content
 - **Styled blockquotes** with D&D-inspired borders
 
