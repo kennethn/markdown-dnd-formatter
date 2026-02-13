@@ -1,0 +1,508 @@
+/* D&D Print Stylesheet for Obsidian
+   Migrated from dnd-notes.tex + Lua filters */
+
+/* =========================
+   1. Page Layout
+   ========================= */
+
+@page {
+  size: letter;
+  margin: 0.35in 0.35in 0.75in 0.35in;
+
+  @bottom-center {
+    content: "";
+    border-top: 1pt solid #5e81ac;
+    width: 100%;
+  }
+}
+
+/* Odd (right-hand) pages: page number on right */
+@page :right {
+  @bottom-right {
+    content: counter(page);
+    font-family: "Public Sans", system-ui, sans-serif;
+    color: #5e81ac !important;
+    font-weight: bold;
+    font-size: 9pt;
+  }
+}
+
+/* Even (left-hand) pages: page number on left */
+@page :left {
+  @bottom-left {
+    content: counter(page);
+    font-family: "Public Sans", system-ui, sans-serif;
+    color: #5e81ac !important;
+    font-weight: bold;
+    font-size: 9pt;
+  }
+}
+
+/* =========================
+   2. Everything below is print-only
+   ========================= */
+
+@media print {
+
+  /* --- Color variables --- */
+  :root {
+    --dnd-section: #5e81ac;
+    --dnd-highlight-bg: #eceff4;
+    --dnd-highlight-border: #5e81ac;
+    --dnd-table-header: #4c566a;
+    --dnd-encounter: #bf616a;
+    --dnd-monster: #bf616a;
+    --dnd-image: #88c0d0;
+    --dnd-remember: #ebcb8b;
+    --dnd-music: #a3be8c;
+  }
+
+  /* --- HR → page break --- */
+  hr {
+    visibility: hidden !important;
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  /* --- Base typography --- */
+  .markdown-preview-view {
+    font-family: "Public Sans", system-ui, sans-serif !important;
+    font-size: 10pt !important;
+    line-height: 1.0 !important;
+    text-align: left !important;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    column-count: 2 !important;
+    column-gap: 24pt !important;
+    column-fill: auto !important;
+  }
+
+  /* --- Paragraph spacing --- */
+  .markdown-preview-view p {
+    margin: 8pt 0 !important;
+    text-indent: 0 !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+
+  /* --- Headings (shared) --- */
+  .markdown-preview-view :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--dnd-section) !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* h1 – bold, no rule (first-h1 gets special treatment below) */
+  .markdown-preview-view h1 {
+    font-family: "Public Sans", system-ui, sans-serif !important;
+    font-size: 1.36em !important;
+    font-weight: 700 !important;
+    margin: 1.5em 0 0.5em 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+  }
+
+  /* h2 – bold + 1pt rule */
+  .markdown-preview-view h2 {
+    font-family: "Public Sans", system-ui, sans-serif !important;
+    font-size: 1.18em !important;
+    font-weight: 700 !important;
+    margin: 1.25em 0 0.4em 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 1pt solid var(--dnd-section) !important;
+  }
+
+  /* h3 – semibold + 0.5pt rule */
+  .markdown-preview-view h3 {
+    font-family: "Public Sans", system-ui, sans-serif !important;
+    font-size: 1.09em !important;
+    font-weight: 600 !important;
+    margin: 1.0em 0 0.3em 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 0.5pt solid var(--dnd-section) !important;
+  }
+
+  /* h4 – semibold, no rule */
+  .markdown-preview-view h4 {
+    font-family: "Public Sans", system-ui, sans-serif !important;
+    font-size: 1.045em !important;
+    font-weight: 600 !important;
+    margin: 0.75em 0 0.3em 0 !important;
+    border-bottom: none !important;
+  }
+
+  /* h5 – semibold, no rule */
+  .markdown-preview-view h5 {
+    font-family: "Public Sans", system-ui, sans-serif !important;
+    font-size: 1.0em !important;
+    font-weight: 600 !important;
+    margin: 0.5em 0 0.25em 0 !important;
+    border-bottom: none !important;
+  }
+
+  /* --- First H1: large, centered, thick rule --- */
+  .markdown-preview-view h1:first-child,
+  .markdown-preview-view > div:first-child > h1:first-child {
+    text-align: center !important;
+    font-size: 2em !important;
+    font-weight: 700 !important;
+    margin-top: 0 !important;
+    padding-bottom: 4pt !important;
+    border-bottom: 2pt solid var(--dnd-section) !important;
+  }
+
+  /* H1s must never span columns */
+  .markdown-preview-view h1 {
+    column-span: none !important;
+  }
+
+  /* --- Links --- */
+  .markdown-preview-view a {
+    color: var(--dnd-section) !important;
+    text-decoration: underline !important;
+  }
+
+  .markdown-preview-view a.internal-link {
+    color: var(--dnd-section) !important;
+    text-decoration: underline !important;
+  }
+
+  /* --- Blockquotes --- */
+  .markdown-preview-view blockquote {
+    background-color: var(--dnd-highlight-bg) !important;
+    border-left: 2pt solid var(--dnd-highlight-border) !important;
+    border-right: 2pt solid var(--dnd-highlight-border) !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    margin: 12pt 0 !important;
+    padding: 6pt !important;
+    font-size: 0.9em !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .markdown-preview-view blockquote p {
+    margin: 4pt 0 !important;
+    text-indent: 1.5em !important;
+  }
+
+  /* --- Lists --- */
+  .markdown-preview-view ul,
+  .markdown-preview-view ol {
+    margin: 1pt 0 !important;
+    padding-left: 1.5em !important;
+  }
+
+  .markdown-preview-view li {
+    margin: 4pt 0 !important;
+  }
+
+  /* --- Tables --- */
+  .markdown-preview-view table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 8pt 0 !important;
+    font-size: 0.9em !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .markdown-preview-view th {
+    background-color: var(--dnd-table-header) !important;
+    color: white !important;
+    padding: 4pt 8pt !important;
+    text-align: left !important;
+    font-weight: 700 !important;
+  }
+
+  .markdown-preview-view td {
+    padding: 4pt 8pt !important;
+    border-bottom: 1pt solid #ddd !important;
+  }
+
+  .markdown-preview-view tr {
+    line-height: 1.15 !important;
+  }
+
+  /* Alternating row colors */
+  .markdown-preview-view tr:nth-child(even) td {
+    background-color: var(--dnd-highlight-bg) !important;
+  }
+
+  /* --- Code / monospace --- */
+  .markdown-preview-view code {
+    font-family: "Roboto Mono", "Consolas", monospace !important;
+    font-size: 0.9em !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .markdown-preview-view pre {
+    font-family: "Roboto Mono", "Consolas", monospace !important;
+    font-size: 0.9em !important;
+    background-color: var(--dnd-highlight-bg) !important;
+    padding: 8pt !important;
+    margin: 8pt 0 !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* --- Images --- */
+  .markdown-preview-view img {
+    max-width: 100% !important;
+    height: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* --- Orphan / widow control --- */
+  .markdown-preview-view :is(p, li, h1, h2, h3, h4, h5, h6) {
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+
+  /* =========================
+     Callout boxes
+     ========================= */
+
+  /* Shared D&D callout styling for print
+     LaTeX tcolorbox: rounded corners arc=9pt, colframe=colback (no visible border),
+     boxrule=1pt, coltext=black, padding left/right=4pt+boxsep=4pt (8pt total),
+     top/bottom=2pt+4pt (6pt total), before/after skip=10pt,
+     fontupper=\blockquoteFont (Public Sans @ 0.9 scale) */
+  .markdown-preview-view .callout[data-callout="dnd-encounter"],
+  .markdown-preview-view .callout[data-callout="dnd-showimage"],
+  .markdown-preview-view .callout[data-callout="dnd-remember"],
+  .markdown-preview-view .callout[data-callout="dnd-music"] {
+    border-radius: 9pt !important;
+    border: none !important;
+    color: black !important;
+    --callout-color: 0, 0, 0 !important;
+    font-size: 0.9em !important;
+    padding: 6pt 8pt !important;
+    margin: 10pt 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .markdown-preview-view .callout[data-callout="dnd-encounter"] *,
+  .markdown-preview-view .callout[data-callout="dnd-showimage"] *,
+  .markdown-preview-view .callout[data-callout="dnd-remember"] *,
+  .markdown-preview-view .callout[data-callout="dnd-music"] * {
+    color: black !important;
+    font-size: 9pt !important;
+  }
+
+  /* Callout title: match body size, not bold
+     (LaTeX has no separate title — just icon + content) */
+  .markdown-preview-view .callout[data-callout="dnd-encounter"] .callout-title,
+  .markdown-preview-view .callout[data-callout="dnd-showimage"] .callout-title,
+  .markdown-preview-view .callout[data-callout="dnd-remember"] .callout-title,
+  .markdown-preview-view .callout[data-callout="dnd-music"] .callout-title,
+  .markdown-preview-view .callout[data-callout="dnd-encounter"] .callout-title-inner,
+  .markdown-preview-view .callout[data-callout="dnd-showimage"] .callout-title-inner,
+  .markdown-preview-view .callout[data-callout="dnd-remember"] .callout-title-inner,
+  .markdown-preview-view .callout[data-callout="dnd-music"] .callout-title-inner {
+    font-size: 9pt !important;
+    font-weight: 400 !important;
+  }
+
+  /* Bold in callouts uses SemiBold (LaTeX: BoldFont={Public Sans SemiBold}) */
+  .markdown-preview-view .callout[data-callout="dnd-encounter"] strong,
+  .markdown-preview-view .callout[data-callout="dnd-showimage"] strong,
+  .markdown-preview-view .callout[data-callout="dnd-remember"] strong,
+  .markdown-preview-view .callout[data-callout="dnd-music"] strong {
+    font-weight: 600 !important;
+  }
+
+  /* Encounter – red bg (#bf616a) */
+  .markdown-preview-view .callout[data-callout="dnd-encounter"] {
+    background-color: var(--dnd-encounter) !important;
+  }
+
+  /* Show Image – cyan bg (#88c0d0) */
+  .markdown-preview-view .callout[data-callout="dnd-showimage"] {
+    background-color: var(--dnd-image) !important;
+  }
+
+  /* Remember – yellow bg (#ebcb8b) */
+  .markdown-preview-view .callout[data-callout="dnd-remember"] {
+    background-color: var(--dnd-remember) !important;
+  }
+
+  /* Music – green bg (#a3be8c) */
+  .markdown-preview-view .callout[data-callout="dnd-music"] {
+    background-color: var(--dnd-music) !important;
+  }
+
+  /* =========================
+     Monster stat block
+     Triggered by "# Monsters" heading in the document.
+     Uses div:has(> h1[data-heading="Monsters"]) ~ * to target
+     everything after that heading. No HTML or frontmatter needed.
+
+     Converted from highlight-boxes.lua + dnd-notes.tex \monsterFont
+     LaTeX: 9pt/9pt, \parskip 4pt, red headings with 1pt rules,
+            tight lists, bold=SemiBold (600)
+     ========================= */
+
+  /* TODO: Column balancing on the last content page — Chromium forces
+     balanced columns in the column-span group before the monsters section.
+     column-fill:auto, height constraints, and tall pseudo-elements all
+     failed to prevent it. Needs further investigation. */
+
+  /* Hide "# Monsters" heading and use it as a page-break anchor.
+     column-span:all interrupts column flow; break-before:page
+     forces the new page. Stays in flow but invisible/zero-height. */
+  div:has(> h1[data-heading="Monsters"]) {
+    column-span: all !important;
+    break-before: page !important;
+    page-break-before: always !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+  }
+
+  div:has(> h1[data-heading="Monsters"]) > h1 {
+    visibility: hidden !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+  }
+
+  /* Base: 9pt font, 9pt leading on all wrapper elements after # Monsters */
+  div:has(> h1[data-heading="Monsters"]) ~ * {
+    font-size: 9pt !important;
+    line-height: 9pt !important;
+    orphans: 1 !important;
+    widows: 1 !important;
+  }
+
+  /* Paragraph spacing: \parskip 4pt */
+  div:has(> h1[data-heading="Monsters"]) ~ * p {
+    margin: 4pt 0 !important;
+  }
+
+  /* Bold = SemiBold (600) */
+  div:has(> h1[data-heading="Monsters"]) ~ * strong,
+  div:has(> h1[data-heading="Monsters"]) ~ * b {
+    font-weight: 600 !important;
+  }
+
+  /* All monster headings: red (#bf616a) */
+  div:has(> h1[data-heading="Monsters"]) ~ * :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--dnd-monster) !important;
+  }
+
+  /* H1: \Large = 14.4pt, bold, 1pt red rule
+     Override the blue border from base h2 rules that Obsidian may apply */
+  /* Kill ALL borders/decorations in the monster section */
+  div:has(> h1[data-heading="Monsters"]) ~ *,
+  div:has(> h1[data-heading="Monsters"]) ~ * * {
+    border: none !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Kill pseudo-elements that may create blue lines */
+  div:has(> h1[data-heading="Monsters"]) ~ *::before,
+  div:has(> h1[data-heading="Monsters"]) ~ *::after,
+  div:has(> h1[data-heading="Monsters"]) ~ * *::before,
+  div:has(> h1[data-heading="Monsters"]) ~ * *::after {
+    display: none !important;
+    border: none !important;
+    background: none !important;
+    content: none !important;
+  }
+
+  /* Each monster starts at the top of a new column (LaTeX: \vfill\break) */
+  div:has(> h1[data-heading="Monsters"]) ~ div:has(> h1) {
+    break-before: column !important;
+  }
+
+  div:has(> h1[data-heading="Monsters"]) ~ * h1,
+  div:has(> h1[data-heading="Monsters"]) ~ * h1:first-child {
+    font-size: 14.4pt !important;
+    font-weight: 700 !important;
+    margin: 6pt 0 4pt 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 1pt solid #bf616a !important;
+    column-span: none !important;
+    text-align: left !important;
+  }
+
+  /* H2: \normalsize = 10pt, semibold, 1pt red rule */
+  div:has(> h1[data-heading="Monsters"]) ~ * h2 {
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    margin: 6pt 0 4pt 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 1pt solid var(--dnd-monster) !important;
+  }
+
+  /* H3: \normalsize = 10pt, semibold, 1pt red rule */
+  div:has(> h1[data-heading="Monsters"]) ~ * h3 {
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    margin: 4pt 0 4pt 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 1pt solid var(--dnd-monster) !important;
+  }
+
+  /* H4: 10pt, semibold, no rule */
+  div:has(> h1[data-heading="Monsters"]) ~ * h4 {
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    margin: 4pt 0 4pt 0 !important;
+    border-bottom: none !important;
+  }
+
+  /* Monster lists: tight spacing */
+  div:has(> h1[data-heading="Monsters"]) ~ * ul,
+  div:has(> h1[data-heading="Monsters"]) ~ * ol {
+    margin: 6pt 0 0 0 !important;
+    padding-left: 1.5em !important;
+  }
+
+  div:has(> h1[data-heading="Monsters"]) ~ * ul > li {
+    margin: 1pt 0 !important;
+  }
+
+  div:has(> h1[data-heading="Monsters"]) ~ * ol > li {
+    margin: 2pt 0 !important;
+  }
+
+  /* Monster tables */
+  div:has(> h1[data-heading="Monsters"]) ~ * table {
+    font-size: inherit !important;
+    margin: 4pt 0 !important;
+  }
+
+  /* Monster blockquotes inherit size */
+  div:has(> h1[data-heading="Monsters"]) ~ * blockquote {
+    font-size: inherit !important;
+  }
+
+  /* --- Hide Obsidian UI chrome in print --- */
+  .markdown-preview-view .collapse-indicator,
+  .markdown-preview-view .heading-collapse-indicator,
+  .markdown-preview-view .callout-fold {
+    display: none !important;
+  }
+
+} /* end @media print */

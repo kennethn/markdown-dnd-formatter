@@ -1,12 +1,12 @@
 #!/bin/bash
-# test-fix-upnote-markdown.sh - Test suite for the refactored markdown processor
+# test-fix-markdown.sh - Test suite for the markdown processor
 
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 TEST_DATA_DIR="$SCRIPT_DIR/fixtures"
-FIX_SCRIPT="$PROJECT_ROOT/scripts/fix-upnote-markdown.sh"
+FIX_SCRIPT="$PROJECT_ROOT/pandoc/scripts/fix-markdown.sh"
 
 # Colors for output
 RED='\033[0;31m'

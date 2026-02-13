@@ -1,6 +1,6 @@
 #!/bin/bash
-# fix-upnote-markdown.sh - Refactored modular markdown processor
-# Usage: ./scripts/fix-upnote-markdown.sh input.md output.md
+# fix-markdown.sh - Modular markdown processor
+# Usage: ./scripts/fix-markdown.sh input.md output.md
 
 set -euo pipefail
 
@@ -24,7 +24,7 @@ source "$LIB_DIR/cleanup.sh"
 
 print_usage() {
     echo "Usage: $0 input.md output.md"
-    echo "Processes UpNote markdown export for D&D PDF generation"
+    echo "Processes markdown notes for D&D PDF generation"
 }
 
 validate_arguments() {

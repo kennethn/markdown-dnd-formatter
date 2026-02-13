@@ -17,7 +17,7 @@ help:
 # Test the refactored script
 test:
 	@echo "Running test suite..."
-	./tests/test-fix-upnote-markdown.sh
+	./tests/test-fix-markdown.sh
 
 # Clean temporary and generated files
 clean:
@@ -39,21 +39,21 @@ install:
 lint:
 	@echo "Linting shell scripts..."
 	@command -v shellcheck >/dev/null 2>&1 || { echo "Installing shellcheck..."; brew install shellcheck; }
-	find scripts -name "*.sh" -exec shellcheck {} \;
+	find pandoc/scripts -name "*.sh" -exec shellcheck {} \;
 	@echo "Linting complete"
 
 # Format shell scripts
 format:
 	@echo "Formatting shell scripts..."
 	@command -v shfmt >/dev/null 2>&1 || { echo "Installing shfmt..."; brew install shfmt; }
-	find scripts -name "*.sh" -exec shfmt -w -i 4 {} \;
+	find pandoc/scripts -name "*.sh" -exec shfmt -w -i 4 {} \;
 	@echo "Formatting complete"
 
 # Validate configuration files
 validate:
 	@echo "Validating configuration..."
 	@command -v jq >/dev/null 2>&1 || { echo "Installing jq..."; brew install jq; }
-	jq empty config/transform-config.json
+	jq empty pandoc/config/transform-config.json
 	@echo "Configuration valid"
 
 # Run a demonstration
@@ -66,11 +66,11 @@ demo:
 	@echo "**Encounter:** Goblins attack!" >> demo/sample.md
 	@echo "**Remember:** Roll initiative!" >> demo/sample.md
 	@echo "Processing with refactored script..."
-	./scripts/fix-upnote-markdown.sh demo/sample.md demo/sample_cleaned.md
+	./pandoc/scripts/fix-markdown.sh demo/sample.md demo/sample_cleaned.md
 	@echo "Demo complete. Check demo/sample_cleaned.md"
 
 # Development helpers
 dev-setup:
 	@echo "Setting up development environment..."
-	mkdir -p scripts/lib tests config
+	mkdir -p pandoc/scripts/lib tests pandoc/config
 	@echo "Development environment ready"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # D&D Markdown to PDF converter
-# Usage: ./upnote-export.sh input.md
+# Usage: ./md-to-pdf.sh input.md
 
 set -euo pipefail
 
@@ -11,7 +11,7 @@ set -euo pipefail
 
 print_usage() {
     echo "Usage: $0 [options] input.md"
-    echo "Converts UpNote markdown export to D&D-styled PDF"
+    echo "Converts D&D markdown notes to styled PDF"
     echo ""
     echo "Options:"
     echo "  --one-column           Use single column layout instead of two columns"
@@ -112,7 +112,7 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FILTER_DIR="$SCRIPT_DIR/filters"
 TEMPLATE_PATH="$SCRIPT_DIR/dnd-notes.tex"
-FIX_SCRIPT="$SCRIPT_DIR/scripts/fix-upnote-markdown.sh"
+FIX_SCRIPT="$SCRIPT_DIR/scripts/fix-markdown.sh"
 
 # =========================
 # Processing Steps
